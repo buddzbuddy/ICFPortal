@@ -10,6 +10,10 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Threading.Tasks;
 using System.Web;
+using Twilio.Clients;
+using Twilio;
+using Twilio.Types;
+using Twilio.Rest.Api.V2010.Account;
 
 namespace IdentitySample.Models
 {
@@ -96,6 +100,21 @@ namespace IdentitySample.Models
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your sms service here to send a text message.
+            string SID = "ACa2ef92935da1abee1b658a741954ca39";
+            string token = "520111796442c6601bdb48dd7f81ae94";
+            // Find your Account Sid and Auth Token at twilio.com/console
+            TwilioClient.Init(SID, token);
+            
+            var mediaUrl = new List<Uri> {
+      new Uri( "https://climacons.herokuapp.com/clear.png" )
+    };
+            var to = new PhoneNumber(message.Destination);//"+996778845605");
+            var msg = MessageResource.Create(
+              to,
+              from: new PhoneNumber("+14153606690"),
+              body: "Tomorrow's forecast in Financial District, San Francisco is Clear",
+              mediaUrl: mediaUrl);
+
             return Task.FromResult(0);
         }
     }
