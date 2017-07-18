@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -16,6 +19,27 @@ namespace IdentitySample.Models
             // Add custom user claims here
             return userIdentity;
         }
+        public virtual ICollection<Company> Companies { get; set; }
+    }
+
+    public class Company
+    {
+        /// <summary>
+        /// Key
+        /// </summary>
+        [Key]
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+        public string Address { get; set; }
+
+        /// <summary>
+        /// Foreign Key
+        /// </summary>
+        [StringLength(128), MinLength(3)]
+        [ForeignKey("AspNetUser")]
+        public string AspNetUserId { get; set; }
+        public virtual ApplicationUser AspNetUser { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -36,5 +60,7 @@ namespace IdentitySample.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<IdentitySample.Models.Company> Companies { get; set; }
     }
 }
