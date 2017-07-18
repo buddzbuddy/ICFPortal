@@ -14,6 +14,7 @@ using Twilio.Clients;
 using Twilio;
 using Twilio.Types;
 using Twilio.Rest.Api.V2010.Account;
+using System.Configuration;
 
 namespace IdentitySample.Models
 {
@@ -100,8 +101,8 @@ namespace IdentitySample.Models
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your sms service here to send a text message.
-            string SID = "ACa2ef92935da1abee1b658a741954ca39";
-            string token = "520111796442c6601bdb48dd7f81ae94";
+            string SID = ConfigurationManager.AppSettings["TwilioSID"];//"";
+            string token = ConfigurationManager.AppSettings["TwilioTOKEN"];//"";
             // Find your Account Sid and Auth Token at twilio.com/console
             TwilioClient.Init(SID, token);
             
@@ -111,8 +112,8 @@ namespace IdentitySample.Models
             var to = new PhoneNumber(message.Destination);//"+996778845605");
             var msg = MessageResource.Create(
               to,
-              from: new PhoneNumber("+14153606690"),
-              body: "Tomorrow's forecast in Financial District, San Francisco is Clear",
+              from: new PhoneNumber(ConfigurationManager.AppSettings["FromPhoneNumber"]),
+              body: message.Body,
               mediaUrl: mediaUrl);
 
             return Task.FromResult(0);

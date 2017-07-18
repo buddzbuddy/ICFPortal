@@ -102,6 +102,7 @@ namespace IdentitySample.Controllers
             if (user != null)
             {
                 ViewBag.Status = "For DEMO purposes the current " + provider + " code is: " + await UserManager.GenerateTwoFactorTokenAsync(user.Id, provider);
+                UserManager.SendSms(user.Id, (string)ViewBag.Status);
             }
             return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl });
         }
