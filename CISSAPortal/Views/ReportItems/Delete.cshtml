@@ -1,0 +1,136 @@
+﻿@model IdentitySample.Models.ReportItem
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ReportItem</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Report.UserId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Report.UserId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnitType.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnitType.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.OrganizationName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OrganizationName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Region)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Region)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CargoName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CargoName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlanedAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlanedAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlanedSum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlanedSum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FactAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FactAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FactSum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FactSum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BalanceAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BalanceAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BalanceSum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BalanceSum)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReserveAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReserveAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReserveSum)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReserveSum)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

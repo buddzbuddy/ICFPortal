@@ -1,0 +1,105 @@
+﻿@model IEnumerable<IdentitySample.Models.ReportItem>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OrganizationName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Region)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CargoName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnitType.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlanedAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlanedSum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FactAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FactSum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BalanceAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BalanceSum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReserveAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ReserveSum)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrganizationName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Region)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CargoName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlanedAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UnitType.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlanedSum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FactAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FactSum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BalanceAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BalanceSum)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReserveAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ReserveSum)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

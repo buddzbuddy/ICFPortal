@@ -171,6 +171,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -231,10 +232,13 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
+    <Compile Include="Controllers\DatasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ReportItemsController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
+    <Compile Include="Controllers\UnitTypesController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -260,6 +264,17 @@
     <Content Include="Views\Reports\Details.cshtml" />
     <Content Include="Views\Reports\Edit.cshtml" />
     <Content Include="Views\Reports\Index.cshtml" />
+    <Content Include="Views\ReportItems\Create.cshtml" />
+    <Content Include="Views\ReportItems\Delete.cshtml" />
+    <Content Include="Views\ReportItems\Details.cshtml" />
+    <Content Include="Views\ReportItems\Edit.cshtml" />
+    <Content Include="Views\ReportItems\Index.cshtml" />
+    <Content Include="Views\UnitTypes\Create.cshtml" />
+    <Content Include="Views\UnitTypes\Delete.cshtml" />
+    <Content Include="Views\UnitTypes\Details.cshtml" />
+    <Content Include="Views\UnitTypes\Edit.cshtml" />
+    <Content Include="Views\UnitTypes\Index.cshtml" />
+    <Content Include="Views\Datas\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -4,10 +4,10 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<h2>Просмотр</h2>
 
 <div>
-    <h4>Report</h4>
+    <h4>Отчет о распределении полученной гуманитароной помощи</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -43,6 +43,72 @@
         </dd>
 
     </dl>
+    @Html.ActionLink("Добавить распределение", "Create", "ReportItems", new { reportId = Model.Id }, null)
+    <table>
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.ReportItems.First().OrganizationName)</th>
+                <th>@Html.DisplayNameFor(model => model.ReportItems.First().Region)</th>
+                <th>@Html.DisplayNameFor(model => model.ReportItems.First().Address)</th>
+                <th>@Html.DisplayNameFor(model => model.ReportItems.First().CargoName)</th>
+                <th>@Html.DisplayNameFor(model => model.ReportItems.First().UnitTypeId)</th>
+                <th>@Html.DisplayNameFor(model => model.ReportItems.First().PlanedAmount)</th>
+                <th>@Html.DisplayNameFor(model => model.ReportItems.First().PlanedSum)</th>
+                <th>@Html.DisplayNameFor(model => model.ReportItems.First().FactAmount)</th>
+                <th>@Html.DisplayNameFor(model => model.ReportItems.First().FactSum)</th>
+                <th>@Html.DisplayNameFor(model => model.ReportItems.First().BalanceAmount)</th>
+                <th>@Html.DisplayNameFor(model => model.ReportItems.First().BalanceSum)</th>
+                <th>@Html.DisplayNameFor(model => model.ReportItems.First().ReserveAmount)</th>
+                <th>@Html.DisplayNameFor(model => model.ReportItems.First().ReserveSum)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var item in Model.ReportItems)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => item.OrganizationName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Region)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.CargoName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.UnitTypeId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.PlanedAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.PlanedSum)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.FactAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.FactSum)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.BalanceAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.BalanceSum)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.ReserveAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.ReserveSum)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |

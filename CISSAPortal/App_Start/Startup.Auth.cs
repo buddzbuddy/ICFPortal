@@ -5,6 +5,7 @@ using Microsoft.Owin.Security.Cookies;
 using IdentitySample.Models;
 using Owin;
 using System;
+using Microsoft.Owin.Security;
 
 namespace IdentitySample
 {
@@ -26,6 +27,8 @@ namespace IdentitySample
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login"),
+                CookieHttpOnly = true,
+                AuthenticationMode = AuthenticationMode.Active,
                 Provider = new CookieAuthenticationProvider
                 {
                     // Enables the application to validate the security stamp when the user logs in.
