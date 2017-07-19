@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,6 +21,7 @@ namespace IdentitySample.Models
             return userIdentity;
         }
         public virtual ICollection<Company> Companies { get; set; }
+        public virtual ICollection<Report> Reports { get; set; }
     }
 
     public class Company
@@ -30,7 +32,12 @@ namespace IdentitySample.Models
         [Key]
         public int Id { get; set; }
 
+        [Required]
+        [Display(Name = "Название")]
         public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Юридический адрес")]
         public string Address { get; set; }
 
         /// <summary>
@@ -40,6 +47,21 @@ namespace IdentitySample.Models
         [ForeignKey("AspNetUser")]
         public string AspNetUserId { get; set; }
         public virtual ApplicationUser AspNetUser { get; set; }
+    }
+
+    public class Report
+    {
+        [Key]
+        public int Id { get; set; }
+        public int Year { get; set; }
+        public int Month { get; set; }
+        public DateTime? Date { get; set; }
+        /// <summary>
+        /// Foreign Key
+        /// </summary>
+        [ForeignKey("User")]
+        public string UserId { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -61,6 +83,8 @@ namespace IdentitySample.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<IdentitySample.Models.Company> Companies { get; set; }
+        public DbSet<Company> Companies { get; set; }
+
+        public DbSet<Report> Reports { get; set; }
     }
 }

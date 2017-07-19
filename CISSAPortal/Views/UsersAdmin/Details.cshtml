@@ -36,6 +36,26 @@
         </tr>
     }
 </table>
+
+
+<h4>List of companies for this user</h4>
+@if (Model.Companies == null || Model.Companies.Count == 0)
+{
+    <hr />
+    <p>No companies found for this user.</p>
+}
+
+<table class="table">
+
+    @foreach (var item in Model.Companies)
+    {
+        <tr>
+            <td>
+                @item.Name (@item.Address)
+            </td>
+        </tr>
+    }
+</table>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")
