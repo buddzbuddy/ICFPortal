@@ -7,18 +7,39 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using IdentitySample.Models;
+using Microsoft.AspNet.Identity.Owin;
+using System.Threading.Tasks;
 
 namespace CISSAPortal.Controllers
 {
+    [Authorize]
     public class ReportsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
-        // GET: Reports
-        public ActionResult Index()
+        private ApplicationUserManager _userManager;
+        public ApplicationUserManager UserManager
         {
-            var reports = db.Reports.Include(r => r.User);
-            return View(reports.ToList());
+            get
+            {
+                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+            private set
+            {
+                _userManager = value;
+            }
+        }
+        // GET: Reports
+        public async Task<ActionResult> Index()
+        {
+            if (User.IsInRole("Admin"))
+            {
+                return View((db.Reports.Include(r => r.User) as IEnumerable<Report> ?? new List<Report>()).ToList());
+            }
+            else
+            {
+                var currentUser = await UserManager.FindByNameAsync(User.Identity.Name);
+                return View(db.Reports != null ? db.Reports.Where(x => x.UserId == currentUser.Id).ToList() : new List<Report>());
+            }
         }
 
         // GET: Reports/Details/5

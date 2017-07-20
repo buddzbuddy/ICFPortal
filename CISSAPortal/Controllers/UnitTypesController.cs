@@ -10,6 +10,7 @@ using IdentitySample.Models;
 
 namespace CISSAPortal.Controllers
 {
+    [Authorize]
     public class UnitTypesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

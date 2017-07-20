@@ -24,11 +24,14 @@
                     <li>@Html.ActionLink("Главная", "Index", "Home")</li>
                     <li>@Html.ActionLink("О портале", "About", "Home")</li>
                     <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Данные", "Index", "Datas")</li>
+                    }
 
                     @if (Request.IsAuthenticated && User.IsInRole("Admin")) {
                         <li>@Html.ActionLink("Роли", "Index", "RolesAdmin")</li>
                         <li>@Html.ActionLink("Пользователи", "Index", "UsersAdmin")</li>
-                        <li>@Html.ActionLink("Данные", "Index", "Datas")</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
