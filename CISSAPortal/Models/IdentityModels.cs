@@ -61,7 +61,6 @@ namespace IdentitySample.Models
         public int Month { get; set; }
         [Required]
         [Display(Name = "Дата")]
-        [DataType(DataType.Date)]
         public DateTime? Date { get; set; }
         /// <summary>
         /// Foreign Key
