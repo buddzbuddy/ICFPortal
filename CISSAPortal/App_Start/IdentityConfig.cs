@@ -15,6 +15,8 @@ using Twilio;
 using Twilio.Types;
 using Twilio.Rest.Api.V2010.Account;
 using System.Configuration;
+using System.Net.Mail;
+using System.Net;
 
 namespace IdentitySample.Models
 {
@@ -91,7 +93,22 @@ namespace IdentitySample.Models
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
+            using (MailMessage mail = new MailMessage())
+            {
+                mail.From = new MailAddress("abormokov@gmail.com");
+                mail.To.Add(message.Destination);
+                mail.Subject = "Hello World" + message.Subject;
+                mail.Body = "<h1>Hello</h1>" + message.Body;
+                mail.IsBodyHtml = true;
+                mail.Attachments.Add(new Attachment("D:\\ad.zip"));
+
+                using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    smtp.Credentials = new NetworkCredential("abormokov@gmail.com", "8031993gmail");
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                }
+            }
             return Task.FromResult(0);
         }
     }

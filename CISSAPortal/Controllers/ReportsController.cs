@@ -75,7 +75,7 @@ namespace CISSAPortal.Controllers
             {
                 db.Reports.Add(report);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = report.Id });
             }
 
             ViewBag.UserId = new SelectList(db.Users, "Id", "Email", report.UserId);
@@ -109,7 +109,7 @@ namespace CISSAPortal.Controllers
             {
                 db.Entry(report).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", new { id = report.Id });
             }
             ViewBag.UserId = new SelectList(db.Users, "Id", "Email", report.UserId);
             return View(report);

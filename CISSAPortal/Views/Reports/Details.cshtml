@@ -10,6 +10,18 @@
     <h4>Отчет о распределении полученной гуманитароной помощи</h4>
     <hr />
     <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.User.Companies.First().Name)
+        </dt>
+        
+        <dd>
+            @if (Model.User.Companies != null && Model.User.Companies.Count > 0)
+            {
+                @Html.DisplayFor(model => model.User.Companies.First().Name)
+            }
+        </dd>
+
         <dt>
             @Html.DisplayNameFor(model => model.User.Email)
         </dt>
@@ -44,7 +56,7 @@
 
     </dl>
     @Html.ActionLink("Добавить распределение", "Create", "ReportItems", new { reportId = Model.Id }, null)
-    <table>
+    <table class="table table-striped table-bordered table-hover table-condensed">
         <thead>
             <tr>
                 <th>@Html.DisplayNameFor(model => model.ReportItems.First().OrganizationName)</th>
@@ -60,10 +72,11 @@
                 <th>@Html.DisplayNameFor(model => model.ReportItems.First().BalanceSum)</th>
                 <th>@Html.DisplayNameFor(model => model.ReportItems.First().ReserveAmount)</th>
                 <th>@Html.DisplayNameFor(model => model.ReportItems.First().ReserveSum)</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach(var item in Model.ReportItems)
+            @foreach (var item in Model.ReportItems)
             {
                 <tr>
                     <td>
@@ -105,12 +118,15 @@
                     <td>
                         @Html.DisplayFor(model => item.ReserveSum)
                     </td>
+                    <td>
+                        @Html.ActionLink("удалить", "Delete", "ReportItems", new { id = item.Id }, null) | @Html.ActionLink("изменить", "Edit", "ReportItems", new { id = item.Id }, null)
+                    </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Назад к списку", "Index")
 </p>

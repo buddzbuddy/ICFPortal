@@ -55,10 +55,10 @@ namespace CISSAPortal.Controllers
             {
                 db.ReportItems.Add(reportItem);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Reports", new { id = reportItem.ReportId });
             }
 
-            ViewBag.ReportId = new SelectList(db.Reports, "Id", "UserId", reportItem.ReportId);
+            //ViewBag.ReportId = new SelectList(db.Reports, "Id", "UserId", reportItem.ReportId);
             ViewBag.UnitTypeId = new SelectList(db.UnitTypes, "Id", "Name", reportItem.UnitTypeId);
             return View(reportItem);
         }
@@ -91,9 +91,9 @@ namespace CISSAPortal.Controllers
             {
                 db.Entry(reportItem).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Details", "Reports", new { id = reportItem.ReportId });
             }
-            ViewBag.ReportId = new SelectList(db.Reports, "Id", "UserId", reportItem.ReportId);
+            //ViewBag.ReportId = new SelectList(db.Reports, "Id", "UserId", reportItem.ReportId);
             ViewBag.UnitTypeId = new SelectList(db.UnitTypes, "Id", "Name", reportItem.UnitTypeId);
             return View(reportItem);
         }
@@ -121,7 +121,7 @@ namespace CISSAPortal.Controllers
             ReportItem reportItem = db.ReportItems.Find(id);
             db.ReportItems.Remove(reportItem);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", "Reports", new { id = reportItem.ReportId });
         }
 
         protected override void Dispose(bool disposing)

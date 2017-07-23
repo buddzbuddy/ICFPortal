@@ -12,14 +12,6 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Report.UserId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Report.UserId)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.UnitType.Name)
         </dt>
 
@@ -129,8 +121,8 @@
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            <input type="submit" value="Удалить" class="btn btn-default" /> |
+            @Html.ActionLink("Отмена", "Details", "Reports", new { id = Model.ReportId }, null)
         </div>
     }
 </div>

@@ -33,7 +33,7 @@ namespace IdentitySample.Models
         public int Id { get; set; }
 
         [Required]
-        [Display(Name = "Название")]
+        [Display(Name = "Название компании")]
         public string Name { get; set; }
 
         [Required]
@@ -53,8 +53,14 @@ namespace IdentitySample.Models
     {
         [Key]
         public int Id { get; set; }
+        [Required]
+        [Display(Name ="Год")]
         public int Year { get; set; }
+        [Required]
+        [Display(Name = "Месяц")]
         public int Month { get; set; }
+        [Required]
+        [Display(Name = "Дата")]
         [DataType(DataType.Date)]
         public DateTime? Date { get; set; }
         /// <summary>
