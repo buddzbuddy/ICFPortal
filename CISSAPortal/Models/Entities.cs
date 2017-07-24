@@ -33,7 +33,7 @@ namespace IdentitySample.Models
         public int Id { get; set; }
 
         [Required]
-        [Display(Name = "Название компании")]
+        [Display(Name = "Название компании/юр.лица")]
         public string Name { get; set; }
 
         [Required]
@@ -47,6 +47,33 @@ namespace IdentitySample.Models
         [ForeignKey("AspNetUser")]
         public string AspNetUserId { get; set; }
         public virtual ApplicationUser AspNetUser { get; set; }
+
+        [Display(Name = "ИНН")]
+        public string INN { get; set; }
+
+        [Display(Name = "Код ОКПО")]
+        public string OKPO { get; set; }
+
+        [Display(Name = "Вид деятельности")]
+        public string ActivityType { get; set; }
+
+        [Display(Name = "Телефон")]
+        public string Telephone { get; set; }
+
+        [Display(Name = "Эл. почта")]
+        public virtual string Email { get { return AspNetUser != null ? AspNetUser.Email : ""; } }
+
+        [Display(Name = "Банк")]
+        public string BankName { get; set; }
+
+        [Display(Name = "БИК")]
+        public string BIK { get; set; }
+
+        [Display(Name = "Р/счет")]
+        public string BankAccountNo { get; set; }
+
+        [Display(Name = "Л/счет компании")]
+        public string CompanyAccountNo { get; set; }
     }
 
     public class Report
@@ -68,6 +95,13 @@ namespace IdentitySample.Models
         [ForeignKey("User")]
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
+
+        /// <summary>
+        /// Foreign Key to State
+        /// </summary>
+        [ForeignKey("State")]
+        public int? StateId { get; set; }
+        public virtual DocumentState State { get; set; }
 
         public virtual ICollection<ReportItem> ReportItems { get; set; }
     }
@@ -137,6 +171,19 @@ namespace IdentitySample.Models
         public string Name { get; set; }
     }
 
+    public class DocumentState
+    {
+        [Key]
+        public int Id { get; set; }
+        [Required]
+        [Display(Name = "Статус")]
+        public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Код")]
+        public int Code { get; set; }
+    }
+
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
@@ -162,5 +209,6 @@ namespace IdentitySample.Models
 
         public DbSet<Report> Reports { get; set; }
         public DbSet<ReportItem> ReportItems { get; set; }
+        public DbSet<DocumentState> DocumentStates { get; set; }
     }
 }

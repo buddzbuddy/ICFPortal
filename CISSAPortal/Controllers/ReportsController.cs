@@ -141,6 +141,25 @@ namespace CISSAPortal.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult SetState(int reportId, int code)
+        {
+            var stateObj = db.DocumentStates.FirstOrDefault(x => x.Code == code);
+            if(stateObj != null)
+            {
+                var reportObj = db.Reports.Find(reportId);
+                if(reportObj != null)
+                {
+                    reportObj.StateId = stateObj.Id;
+                    db.Entry<Report>(reportObj).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Details", new { id = reportId });
+                }
+                else
+                    return HttpNotFound("Report not found! Id=" + reportId);
+            }
+            return HttpNotFound("State of '" + stateObj.Name + "' not found!");
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

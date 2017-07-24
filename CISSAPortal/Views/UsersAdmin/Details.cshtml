@@ -1,7 +1,7 @@
 ﻿@model IdentitySample.Models.ApplicationUser
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Информация о пользователе";
 }
 
 <h2>Details.</h2>
@@ -38,24 +38,88 @@
 </table>
 
 
-<h4>List of companies for this user</h4>
+<h4>Компания / Юридическое лицо / ИП</h4>
 @if (Model.Companies == null || Model.Companies.Count == 0)
 {
     <hr />
-    <p>No companies found for this user.</p>
+    <p>Данные не найдены</p>
 }
-
-<table class="table">
-
-    @foreach (var item in Model.Companies)
-    {
-        <tr>
-            <td>
-                @item.Name (@item.Address)
-            </td>
-        </tr>
-    }
-</table>
+else
+{
+    <table class="table table-striped table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Companies.First().Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Companies.First().Address)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Companies.First().INN)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Companies.First().OKPO)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Companies.First().ActivityType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Companies.First().Telephone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Companies.First().BankName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Companies.First().BIK)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Companies.First().BankAccountNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Companies.First().CompanyAccountNo)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Companies)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.INN)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OKPO)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ActivityType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Telephone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BankName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BIK)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BankAccountNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CompanyAccountNo)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
     @Html.ActionLink("Back to List", "Index")

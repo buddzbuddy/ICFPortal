@@ -10,112 +10,107 @@ using IdentitySample.Models;
 
 namespace CISSAPortal.Controllers
 {
-    public class CompaniesController : Controller
+    public class DocumentStatesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: Companies
+        // GET: DocumentStates
         public ActionResult Index()
         {
-            var companies = db.Companies.Include(c => c.AspNetUser);
-            return View(companies.ToList());
+            return View(db.DocumentStates.ToList());
         }
 
-        // GET: Companies/Details/5
+        // GET: DocumentStates/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Company company = db.Companies.Find(id);
-            if (company == null)
+            DocumentState documentState = db.DocumentStates.Find(id);
+            if (documentState == null)
             {
                 return HttpNotFound();
             }
-            return View(company);
+            return View(documentState);
         }
 
-        // GET: Companies/Create
+        // GET: DocumentStates/Create
         public ActionResult Create()
         {
-            ViewBag.AspNetUserId = new SelectList(db.Users, "Id", "Email");
             return View();
         }
 
-        // POST: Companies/Create
+        // POST: DocumentStates/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Address,AspNetUserId,INN,OKPO,ActivityType,Telephone,BankName,BIK,BankAccountNo,CompanyAccountNo")] Company company)
+        public ActionResult Create([Bind(Include = "Id,Name,Code")] DocumentState documentState)
         {
             if (ModelState.IsValid)
             {
-                db.Companies.Add(company);
+                db.DocumentStates.Add(documentState);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            ViewBag.AspNetUserId = new SelectList(db.Users, "Id", "Email", company.AspNetUserId);
-            return View(company);
+            return View(documentState);
         }
 
-        // GET: Companies/Edit/5
+        // GET: DocumentStates/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Company company = db.Companies.Find(id);
-            if (company == null)
+            DocumentState documentState = db.DocumentStates.Find(id);
+            if (documentState == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.AspNetUserId = new SelectList(db.Users, "Id", "Email", company.AspNetUserId);
-            return View(company);
+            return View(documentState);
         }
 
-        // POST: Companies/Edit/5
+        // POST: DocumentStates/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Address,AspNetUserId,INN,OKPO,ActivityType,Telephone,BankName,BIK,BankAccountNo,CompanyAccountNo")] Company company)
+        public ActionResult Edit([Bind(Include = "Id,Name,Code")] DocumentState documentState)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(company).State = EntityState.Modified;
+                db.Entry(documentState).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.AspNetUserId = new SelectList(db.Users, "Id", "Email", company.AspNetUserId);
-            return View(company);
+            return View(documentState);
         }
 
-        // GET: Companies/Delete/5
+        // GET: DocumentStates/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Company company = db.Companies.Find(id);
-            if (company == null)
+            DocumentState documentState = db.DocumentStates.Find(id);
+            if (documentState == null)
             {
                 return HttpNotFound();
             }
-            return View(company);
+            return View(documentState);
         }
 
-        // POST: Companies/Delete/5
+        // POST: DocumentStates/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Company company = db.Companies.Find(id);
-            db.Companies.Remove(company);
+            DocumentState documentState = db.DocumentStates.Find(id);
+            db.DocumentStates.Remove(documentState);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

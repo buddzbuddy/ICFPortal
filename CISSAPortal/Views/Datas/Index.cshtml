@@ -1,18 +1,24 @@
 ﻿
 @{
-    ViewBag.Title = "Мои данные";
+    ViewBag.Title = "Данные";
 }
 
-<h2>Мои данные</h2>
+<h2>Данные</h2>
 
 <p>
-    @Html.ActionLink("Отчеты", "Index", "Reports")
+    @Html.ActionLink("Отчет о распределении гум. помощи", "Index", "Reports", null, new { @class = "btn btn-primary btn-block" })
 </p>
+@if (User.IsInRole("Admin"))
+{
+    <p>
+        @Html.ActionLink("Компании", "Index", "Companies", null, new { @class = "btn btn-primary btn-block" })
+    </p>
 
-<p>
-    @Html.ActionLink("Компании", "Index", "Companies")
-</p>
+    <p>
+        @Html.ActionLink("Справочник ед. измерения", "Index", "UnitTypes", null, new { @class = "btn btn-primary btn-block" })
+    </p>
 
-<p>
-    @Html.ActionLink("Справочник ед. измерения", "Index", "UnitTypes")
-</p>
+    <p>
+        @Html.ActionLink("Статусы", "Index", "DocumentStates", null, new { @class = "btn btn-primary btn-block" })
+    </p>
+}

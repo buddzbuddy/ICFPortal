@@ -1,0 +1,1058 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://address.infocom.kg/ws/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap-enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns="http://schemas.xmlsoap.org/wsdl/" name="AddressApi" targetNamespace="http://address.infocom.kg/ws/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://address.infocom.kg/ws/">
+      <xsd:complexType name="Address.ServiceBundle.Soap.Type.Ate">
+        <xsd:all>
+          <xsd:element name="id" type="xsd:int" />
+          <xsd:element name="nameRu" type="xsd:string" />
+          <xsd:element name="nameEn" type="xsd:string" />
+          <xsd:element name="nameKg" type="xsd:string" />
+          <xsd:element name="ikaoA3" type="xsd:string" />
+          <xsd:element name="type" type="xsd:int" />
+          <xsd:element name="typeKg" type="xsd:string" />
+          <xsd:element name="typeKgShort" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfAddress.ServiceBundle.Soap.Type.Ate">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:Address.ServiceBundle.Soap.Type.Ate" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Address.ServiceBundle.Soap.Type.AteWithoutAymak">
+        <xsd:all>
+          <xsd:element name="id" type="xsd:int" />
+          <xsd:element name="aymakId" type="xsd:int" />
+          <xsd:element name="nameRu" type="xsd:string" />
+          <xsd:element name="nameEn" type="xsd:string" />
+          <xsd:element name="nameKg" type="xsd:string" />
+          <xsd:element name="type" type="xsd:int" />
+          <xsd:element name="typeKg" type="xsd:string" />
+          <xsd:element name="typeKgShort" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfAddress.ServiceBundle.Soap.Type.AteWithoutAymak">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:Address.ServiceBundle.Soap.Type.AteWithoutAymak" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Address.ServiceBundle.Soap.Type.Street">
+        <xsd:all>
+          <xsd:element name="id" type="xsd:int" />
+          <xsd:element name="nameRu" type="xsd:string" />
+          <xsd:element name="nameKg" type="xsd:string" />
+          <xsd:element name="typeId" type="xsd:int" />
+          <xsd:element name="typeRu" type="xsd:string" />
+          <xsd:element name="typeKg" type="xsd:string" />
+          <xsd:element name="typeShortRu" type="xsd:string" />
+          <xsd:element name="typeShortKg" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfAddress.ServiceBundle.Soap.Type.Street">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:Address.ServiceBundle.Soap.Type.Street" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Address.ServiceBundle.Soap.Type.StreetType">
+        <xsd:all>
+          <xsd:element name="id" type="xsd:int" />
+          <xsd:element name="nameRu" type="xsd:string" />
+          <xsd:element name="nameKg" type="xsd:string" />
+          <xsd:element name="nameKgShort" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfAddress.ServiceBundle.Soap.Type.StreetType">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:Address.ServiceBundle.Soap.Type.StreetType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Address.ServiceBundle.Soap.Type.SearchStreet">
+        <xsd:all>
+          <xsd:element name="id" type="xsd:int" />
+          <xsd:element name="streetId" type="xsd:int" />
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element name="fullname" type="xsd:string" />
+          <xsd:element name="streetType" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfAddress.ServiceBundle.Soap.Type.SearchStreet">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:Address.ServiceBundle.Soap.Type.SearchStreet" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Address.ServiceBundle.Soap.Type.SearchAte">
+        <xsd:all>
+          <xsd:element name="id" type="xsd:int" />
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element name="fullname" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfAddress.ServiceBundle.Soap.Type.SearchAte">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:Address.ServiceBundle.Soap.Type.SearchAte" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Address.ServiceBundle.Soap.Type.AteKg">
+        <xsd:all>
+          <xsd:element name="nameKg" type="xsd:string" />
+          <xsd:element name="typeKgShort" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="Address.ServiceBundle.Soap.Type.Estate">
+        <xsd:all>
+          <xsd:element name="id" type="xsd:int" />
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element name="type" type="xsd:int" />
+          <xsd:element name="status" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfAddress.ServiceBundle.Soap.Type.Estate">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:Address.ServiceBundle.Soap.Type.Estate" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Address.ServiceBundle.Soap.Type.PropAddress">
+        <xsd:all>
+          <xsd:element name="id" type="xsd:int" />
+          <xsd:element name="code" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfAddress.ServiceBundle.Soap.Type.PropAddress">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:Address.ServiceBundle.Soap.Type.PropAddress" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Address.ServiceBundle.Soap.Type.AteLog">
+        <xsd:all>
+          <xsd:element name="ate" type="xsd:int" />
+          <xsd:element name="ateType" type="xsd:int" />
+          <xsd:element name="dfrom" type="xsd:date" />
+          <xsd:element name="dto" type="xsd:date" />
+          <xsd:element name="nameRu" type="xsd:string" />
+          <xsd:element name="nameKg" type="xsd:string" />
+          <xsd:element name="parent" type="xsd:int" />
+          <xsd:element name="regTime" type="xsd:date" />
+          <xsd:element name="event" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfAddress.ServiceBundle.Soap.Type.AteLog">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:Address.ServiceBundle.Soap.Type.AteLog" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Address.ServiceBundle.Soap.Type.StreetLog">
+        <xsd:all>
+          <xsd:element name="street" type="xsd:int" />
+          <xsd:element name="ate" type="xsd:int" />
+          <xsd:element name="streetType" type="xsd:int" />
+          <xsd:element name="dfrom" type="xsd:date" />
+          <xsd:element name="dto" type="xsd:date" />
+          <xsd:element name="nameRu" type="xsd:string" />
+          <xsd:element name="nameKg" type="xsd:string" />
+          <xsd:element name="regTime" type="xsd:date" />
+          <xsd:element name="event" type="xsd:string" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfAddress.ServiceBundle.Soap.Type.StreetLog">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:Address.ServiceBundle.Soap.Type.StreetLog" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Address.ServiceBundle.Soap.Type.EstateHistory">
+        <xsd:all>
+          <xsd:element name="estate" type="xsd:int" />
+          <xsd:element name="ate" type="xsd:int" />
+          <xsd:element name="street" type="xsd:int" />
+          <xsd:element name="dfrom" type="xsd:date" />
+          <xsd:element name="dto" type="xsd:date" />
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element name="type" type="xsd:int" />
+          <xsd:element name="parent" type="xsd:int" />
+          <xsd:element name="status" type="xsd:int" />
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfAddress.ServiceBundle.Soap.Type.EstateHistory">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="item" type="tns:Address.ServiceBundle.Soap.Type.EstateHistory" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getCountriesHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getCountriesRequest">
+    <wsdl:part name="lang" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getCountriesResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.Ate" />
+  </wsdl:message>
+  <wsdl:message name="getOblastLevelUnitsHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getOblastLevelUnitsRequest" />
+  <wsdl:message name="getOblastLevelUnitsResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.Ate" />
+  </wsdl:message>
+  <wsdl:message name="getChildrenHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getChildrenRequest">
+    <wsdl:part name="parent" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="getChildrenResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.Ate" />
+  </wsdl:message>
+  <wsdl:message name="getAllChildrenHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllChildrenRequest">
+    <wsdl:part name="parent" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="getAllChildrenResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.Ate" />
+  </wsdl:message>
+  <wsdl:message name="getAllChildrenBeforeAymakHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAllChildrenBeforeAymakRequest">
+    <wsdl:part name="parent" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="getAllChildrenBeforeAymakResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.Ate" />
+  </wsdl:message>
+  <wsdl:message name="getChildrenWithoutAymakHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getChildrenWithoutAymakRequest">
+    <wsdl:part name="parent" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="getChildrenWithoutAymakResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.AteWithoutAymak" />
+  </wsdl:message>
+  <wsdl:message name="getParentHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getParentRequest">
+    <wsdl:part name="id" type="xsd:int" />
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="getParentResponse">
+    <wsdl:part name="return" type="tns:Address.ServiceBundle.Soap.Type.Ate" />
+  </wsdl:message>
+  <wsdl:message name="getAteByStreetHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAteByStreetRequest">
+    <wsdl:part name="street" type="xsd:int" />
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="getAteByStreetResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.Ate" />
+  </wsdl:message>
+  <wsdl:message name="getSoateCodeHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getSoateCodeRequest">
+    <wsdl:part name="id" type="xsd:int" />
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="getSoateCodeResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getStreetFullNameHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getStreetFullNameRequest">
+    <wsdl:part name="id" type="xsd:int" />
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="getStreetFullNameResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getStreetNameHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getStreetNameRequest">
+    <wsdl:part name="id" type="xsd:int" />
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="getStreetNameResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.Street" />
+  </wsdl:message>
+  <wsdl:message name="getStreetFullNamePathHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getStreetFullNamePathRequest">
+    <wsdl:part name="id" type="xsd:int" />
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="getStreetFullNamePathResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getStreetFullNamePath2Header">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getStreetFullNamePath2Request">
+    <wsdl:part name="id" type="xsd:int" />
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="getStreetFullNamePath2Response">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getStreetTypesHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getStreetTypesRequest" />
+  <wsdl:message name="getStreetTypesResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.StreetType" />
+  </wsdl:message>
+  <wsdl:message name="getStreetsHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getStreetsRequest">
+    <wsdl:part name="ate" type="xsd:int" />
+    <wsdl:part name="streetType" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="getStreetsResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.Street" />
+  </wsdl:message>
+  <wsdl:message name="getStreetsByAteHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getStreetsByAteRequest">
+    <wsdl:part name="ate" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="getStreetsByAteResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.Street" />
+  </wsdl:message>
+  <wsdl:message name="getStreetIdByNameHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getStreetIdByNameRequest">
+    <wsdl:part name="ate" type="xsd:int" />
+    <wsdl:part name="name" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getStreetIdByNameResponse">
+    <wsdl:part name="return" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="searchStreetsHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="searchStreetsRequest">
+    <wsdl:part name="ate" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="searchStreetsResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.SearchStreet" />
+  </wsdl:message>
+  <wsdl:message name="searchStreetsNewHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="searchStreetsNewRequest">
+    <wsdl:part name="ate" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="searchStreetsNewResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.SearchStreet" />
+  </wsdl:message>
+  <wsdl:message name="searchAtesHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="searchAtesRequest">
+    <wsdl:part name="ate" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="searchAtesResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.SearchAte" />
+  </wsdl:message>
+  <wsdl:message name="searchAtesNewHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="searchAtesNewRequest">
+    <wsdl:part name="ate" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="searchAtesNewResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.SearchAte" />
+  </wsdl:message>
+  <wsdl:message name="getKeyAtesHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getKeyAtesRequest" />
+  <wsdl:message name="getKeyAtesResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.Ate" />
+  </wsdl:message>
+  <wsdl:message name="getStreetAteHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getStreetAteRequest">
+    <wsdl:part name="ate" type="xsd:int" />
+    <wsdl:part name="street" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="getStreetAteResponse">
+    <wsdl:part name="return" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="getAteHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAteRequest">
+    <wsdl:part name="id" type="xsd:int" />
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="getAteResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.Ate" />
+  </wsdl:message>
+  <wsdl:message name="getAteByStreetAteHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAteByStreetAteRequest">
+    <wsdl:part name="id" type="xsd:int" />
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="getAteByStreetAteResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.Ate" />
+  </wsdl:message>
+  <wsdl:message name="getAteNameHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAteNameRequest">
+    <wsdl:part name="id" type="xsd:int" />
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="getAteNameResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAteNameKgHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAteNameKgRequest">
+    <wsdl:part name="id" type="xsd:int" />
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="getAteNameKgResponse">
+    <wsdl:part name="return" type="tns:Address.ServiceBundle.Soap.Type.AteKg" />
+  </wsdl:message>
+  <wsdl:message name="getAteFullPathNameHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAteFullPathNameRequest">
+    <wsdl:part name="id" type="xsd:int" />
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="getAteFullPathNameResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAteFullPathNameByStreetAteHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getAteFullPathNameByStreetAteRequest">
+    <wsdl:part name="id" type="xsd:int" />
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="getAteFullPathNameByStreetAteResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getStreetFullNameByStreetAteHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getStreetFullNameByStreetAteRequest">
+    <wsdl:part name="id" type="xsd:int" />
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="getStreetFullNameByStreetAteResponse">
+    <wsdl:part name="return" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getEstateListHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getEstateListRequest">
+    <wsdl:part name="ate" type="xsd:int" />
+    <wsdl:part name="street" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="getEstateListResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.Estate" />
+  </wsdl:message>
+  <wsdl:message name="getEstateChildHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getEstateChildRequest">
+    <wsdl:part name="id" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="getEstateChildResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.Estate" />
+  </wsdl:message>
+  <wsdl:message name="getEstateHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getEstateRequest">
+    <wsdl:part name="id" type="xsd:int" />
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="getEstateResponse">
+    <wsdl:part name="return" type="tns:Address.ServiceBundle.Soap.Type.Estate" />
+  </wsdl:message>
+  <wsdl:message name="getEniHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="getEniRequest">
+    <wsdl:part name="street" type="xsd:int" />
+    <wsdl:part name="building" type="xsd:string" />
+    <wsdl:part name="flat" type="xsd:string" />
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="getEniResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.PropAddress" />
+  </wsdl:message>
+  <wsdl:message name="updateAteHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="updateAteRequest">
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="updateAteResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.AteLog" />
+  </wsdl:message>
+  <wsdl:message name="updateStreetHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="updateStreetRequest">
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="updateStreetResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.StreetLog" />
+  </wsdl:message>
+  <wsdl:message name="updateEstateHeader">
+    <wsdl:part name="token" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="updateEstateRequest">
+    <wsdl:part name="currentDate" type="xsd:dateTime" />
+  </wsdl:message>
+  <wsdl:message name="updateEstateResponse">
+    <wsdl:part name="return" type="tns:ArrayOfAddress.ServiceBundle.Soap.Type.EstateHistory" />
+  </wsdl:message>
+  <wsdl:portType name="AddressApiPortType">
+    <wsdl:operation name="getCountries">
+      <wsdl:input message="tns:getCountriesRequest" />
+      <wsdl:output message="tns:getCountriesResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getOblastLevelUnits">
+      <wsdl:input message="tns:getOblastLevelUnitsRequest" />
+      <wsdl:output message="tns:getOblastLevelUnitsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getChildren">
+      <wsdl:input message="tns:getChildrenRequest" />
+      <wsdl:output message="tns:getChildrenResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAllChildren">
+      <wsdl:input message="tns:getAllChildrenRequest" />
+      <wsdl:output message="tns:getAllChildrenResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAllChildrenBeforeAymak">
+      <wsdl:input message="tns:getAllChildrenBeforeAymakRequest" />
+      <wsdl:output message="tns:getAllChildrenBeforeAymakResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getChildrenWithoutAymak">
+      <wsdl:input message="tns:getChildrenWithoutAymakRequest" />
+      <wsdl:output message="tns:getChildrenWithoutAymakResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getParent">
+      <wsdl:input message="tns:getParentRequest" />
+      <wsdl:output message="tns:getParentResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAteByStreet">
+      <wsdl:input message="tns:getAteByStreetRequest" />
+      <wsdl:output message="tns:getAteByStreetResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getSoateCode">
+      <wsdl:input message="tns:getSoateCodeRequest" />
+      <wsdl:output message="tns:getSoateCodeResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getStreetFullName">
+      <wsdl:input message="tns:getStreetFullNameRequest" />
+      <wsdl:output message="tns:getStreetFullNameResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getStreetName">
+      <wsdl:input message="tns:getStreetNameRequest" />
+      <wsdl:output message="tns:getStreetNameResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getStreetFullNamePath">
+      <wsdl:input message="tns:getStreetFullNamePathRequest" />
+      <wsdl:output message="tns:getStreetFullNamePathResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getStreetFullNamePath2">
+      <wsdl:input message="tns:getStreetFullNamePath2Request" />
+      <wsdl:output message="tns:getStreetFullNamePath2Response" />
+    </wsdl:operation>
+    <wsdl:operation name="getStreetTypes">
+      <wsdl:input message="tns:getStreetTypesRequest" />
+      <wsdl:output message="tns:getStreetTypesResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getStreets">
+      <wsdl:input message="tns:getStreetsRequest" />
+      <wsdl:output message="tns:getStreetsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getStreetsByAte">
+      <wsdl:input message="tns:getStreetsByAteRequest" />
+      <wsdl:output message="tns:getStreetsByAteResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getStreetIdByName">
+      <wsdl:input message="tns:getStreetIdByNameRequest" />
+      <wsdl:output message="tns:getStreetIdByNameResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="searchStreets">
+      <wsdl:input message="tns:searchStreetsRequest" />
+      <wsdl:output message="tns:searchStreetsResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="searchStreetsNew">
+      <wsdl:input message="tns:searchStreetsNewRequest" />
+      <wsdl:output message="tns:searchStreetsNewResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="searchAtes">
+      <wsdl:input message="tns:searchAtesRequest" />
+      <wsdl:output message="tns:searchAtesResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="searchAtesNew">
+      <wsdl:input message="tns:searchAtesNewRequest" />
+      <wsdl:output message="tns:searchAtesNewResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getKeyAtes">
+      <wsdl:input message="tns:getKeyAtesRequest" />
+      <wsdl:output message="tns:getKeyAtesResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getStreetAte">
+      <wsdl:input message="tns:getStreetAteRequest" />
+      <wsdl:output message="tns:getStreetAteResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAte">
+      <wsdl:input message="tns:getAteRequest" />
+      <wsdl:output message="tns:getAteResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAteByStreetAte">
+      <wsdl:input message="tns:getAteByStreetAteRequest" />
+      <wsdl:output message="tns:getAteByStreetAteResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAteName">
+      <wsdl:input message="tns:getAteNameRequest" />
+      <wsdl:output message="tns:getAteNameResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAteNameKg">
+      <wsdl:input message="tns:getAteNameKgRequest" />
+      <wsdl:output message="tns:getAteNameKgResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAteFullPathName">
+      <wsdl:input message="tns:getAteFullPathNameRequest" />
+      <wsdl:output message="tns:getAteFullPathNameResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getAteFullPathNameByStreetAte">
+      <wsdl:input message="tns:getAteFullPathNameByStreetAteRequest" />
+      <wsdl:output message="tns:getAteFullPathNameByStreetAteResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getStreetFullNameByStreetAte">
+      <wsdl:input message="tns:getStreetFullNameByStreetAteRequest" />
+      <wsdl:output message="tns:getStreetFullNameByStreetAteResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getEstateList">
+      <wsdl:input message="tns:getEstateListRequest" />
+      <wsdl:output message="tns:getEstateListResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getEstateChild">
+      <wsdl:input message="tns:getEstateChildRequest" />
+      <wsdl:output message="tns:getEstateChildResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getEstate">
+      <wsdl:input message="tns:getEstateRequest" />
+      <wsdl:output message="tns:getEstateResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="getEni">
+      <wsdl:input message="tns:getEniRequest" />
+      <wsdl:output message="tns:getEniResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="updateAte">
+      <wsdl:input message="tns:updateAteRequest" />
+      <wsdl:output message="tns:updateAteResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="updateStreet">
+      <wsdl:input message="tns:updateStreetRequest" />
+      <wsdl:output message="tns:updateStreetResponse" />
+    </wsdl:operation>
+    <wsdl:operation name="updateEstate">
+      <wsdl:input message="tns:updateEstateRequest" />
+      <wsdl:output message="tns:updateEstateResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="AddressApiBinding" type="tns:AddressApiPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="rpc" />
+    <wsdl:operation name="getCountries">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getCountries" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getCountriesHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getOblastLevelUnits">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getOblastLevelUnits" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getOblastLevelUnitsHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getChildren">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getChildren" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getChildrenHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllChildren">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getAllChildren" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getAllChildrenHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAllChildrenBeforeAymak">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getAllChildrenBeforeAymak" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getAllChildrenBeforeAymakHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getChildrenWithoutAymak">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getChildrenWithoutAymak" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getChildrenWithoutAymakHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getParent">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getParent" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getParentHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAteByStreet">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getAteByStreet" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getAteByStreetHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getSoateCode">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getSoateCode" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getSoateCodeHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStreetFullName">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getStreetFullName" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getStreetFullNameHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStreetName">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getStreetName" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getStreetNameHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStreetFullNamePath">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getStreetFullNamePath" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getStreetFullNamePathHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStreetFullNamePath2">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getStreetFullNamePath2" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getStreetFullNamePath2Header" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStreetTypes">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getStreetTypes" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getStreetTypesHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStreets">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getStreets" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getStreetsHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStreetsByAte">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getStreetsByAte" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getStreetsByAteHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStreetIdByName">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getStreetIdByName" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getStreetIdByNameHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchStreets">
+      <soap:operation soapAction="http://address.infocom.kg/ws/searchStreets" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:searchStreetsHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchStreetsNew">
+      <soap:operation soapAction="http://address.infocom.kg/ws/searchStreetsNew" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:searchStreetsNewHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchAtes">
+      <soap:operation soapAction="http://address.infocom.kg/ws/searchAtes" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:searchAtesHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="searchAtesNew">
+      <soap:operation soapAction="http://address.infocom.kg/ws/searchAtesNew" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:searchAtesNewHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getKeyAtes">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getKeyAtes" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getKeyAtesHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStreetAte">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getStreetAte" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getStreetAteHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAte">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getAte" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getAteHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAteByStreetAte">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getAteByStreetAte" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getAteByStreetAteHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAteName">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getAteName" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getAteNameHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAteNameKg">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getAteNameKg" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getAteNameKgHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAteFullPathName">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getAteFullPathName" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getAteFullPathNameHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAteFullPathNameByStreetAte">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getAteFullPathNameByStreetAte" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getAteFullPathNameByStreetAteHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getStreetFullNameByStreetAte">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getStreetFullNameByStreetAte" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getStreetFullNameByStreetAteHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getEstateList">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getEstateList" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getEstateListHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getEstateChild">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getEstateChild" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getEstateChildHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getEstate">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getEstate" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getEstateHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getEni">
+      <soap:operation soapAction="http://address.infocom.kg/ws/getEni" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:getEniHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateAte">
+      <soap:operation soapAction="http://address.infocom.kg/ws/updateAte" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:updateAteHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateStreet">
+      <soap:operation soapAction="http://address.infocom.kg/ws/updateStreet" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:updateStreetHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="updateEstate">
+      <soap:operation soapAction="http://address.infocom.kg/ws/updateEstate" />
+      <wsdl:input>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+        <soap:header message="tns:updateEstateHeader" part="token" use="literal" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" namespace="http://address.infocom.kg/ws/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" namespace="http://address.infocom.kg/ws/" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="AddressApiService">
+    <wsdl:port name="AddressApiPort" binding="tns:AddressApiBinding">
+      <soap:address location="https://address.infocom.kg/ws/AddressApi" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

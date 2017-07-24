@@ -74,6 +74,20 @@ namespace IdentitySample.Controllers
             return View(user);
         }
 
+        [AllowAnonymous]
+        public ActionResult Details2()
+        {
+            if (!Request.IsAuthenticated)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = UserManager.FindById(User.Identity.GetUserId());
+
+            ViewBag.RoleNames = UserManager.GetRoles(user.Id);
+
+            return View("Details", user);
+        }
+
         //
         // GET: /Users/Create
         public async Task<ActionResult> Create()
