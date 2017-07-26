@@ -184,6 +184,89 @@ namespace IdentitySample.Models
         public int Code { get; set; }
     }
 
+    public class LegalReportSection
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [ForeignKey("Company")]
+        public int CompanyId { get; set; }
+        [Display(Name = "")]
+        public DateTime ReportDate { get; set; }
+        [Display(Name = "")]
+        public decimal? BalanceBegin { get; set; }
+        [Display(Name = "")]
+        public decimal? AccruedBenefitsBegin { get; set; }
+        [Display(Name = "")]
+        public decimal? IncludingMonth { get; set; }
+        [Display(Name = "")]
+        public decimal? IncreaseDecreaseAmount { get; set; }
+        [Display(Name = "")]
+        public decimal? RefundedRepBudgetBegin { get; set; }
+        [Display(Name = "")]
+        public decimal? DebtBalanceEnd { get; set; }
+    }
+
+    public class Person
+    {
+        public int Id { get; set; }
+
+        [Display(Name = "")]
+        [StringLength(maximumLength: 14)]
+        public string PIN { get; set; }
+
+        [Display(Name = "")]
+        public string LastName { get; set; }
+
+        [Display(Name = "")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "")]
+        public string MiddleName { get; set; }
+
+        [Display(Name = "")]
+        public DateTime BirthDate { get; set; }
+
+        [Display(Name = "")]
+        [ForeignKey("Gender")]
+        public int? GenderId { get; set; }
+        public virtual Gender Gender { get; set; }
+
+        [Display(Name = "")]
+        public int? DocumentTypeId { get; set; }
+
+        [Display(Name = "")]
+        [StringLength(maximumLength: 3)]
+        public string PassportSeries { get; set; }
+
+        [Display(Name = "")]
+        [StringLength(maximumLength: 8)]
+        public string PassportNo { get; set; }
+
+        [Display(Name = "")]
+        public DateTime? PassportOrg { get; set; }
+
+    }
+
+    public class DocumentType
+    {
+        public int Id { get; set; }
+        [Display(Name = "")]
+        public int Code { get; set; }
+        [Display(Name = "")]
+        public string Name { get; set; }
+    }
+
+    public class Gender
+    {
+        public int Id { get; set; }
+        [Display(Name = "")]
+        public int Code { get; set; }
+        [Display(Name = "")]
+        public string Name { get; set; }
+    }
+
+
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
