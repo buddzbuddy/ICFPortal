@@ -68,9 +68,7 @@ namespace IdentitySample.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var user = await UserManager.FindByIdAsync(id);
-
-            ViewBag.RoleNames = await UserManager.GetRolesAsync(user.Id);
-
+            
             return View(user);
         }
 
@@ -84,8 +82,11 @@ namespace IdentitySample.Controllers
             var user = UserManager.FindById(User.Identity.GetUserId());
 
             ViewBag.RoleNames = UserManager.GetRoles(user.Id);
-
-            return View("Details", user);
+            var RGUSOrgId = new Guid("{6853C82D-751E-40DD-AA14-21AF0AB7C64E}");
+            var cissameta = new CissaMeta.MetaProxy();
+            var usrList = cissameta.GetUSRList();
+            ViewBag.UsrList = usrList;//usrList.Where(x => user.Companies.Select(c => c.OrgId ?? Guid.Empty).Contains(x.Id));
+            return PartialView("Details", user);
         }
 
         //

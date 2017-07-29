@@ -1,7 +1,16 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
+@if (Request.IsAuthenticated)
+{
+    Html.RenderAction("Index", "Datas", new { as_partial = true });
+}
+else
+{
+    Html.RenderAction("Login", "Account", new { as_partial = true });
+}
+<p>@ViewBag.CISSA</p>
+@*
 <div class="jumbotron">
     <h1>ASP.NET Identity</h1>
     <p class="lead">ASP.NET Identity is the membership system for ASP.NET apps. Following are the features of ASP.NET Identity in this sample application.</p>
@@ -230,3 +239,5 @@
         </dl>
     </div>
 </div>
+
+*@

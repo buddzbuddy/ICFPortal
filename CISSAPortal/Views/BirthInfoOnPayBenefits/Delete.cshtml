@@ -1,0 +1,208 @@
+﻿@model IdentitySample.Models.BirthInfoOnPayBenefit
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>BirthInfoOnPayBenefit</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Report.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Report.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PIN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PIN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MiddleName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PassportSeries)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PassportSeries)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PassportNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PassportNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PassportDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PassportDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PassportOrg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PassportOrg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthCertificateNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthCertificateNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateFrom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateFrom)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateTo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateTo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Citizenship)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Citizenship)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeadCadThrowRepublicBudget)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeadCadThrowRepublicBudget)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SixDay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SixDay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Highlands)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Highlands)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SalaryOf3Months)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SalaryOf3Months)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthCountWorkingDays)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthCountWorkingDays)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AmountAverageEarnings)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AmountAverageEarnings)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthCashThrowLegalOrg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthCashThrowLegalOrg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthCadThrowRepublicBudget)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthCadThrowRepublicBudget)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,88 @@
+﻿@model IdentitySample.Models.LegalReportSection
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>LegalReportSection</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Company.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReportDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReportDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BalanceBegin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BalanceBegin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccruedBenefitsBegin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccruedBenefitsBegin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IncludingMonth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IncludingMonth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IncreaseDecreaseAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IncreaseDecreaseAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RefundedRepBudgetBegin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RefundedRepBudgetBegin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DebtBalanceEnd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DebtBalanceEnd)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,165 @@
+﻿@model IEnumerable<IdentitySample.Models.BirthInfoOnPayBenefit>
+
+@{
+    ViewBag.Title = "Сведения о расходах по выплате пособий по беременности и родом";
+}
+
+<h2>Сведения о расходах по выплате пособий по беременности и родом</h2>
+
+<p>
+    @Html.ActionLink("Добавить новый", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Gender.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Report.Id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PIN)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PassportSeries)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PassportNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PassportDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PassportOrg)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BirthCertificateNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateFrom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DateTo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Citizenship)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeadCadThrowRepublicBudget)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SixDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Highlands)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SalaryOf3Months)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BirthCountWorkingDays)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AmountAverageEarnings)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BirthCashThrowLegalOrg)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BirthCadThrowRepublicBudget)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gender.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Report.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PIN)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MiddleName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BirthDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PassportSeries)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PassportNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PassportDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PassportOrg)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BirthCertificateNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateFrom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateTo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Citizenship)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeadCadThrowRepublicBudget)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SixDay)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Highlands)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SalaryOf3Months)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BirthCountWorkingDays)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AmountAverageEarnings)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BirthCashThrowLegalOrg)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BirthCadThrowRepublicBudget)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

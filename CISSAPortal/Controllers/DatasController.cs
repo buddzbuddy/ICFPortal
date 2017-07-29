@@ -10,8 +10,10 @@ namespace CISSAPortal.Controllers
     public class DatasController : Controller
     {
         // GET: Datas
-        public ActionResult Index()
+        public ActionResult Index(bool as_partial = false)
         {
+            if (as_partial)
+                return PartialView();
             return View();
         }
     }

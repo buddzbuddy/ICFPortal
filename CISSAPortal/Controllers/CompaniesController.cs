@@ -17,8 +17,14 @@ namespace CISSAPortal.Controllers
         // GET: Companies
         public ActionResult Index()
         {
-            var companies = db.Companies.Include(c => c.AspNetUser);
-            return View(companies.ToList());
+            var companies = db.Companies.Include(c => c.AspNetUser).ToList();
+            var RGUSOrgId = new Guid("{6853C82D-751E-40DD-AA14-21AF0AB7C64E}");
+            var cissameta = new CissaMeta.MetaProxy();
+            var usrList = cissameta.GetUSRList();
+
+            ViewBag.UsrList = usrList.Where(x => companies.Select(c => c.OrgId ?? Guid.Empty).Contains(x.Id));
+
+            return View(companies);
         }
 
         // GET: Companies/Details/5
@@ -37,10 +43,17 @@ namespace CISSAPortal.Controllers
         }
 
         // GET: Companies/Create
-        public ActionResult Create()
+        public ActionResult Create(string userId, string returnUrl)
         {
-            ViewBag.AspNetUserId = new SelectList(db.Users, "Id", "Email");
-            return View();
+            ViewBag.ReturnUrl = returnUrl;
+            var RGUSOrgId = new Guid("{6853C82D-751E-40DD-AA14-21AF0AB7C64E}");
+            var cissameta = new CissaMeta.MetaProxy();
+            var usrList = cissameta.GetUSRList();
+            //ViewBag.AspNetUserId = new SelectList(db.Users, "Id", "Email");
+
+            ViewBag.OrgId = new SelectList(usrList, "Id", "Name");
+            var model = new Company { AspNetUserId = userId };
+            return View(model);
         }
 
         // POST: Companies/Create
@@ -48,12 +61,14 @@ namespace CISSAPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,Address,AspNetUserId,INN,OKPO,ActivityType,Telephone,BankName,BIK,BankAccountNo,CompanyAccountNo")] Company company)
+        public ActionResult Create([Bind(Include = "Id,Name,Address,AspNetUserId,INN,OKPO,ActivityType,Telephone,BankName,BIK,BankAccountNo,CompanyAccountNo,OrgId")] Company company, string returnUrl)
         {
             if (ModelState.IsValid)
             {
                 db.Companies.Add(company);
                 db.SaveChanges();
+                if (returnUrl != null)
+                    return Redirect(returnUrl);
                 return RedirectToAction("Index");
             }
 
@@ -73,6 +88,14 @@ namespace CISSAPortal.Controllers
             {
                 return HttpNotFound();
             }
+
+            var RGUSOrgId = new Guid("{6853C82D-751E-40DD-AA14-21AF0AB7C64E}");
+            var cissameta = new CissaMeta.MetaProxy();
+            var usrList = cissameta.GetUSRList();
+            //ViewBag.AspNetUserId = new SelectList(db.Users, "Id", "Email");
+
+            ViewBag.OrgId = new SelectList(usrList, "Id", "Name", company.OrgId);
+
             ViewBag.AspNetUserId = new SelectList(db.Users, "Id", "Email", company.AspNetUserId);
             return View(company);
         }
@@ -82,7 +105,7 @@ namespace CISSAPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Address,AspNetUserId,INN,OKPO,ActivityType,Telephone,BankName,BIK,BankAccountNo,CompanyAccountNo")] Company company)
+        public ActionResult Edit([Bind(Include = "Id,Name,Address,AspNetUserId,INN,OKPO,ActivityType,Telephone,BankName,BIK,BankAccountNo,CompanyAccountNo,OrgId")] Company company)
         {
             if (ModelState.IsValid)
             {

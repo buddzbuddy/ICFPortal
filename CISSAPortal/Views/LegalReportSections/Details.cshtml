@@ -1,0 +1,339 @@
+﻿@model IdentitySample.Models.LegalReportSection
+
+@{
+    ViewBag.Title = "Отчет юр.лиц на получение выплат по беременности и родам и на погребение";
+}
+
+<h2>Просмотр</h2>
+
+<div>
+    <h4>Отчет юр.лиц на получение выплат по беременности и родам и на погребение</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Company.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Company.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReportDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReportDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BalanceBegin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BalanceBegin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccruedBenefitsBegin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccruedBenefitsBegin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IncludingMonth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IncludingMonth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IncreaseDecreaseAmount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IncreaseDecreaseAmount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RefundedRepBudgetBegin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RefundedRepBudgetBegin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DebtBalanceEnd)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DebtBalanceEnd)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.State.Name)
+        </dt>
+
+        <dd>
+            @if (Model.State == null)
+            {
+                <div class="alert alert-warning">@Html.ActionLink("Отправить в министерство", "SetState", new { reportId = Model.Id, code = 1 }, new { @class = "btn btn-info" })</div>
+            }
+            else if (Model.State.Code == 1)
+            {
+                <div class="alert alert-info">@Html.DisplayFor(model => model.State.Name) | @Html.ActionLink("Принять", "SetState", new { reportId = Model.Id, code = 2 }, new { @class = "btn btn-success" }) | @Html.ActionLink("Возвратить", "SetState", new { reportId = Model.Id, code = 3 }, new { @class = "btn btn-danger" })</div>
+            }
+            else if (Model.State.Code == 2)
+            {
+                <div class="alert alert-success">@Html.DisplayFor(model => model.State.Name) | @Html.ActionLink("Возвратить", "SetState", new { reportId = Model.Id, code = 3 }, new { @class = "btn btn-danger" })</div>
+            }
+            else if (Model.State.Code == 3)
+            {
+                <div class="alert alert-danger">@Html.DisplayFor(model => model.State.Name) | @Html.ActionLink("Отправить в министерство", "SetState", new { reportId = Model.Id, code = 1 }, new { @class = "btn btn-info" })</div>
+            }
+        </dd>
+
+    </dl>
+    <h4>Сведения о расходах по выплате пособий по беременности и родам</h4>
+    @Html.ActionLink("Добавить сведения", "Create", "BirthInfoOnPayBenefits", new { reportId = Model.Id }, new { @class = "btn btn-primary" })
+    <table class="table table-striped table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().Gender.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().PIN)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().MiddleName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().BirthDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().PassportSeries)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().PassportNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().PassportDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().PassportOrg)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().BirthCertificateNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().DateFrom)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().DateTo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().Citizenship)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().DeadCadThrowRepublicBudget)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().SixDay)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().Highlands)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().SalaryOf3Months)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().BirthCountWorkingDays)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().AmountAverageEarnings)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().BirthCashThrowLegalOrg)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BirthInfoOnPayBenefits.First().BirthCadThrowRepublicBudget)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.BirthInfoOnPayBenefits)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gender.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PIN)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MiddleName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BirthDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PassportSeries)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PassportNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PassportDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PassportOrg)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BirthCertificateNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateFrom)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DateTo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Citizenship)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeadCadThrowRepublicBudget)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SixDay)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Highlands)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SalaryOf3Months)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BirthCountWorkingDays)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmountAverageEarnings)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BirthCashThrowLegalOrg)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BirthCadThrowRepublicBudget)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "BirthInfoOnPayBenefits", new { id = item.Id }, null) |
+                        @Html.ActionLink("Details", "Details", "BirthInfoOnPayBenefits", new { id = item.Id }, null) |
+                        @Html.ActionLink("Delete", "Delete", "BirthInfoOnPayBenefits", new { id = item.Id }, null)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <h4>Сведения о расходах по выплате ритуального пособия</h4>
+    @Html.ActionLink("Добавить сведения", "Create", "DeadInfoOnPayBenefits", new { reportId = Model.Id }, new { @class = "btn btn-primary" })
+    <table class="table table-striped table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeadInfoOnPayBenefits.First().Gender.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeadInfoOnPayBenefits.First().PIN)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeadInfoOnPayBenefits.First().LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeadInfoOnPayBenefits.First().FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeadInfoOnPayBenefits.First().MiddleName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeadInfoOnPayBenefits.First().BirthDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeadInfoOnPayBenefits.First().DeadCertificateNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeadInfoOnPayBenefits.First().DeadDateOfCertificate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeadInfoOnPayBenefits.First().Citizenship)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeadInfoOnPayBenefits.First().DeadCadThrowRepublicBudget)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.DeadInfoOnPayBenefits)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Gender.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PIN)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MiddleName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BirthDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeadCertificateNo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeadDateOfCertificate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Citizenship)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeadCadThrowRepublicBudget)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "DeadInfoOnPayBenefits", new { id = item.Id }, null) |
+                        @Html.ActionLink("Details", "Details", "DeadInfoOnPayBenefits", new { id = item.Id }, null) |
+                        @Html.ActionLink("Delete", "Delete", "DeadInfoOnPayBenefits", new { id = item.Id }, null)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Изменить", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Назад к списку", "Index")
+</p>

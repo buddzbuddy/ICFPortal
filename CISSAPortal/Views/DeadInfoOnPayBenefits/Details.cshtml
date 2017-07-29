@@ -1,0 +1,106 @@
+﻿@model IdentitySample.Models.DeadInfoOnPayBenefit
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>DeadInfoOnPayBenefit</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Report.Id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Report.Id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PIN)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PIN)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MiddleName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeadCertificateNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeadCertificateNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeadDateOfCertificate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeadDateOfCertificate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Citizenship)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Citizenship)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeadCadThrowRepublicBudget)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeadCadThrowRepublicBudget)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

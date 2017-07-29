@@ -1,0 +1,106 @@
+﻿@model IEnumerable<IdentitySample.Models.LegalReportSection>
+
+@{
+    ViewBag.Title = "Список отчетов/заявок юридического лица на получение пособия по беременности и родам, и на погребение";
+
+    var stateColors = new Dictionary<int, string>
+    {
+        { 1, "lightblue" },
+        { 2, "lightgreen" },
+        { 3, "red" },
+        { 0, "" }
+    };
+}
+
+<h2>Список отчетов/заявок юридического лица на получение пособия по беременности и родам, и на погребение</h2>
+
+<p>
+    @Html.ActionLink("Ввод новой заявки/отчета", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table table-striped table-bordered table-hover table-condensed">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Company.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReportDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BalanceBegin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccruedBenefitsBegin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IncludingMonth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IncreaseDecreaseAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RefundedRepBudgetBegin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DebtBalanceEnd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State.Name)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a href="@Url.Action("Details", new { id = item.Id })" title="Открыть">
+                        <span class="glyphicon glyphicon-eye-open"></span>
+                    </a>
+                    @if (item.State == null || item.State.Code == 3)
+                    {
+                        @*<text>|</text>*@
+                        <a href="@Url.Action("Edit", new { id = item.Id })" title="Редактировать">
+                            <span class="glyphicon glyphicon-edit"></span>
+                        </a>
+                        @*<text>|</text>*@
+                        <a href="@Url.Action("Delete", new { id = item.Id })" title="Удалить">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </a>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Company.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReportDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BalanceBegin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AccruedBenefitsBegin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IncludingMonth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IncreaseDecreaseAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RefundedRepBudgetBegin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DebtBalanceEnd)
+                </td>
+                <td style="background-color:@stateColors[item.State != null ? item.State.Code : 0]">
+                    @if (item.State != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.State.Name)
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -74,6 +74,9 @@ namespace IdentitySample.Models
 
         [Display(Name = "Л/счет компании")]
         public string CompanyAccountNo { get; set; }
+
+        [Display(Name = "Управление социального развития")]
+        public Guid? OrgId { get; set; }
     }
 
     public class Report
@@ -191,78 +194,191 @@ namespace IdentitySample.Models
 
         [ForeignKey("Company")]
         public int CompanyId { get; set; }
-        [Display(Name = "")]
-        public DateTime ReportDate { get; set; }
-        [Display(Name = "")]
+        public virtual Company Company { get; set; }
+        [Display(Name = "Дата предоставления отчета")]
+        [Required]
+        public DateTime? ReportDate { get; set; }
+        [Display(Name = "1. Остаток задолжности УСР на начало года")]
         public decimal? BalanceBegin { get; set; }
-        [Display(Name = "")]
+        [Display(Name = "2. Всего начислено пособий за счет республиканского бюджета с начала года")]
         public decimal? AccruedBenefitsBegin { get; set; }
-        [Display(Name = "")]
+        [Display(Name = "2а. в том числе за месяц")]
         public decimal? IncludingMonth { get; set; }
-        [Display(Name = "")]
+        [Display(Name = "3. Увеличение (+), уменьшение (-) суммы пособий по результатам проверки")]
         public decimal? IncreaseDecreaseAmount { get; set; }
-        [Display(Name = "")]
+        [Display(Name = "4. Возмещено республиканским бюджетом начала года")]
         public decimal? RefundedRepBudgetBegin { get; set; }
-        [Display(Name = "")]
+        [Display(Name = "5. Остаток задолженности на конец отчетного месяца")]
         public decimal? DebtBalanceEnd { get; set; }
+        /// <summary>
+        /// Foreign Key to State
+        /// </summary>
+        [ForeignKey("State")]
+        public int? StateId { get; set; }
+        public virtual DocumentState State { get; set; }
+
+        public virtual ICollection<BirthInfoOnPayBenefit> BirthInfoOnPayBenefits { get; set; }
+        public virtual ICollection<DeadInfoOnPayBenefit> DeadInfoOnPayBenefits { get; set; }
     }
 
-    public class Person
+    public class DeadInfoOnPayBenefit
     {
+        [Key]
         public int Id { get; set; }
 
-        [Display(Name = "")]
+        [ForeignKey("Report")]
+        public int ReportId { get; set; }
+        public virtual LegalReportSection Report { get; set; }
+
+
+        [Display(Name = "ПИН")]
         [StringLength(maximumLength: 14)]
         public string PIN { get; set; }
 
-        [Display(Name = "")]
+        [Required]
+        [Display(Name = "Фамилия")]
         public string LastName { get; set; }
 
-        [Display(Name = "")]
+        [Required]
+        [Display(Name = "Имя")]
         public string FirstName { get; set; }
 
-        [Display(Name = "")]
+        [Display(Name = "Отчество")]
         public string MiddleName { get; set; }
 
-        [Display(Name = "")]
-        public DateTime BirthDate { get; set; }
+        [Required]
+        [Display(Name = "Дата рождения")]
+        public DateTime? BirthDate { get; set; }
 
-        [Display(Name = "")]
+        [Required]
+        [Display(Name = "Пол")]
         [ForeignKey("Gender")]
         public int? GenderId { get; set; }
         public virtual Gender Gender { get; set; }
 
-        [Display(Name = "")]
-        public int? DocumentTypeId { get; set; }
+        [Required]
+        [Display(Name = "Справка серия, номер")]
+        public string DeadCertificateNo { get; set; }
+        
+        [Required]
+        [Display(Name = "Дата выдачи справки")]
+        public DateTime? DeadDateOfCertificate { get; set; }
 
-        [Display(Name = "")]
+        [Display(Name = "Гражданство")]
+        public string Citizenship { get; set; }
+
+        [Display(Name = "За счет респ. бюджета")]
+        public decimal? DeadCadThrowRepublicBudget { get; set; }
+    }
+
+    public class BirthInfoOnPayBenefit
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [ForeignKey("Report")]
+        public int ReportId { get; set; }
+        public virtual LegalReportSection Report { get; set; }
+
+
+        [Display(Name = "ПИН")]
+        [StringLength(maximumLength: 14)]
+        public string PIN { get; set; }
+
+        [Required]
+        [Display(Name = "Фамилия")]
+        public string LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Имя")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Отчество")]
+        public string MiddleName { get; set; }
+
+        [Required]
+        [Display(Name = "Дата рождения")]
+        public DateTime? BirthDate { get; set; }
+
+        [Required]
+        [Display(Name = "Пол")]
+        [ForeignKey("Gender")]
+        public int? GenderId { get; set; }
+        public virtual Gender Gender { get; set; }
+
+        [Display(Name = "Паспорт серия")]
         [StringLength(maximumLength: 3)]
         public string PassportSeries { get; set; }
 
-        [Display(Name = "")]
+        [Display(Name = "Паспорт номер")]
         [StringLength(maximumLength: 8)]
         public string PassportNo { get; set; }
 
-        [Display(Name = "")]
-        public DateTime? PassportOrg { get; set; }
+        [Display(Name = "Дата выдачи")]
+        public DateTime? PassportDate { get; set; }
+
+        [Display(Name = "Выдавший орган")]
+        public string PassportOrg { get; set; }
+
+        [Required]
+        [Display(Name = "справка серия, номер")]
+        public string BirthCertificateNo { get; set; }
+        
+        [Required]
+        [Display(Name = "Период с")]
+        public DateTime? DateFrom { get; set; }
+
+        [Required]
+        [Display(Name = "Период по")]
+        public DateTime? DateTo { get; set; }
+
+        [Display(Name = "Гражданство")]
+        public string Citizenship { get; set; }
+
+        
+        [Display(Name = "Шестидневка")]
+        public bool SixDay { get; set; }
+        
+        [Display(Name = "Высокогорье")]
+        public bool Highlands { get; set; }
+
+        [Required]
+        [Display(Name = "Заработная плата за 3 месяца")]
+        public decimal? SalaryOf3Months { get; set; }
+
+        [Display(Name = "Количество рабочих дней, на которые начислено пособие (раб. дни)")]
+        public int? BirthCountWorkingDays { get; set; }
+
+        [Display(Name = "Размер среднедневного заработка (сом)")]
+        public decimal? AmountAverageEarnings { get; set; }
+
+        [Display(Name = "За счет респ. бюджета")]
+        public decimal? DeadCadThrowRepublicBudget { get; set; }
+
+        [Display(Name = "За счет собственных средств юридического лица (сом)")]
+        public decimal? BirthCashThrowLegalOrg { get; set; }
+
+        [Display(Name = "За счет республиканского бюджета (сом)")]
+        public decimal? BirthCadThrowRepublicBudget { get; set; }
+
+        [Display(Name = "Всего (сом)")]
+        public virtual decimal? BirthTotalAmount
+        {
+            get
+            {
+                return (BirthCashThrowLegalOrg ?? 0) + (BirthCadThrowRepublicBudget ?? 0);
+            }
+        }
 
     }
 
-    public class DocumentType
-    {
-        public int Id { get; set; }
-        [Display(Name = "")]
-        public int Code { get; set; }
-        [Display(Name = "")]
-        public string Name { get; set; }
-    }
 
     public class Gender
     {
         public int Id { get; set; }
-        [Display(Name = "")]
+        [Display(Name = "Код")]
         public int Code { get; set; }
-        [Display(Name = "")]
+        [Display(Name = "Пол")]
         public string Name { get; set; }
     }
 
@@ -293,5 +409,12 @@ namespace IdentitySample.Models
         public DbSet<Report> Reports { get; set; }
         public DbSet<ReportItem> ReportItems { get; set; }
         public DbSet<DocumentState> DocumentStates { get; set; }
+        public DbSet<LegalReportSection> LegalReportSections { get; set; }
+
+        public DbSet<DeadInfoOnPayBenefit> DeadInfoOnPayBenefits { get; set; }
+
+        public DbSet<Gender> Genders { get; set; }
+
+        public DbSet<BirthInfoOnPayBenefit> BirthInfoOnPayBenefits { get; set; }
     }
 }

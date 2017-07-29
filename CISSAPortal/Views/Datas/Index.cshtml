@@ -1,13 +1,19 @@
 ﻿
 @{
-    ViewBag.Title = "Данные";
+    ViewBag.Title = "Отчеты и заявки";
 }
 
-<h2>Данные</h2>
+<h2>Отчеты и заявки</h2>
+
+@*<p>
+    @Html.ActionLink("Отчет о распределении гум. помощи", "Index", "Reports", null, new { @class = "btn btn-primary btn-block" })
+</p>*@
+
 
 <p>
-    @Html.ActionLink("Отчет о распределении гум. помощи", "Index", "Reports", null, new { @class = "btn btn-primary btn-block" })
+    @Html.ActionLink("Отчет юр.лиц на получение выплат по беременности и родам и на погребение", "Index", "LegalReportSections", null, new { @class = "btn btn-primary btn-block" })
 </p>
+
 @if (User.IsInRole("Admin"))
 {
     <p>
