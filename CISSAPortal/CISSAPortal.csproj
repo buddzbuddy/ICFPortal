@@ -199,6 +199,17 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="bin\CissaMeta.dll" />
+    <Content Include="bin\DocX.dll" />
+    <Content Include="bin\Intersoft.CISSA.BizService.dll" />
+    <Content Include="bin\Intersoft.CISSA.DataAccessLayer.dll" />
+    <Content Include="bin\Intersoft.CISSA.PdfFiller.dll" />
+    <Content Include="bin\Intersoft.Cissa.Report.dll" />
+    <Content Include="bin\Ionic.Zip.dll" />
+    <Content Include="bin\itextsharp.dll" />
+    <Content Include="bin\NPOI.dll" />
+    <Content Include="bin\Raven.Abstractions.dll" />
+    <Content Include="bin\Raven.Client.Lightweight.dll" />
     <Content Include="Connected Services\GRSService\CISSAPortal.GRSService.AddressServiceBundleSoapTypeAte.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Content>
