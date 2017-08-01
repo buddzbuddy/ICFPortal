@@ -195,6 +195,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Model\Data\DataModel.csdl" />
+    <Content Include="bin\Model\Data\DataModel.msl" />
+    <Content Include="bin\Model\Data\DataModel.ssdl" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>

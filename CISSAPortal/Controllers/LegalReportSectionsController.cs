@@ -174,10 +174,13 @@ namespace CISSAPortal.Controllers
             var LegalReportSectionDefId = new Guid("{EC14A952-D4D8-4EA8-90F5-50121CC4B173}");
             var BirthInfoOnPayBenefitDefId = new Guid("{46C27FED-B9E0-4DAA-9DD4-F984A526D9B5}");
             var DeadInfoOnPayBenefitDefId = new Guid("{89ADB43B-0D29-4287-AF5B-0E0DCED18B01}");
+            var personDefId = new Guid("{D71CE61A-9B59-4B5E-8713-8131DBB5BA02}");
             var portalStateTypeId = new Guid("{D6D8589D-46EF-4323-B25F-BE312260F1BB}");
             var positionId = new Guid("{DF1C36BB-85B0-4C53-8729-F18A5D6615F4}");
+            var maleEnumItemId = new Guid("{74C6C7FE-53C6-4492-A62F-65A7A49AB644}");
+            var femaleEnumItemId = new Guid("{56E07640-5B5B-47FA-832D-A6639F36EB71}");
 
-            
+
             if (obj.Company != null)
             {
                 var company = obj.Company;
@@ -204,6 +207,50 @@ namespace CISSAPortal.Controllers
                     docRepo.Save(reportDoc);
                     docRepo.SetDocState(reportDoc, portalStateTypeId);
                     
+                    foreach(var objItem in obj.BirthInfoOnPayBenefits)
+                    {
+                        var item = docRepo.New(BirthInfoOnPayBenefitDefId);
+                        item["LegalReportSection"] = reportDoc.Id;
+                        var person = docRepo.New(personDefId);
+                        person["PIN"] = objItem.PIN;
+                        person["LastName"] = objItem.LastName;
+                        person["FirstName"] = objItem.FirstName;
+                        person["MiddleName"] = objItem.MiddleName;
+                        person["BirthDate"] = objItem.BirthDate;
+                        docRepo.Save(person);
+                        item["Person"] = person.Id;
+                        item["Nationality"] = objItem.Citizenship;
+                        item["BirthNumberCertificate"] = objItem.BirthCertificateNo;
+                        item["DateFrom"] = objItem.DateFrom;
+                        item["DateTo"] = objItem.DateTo;
+                        item["SixDay"] = objItem.SixDay;
+                        item["Highlands"] = objItem.Highlands;
+                        item["SalaryOf3Months"] = objItem.SalaryOf3Months;
+                        item["BirthCountWorkingDays"] = objItem.BirthCountWorkingDays;
+                        item["AmountAverageEarnings"] = objItem.AmountAverageEarnings;
+                        item["BirthCashThrowLegalOrg"] = objItem.BirthCashThrowLegalOrg;
+                        item["BirthCadThrowRepublicBudget"] = objItem.BirthCadThrowRepublicBudget;
+                        item["BirthTotalAmount"] = objItem.BirthTotalAmount;
+                        docRepo.Save(item);
+                    }
+
+                    foreach (var objItem in obj.DeadInfoOnPayBenefits)
+                    {
+                        var item = docRepo.New(DeadInfoOnPayBenefitDefId);
+                        item["LegalReportSection"] = reportDoc.Id;
+                        var person = docRepo.New(personDefId);
+                        person["PIN"] = objItem.PIN;
+                        person["LastName"] = objItem.LastName;
+                        person["FirstName"] = objItem.FirstName;
+                        person["MiddleName"] = objItem.MiddleName;
+                        person["BirthDate"] = objItem.BirthDate;
+                        docRepo.Save(person);
+                        item["Person"] = person.Id;
+                        item["Citizenship"] = objItem.Citizenship;
+                        item["DeadCadThrowRepublicBudget"] = objItem.DeadCadThrowRepublicBudget;
+                        docRepo.Save(item);
+                    }
+
                 }
             }
 
