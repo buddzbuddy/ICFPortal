@@ -172,6 +172,8 @@ namespace IdentitySample.Models
         [Required]
         [Display(Name = "Ед. измерения")]
         public string Name { get; set; }
+
+        public Guid? EnumId { get; set; }
     }
 
     public class DocumentState
@@ -382,6 +384,64 @@ namespace IdentitySample.Models
         public string Name { get; set; }
     }
 
+    public class HumDistributionPlan
+    {
+        [Key]
+        public int Id { get; set; }
+        
+        [Required]
+        [ForeignKey("Company")]
+        public int? CompanyId { get; set; }
+        public virtual Company Company { get; set; }
+        [Display(Name = "Дата предоставления плана")]
+        [Required]
+        public DateTime? Date { get; set; }
+
+        public virtual ICollection<HumDistributionPlanItem> HumDistributionPlanItems { get; set; }
+    }
+
+    public class HumDistributionPlanItem
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [ForeignKey("HumDistributionPlan")]
+        public int? HumDistributionPlanId { get; set; }
+        public virtual HumDistributionPlan HumDistributionPlan { get; set; }
+
+        [Required]
+        [Display(Name = "Потребитель / Организация")]
+        public string Consumer { get; set; }
+
+        [Required]
+        [Display(Name = "Регион")]
+        public string Region { get; set; }
+
+        [Display(Name = "Адрес")]
+        public string Address { get; set; }
+
+        [Required]
+        [Display(Name = "Наименование гум. помощи (товара)")]
+        public string ProductName { get; set; }
+
+        [Display(Name = "Ед. изм.")]
+        [ForeignKey("UnitType")]
+        public int UnitTypeId { get; set; }
+        public virtual UnitType UnitType { get; set; }
+
+        [Required]
+        [Display(Name = "Кол-во")]
+        public int? Amount { get; set; }
+
+        [Required]
+        [Display(Name = "Вес (кг)")]
+        public double? Weight { get; set; }
+
+        [Required]
+        [Display(Name = "Сумма (сом)")]
+        public decimal? Sum { get; set; }
+    }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -416,5 +476,9 @@ namespace IdentitySample.Models
         public DbSet<Gender> Genders { get; set; }
 
         public DbSet<BirthInfoOnPayBenefit> BirthInfoOnPayBenefits { get; set; }
+
+        public DbSet<HumDistributionPlan> HumDistributionPlans { get; set; }
+
+        public DbSet<HumDistributionPlanItem> HumDistributionPlanItems { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@model IdentitySample.Models.VerifyCodeViewModel
 @{
-    ViewBag.Title = "Enter Verification Code";
+    ViewBag.Title = "Введите код верификации";
 }
 
 <h2>@ViewBag.Title.</h2>
@@ -8,7 +8,7 @@
 @using (Html.BeginForm("VerifyCode", "Account", new { ReturnUrl = Model.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" })) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary("", new { @class = "text-danger" })
-    @Html.Hidden("provider", @Model.Provider)
+    @Html.Hidden("provider", Model.Provider)
     <h4>@ViewBag.Status</h4>
     <hr />
     <div class="form-group">

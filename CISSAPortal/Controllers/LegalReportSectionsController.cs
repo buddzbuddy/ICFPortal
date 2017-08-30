@@ -164,9 +164,9 @@ namespace CISSAPortal.Controllers
                     return RedirectToAction("Details", new { id = reportId });
                 }
                 else
-                    return HttpNotFound("Report not found! Id=" + reportId);
+                    return HttpNotFound("Отчет не найден! Id=" + reportId);
             }
-            return HttpNotFound("State of '" + stateObj.Name + "' not found!");
+            return HttpNotFound("Статус с кодом '" + code + "' не найден!");
         }
 
         void SendToCissa(LegalReportSection obj)

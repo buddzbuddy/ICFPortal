@@ -22,8 +22,8 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Главная", "Index", "Home")</li>
-                    <li>@Html.ActionLink("О портале", "About", "Home")</li>
-                    <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>
+                    @*<li>@Html.ActionLink("О портале", "About", "Home")</li>
+                    <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>*@
                     @if (Request.IsAuthenticated)
                     {
                         <li>@Html.ActionLink("Отчеты и заявки", "Index", "Datas")</li>

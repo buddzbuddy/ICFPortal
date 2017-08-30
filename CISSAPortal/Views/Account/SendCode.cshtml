@@ -1,6 +1,6 @@
 ﻿@model IdentitySample.Models.SendCodeViewModel
 @{
-    ViewBag.Title = "Send Verification Code";
+    ViewBag.Title = "Отправить код верификации";
 }
 
 <h2>@ViewBag.Title.</h2>
@@ -9,7 +9,7 @@
     @Html.AntiForgeryToken()
     <div class="row">
         <div class="col-md-8">
-            Two Factor Authentication Provider:
+            @*Two Factor Authentication Provider:*@Выберите поставщика двухфакторной аутентификации (куда отправить код подтверждения?):
             @Html.DropDownListFor(model => model.SelectedProvider, Model.Providers)
             <input type="submit" value="Отправить" class="btn btn-default" />
         </div>

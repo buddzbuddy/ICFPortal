@@ -312,6 +312,9 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Connected Services\GRSService\AddressApi.wsdl" />
+    <Content Include="Model\Data\DataModel.csdl" />
+    <Content Include="Model\Data\DataModel.msl" />
+    <Content Include="Model\Data\DataModel.ssdl" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -332,7 +335,9 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\UsersAdmin\Index.cshtml" />
     <Content Include="Views\UsersAdmin\Edit.cshtml" />
@@ -390,6 +395,8 @@
     <Compile Include="Controllers\DeadInfoOnPayBenefitsController.cs" />
     <Compile Include="Controllers\DocumentStatesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HumDistributionPlanItemsController.cs" />
+    <Compile Include="Controllers\HumDistributionPlansController.cs" />
     <Compile Include="Controllers\LegalReportSectionsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ReportItemsController.cs" />
@@ -454,6 +461,16 @@
     <Content Include="Views\BirthInfoOnPayBenefits\Details.cshtml" />
     <Content Include="Views\BirthInfoOnPayBenefits\Edit.cshtml" />
     <Content Include="Views\BirthInfoOnPayBenefits\Index.cshtml" />
+    <Content Include="Views\HumDistributionPlans\Create.cshtml" />
+    <Content Include="Views\HumDistributionPlans\Delete.cshtml" />
+    <Content Include="Views\HumDistributionPlans\Details.cshtml" />
+    <Content Include="Views\HumDistributionPlans\Edit.cshtml" />
+    <Content Include="Views\HumDistributionPlans\Index.cshtml" />
+    <Content Include="Views\HumDistributionPlanItems\Create.cshtml" />
+    <Content Include="Views\HumDistributionPlanItems\Delete.cshtml" />
+    <Content Include="Views\HumDistributionPlanItems\Details.cshtml" />
+    <Content Include="Views\HumDistributionPlanItems\Edit.cshtml" />
+    <Content Include="Views\HumDistributionPlanItems\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
