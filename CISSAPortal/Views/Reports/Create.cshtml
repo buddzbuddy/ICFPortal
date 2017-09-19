@@ -179,28 +179,28 @@
     @Scripts.Render("~/bundles/jqueryui")
     <script>
         var prev_report_initializer =
-            {
-                init: function () {
-                    prev_report_initializer.getPrevReportItems();
-                },
-                getPrevReportItems: function () {
-                    $.getJSON('/Reports/GetPrevReportItems?planId=' + $('#HumDistributionPlanId').val(), function (data) {
-                        if (data.result) {
-                            if (data.items != null && data.items.length) {
-                                $(data.items).each(function () {
-                                    var item = this;
-                                    var planItemId = item.HumDistributionPlanItemId;
-                                    $('tr[data-itemid="' + planItemId + '"] input.prev_balance_amount').val(item.BalanceAmount);
-                                    $('tr[data-itemid="' + planItemId + '"] input.prev_balance_sum').val(item.BalanceSum);
-                                });
-                            }
+        {
+            init: function () {
+                prev_report_initializer.getPrevReportItems();
+            },
+            getPrevReportItems: function () {
+                $.getJSON('@Url.Action("GetPrevReportItems", "Reports")' + '?planId=' + $('#HumDistributionPlanId').val(), function (data) {
+                    if (data.result) {
+                        if (data.items != null && data.items.length) {
+                            $(data.items).each(function () {
+                                var item = this;
+                                var planItemId = item.HumDistributionPlanItemId;
+                                $('tr[data-itemid="' + planItemId + '"] input.prev_balance_amount').val(item.BalanceAmount);
+                                $('tr[data-itemid="' + planItemId + '"] input.prev_balance_sum').val(item.BalanceSum);
+                            });
                         }
-                        else {
-                            alert(data.message);
-                        }
-                    });
-                }
-            };
+                    }
+                    else {
+                        alert(data.message);
+                    }
+                });
+            }
+        };
         $(function () {
             $("#Date").datepicker();
             prev_report_initializer.init();

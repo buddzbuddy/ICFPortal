@@ -398,7 +398,6 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="BLL\LegalReportManager.cs" />
     <Compile Include="Connected Services\GRSService\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -419,6 +418,8 @@
     <Compile Include="Controllers\ReportItemsController.cs" />
     <Compile Include="Controllers\ReportsController.cs" />
     <Compile Include="Controllers\RolesAdminController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Controllers\SummaryViewController.cs" />
     <Compile Include="Controllers\UnitTypesController.cs" />
     <Compile Include="Controllers\UsersAdminController.cs" />
     <Compile Include="Filters\LegalPersonAttribute.cs" />
@@ -429,6 +430,8 @@
     <Compile Include="Models\AdminViewModel.cs" />
     <Compile Include="Models\Entities.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\MonitorViewModel.cs" />
+    <Compile Include="Models\SearchViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -492,6 +495,7 @@
     <Content Include="Views\Reports\ReportListPartial.cshtml" />
     <Content Include="TempDoc\tempPlan.xlsx" />
     <Content Include="Views\HumDistributionPlans\Delete.cshtml" />
+    <Content Include="Views\Search\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -501,6 +505,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\SummaryView\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

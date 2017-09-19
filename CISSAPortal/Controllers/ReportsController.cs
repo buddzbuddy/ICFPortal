@@ -69,12 +69,12 @@ namespace CISSAPortal.Controllers
         }
 
         // GET: Reports/Create
-        public async Task<ActionResult> Create(int? humDistributionPlanId)
+        public ActionResult Create(int? humDistributionPlanId)
         {
             if (humDistributionPlanId == null)
                 return RedirectToAction("SelectHumDistributionPlan");
 
-            var user = await UserManager.FindByNameAsync(User.Identity.Name);
+            var user = UserManager.FindByNameAsync(User.Identity.Name).GetAwaiter().GetResult();
             var report = new Report { UserId = user.Id, User = user, HumDistributionPlanId = humDistributionPlanId };
 
             //Init items from plan

@@ -41,16 +41,16 @@ namespace CISSAPortal.Controllers
 
         public FileResult DownloadExcel()
         {
+
             string path = Server.MapPath("~/Doc/Plan.xlsx");//"/Doc/Plan.xlsx";
             return File(path, "application/vnd.ms-excel", "Plan.xlsx");
         }
-
-        // GET: HumDistributionPlans/Create
+        
         public async Task<ActionResult> Create()
         {
+
             var uManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var userInfo = await uManager.FindByNameAsync(User.Identity.Name);
-            //ViewBag.CompanyId = new SelectList(db.Companies, "Id", "Name");
             var model = new HumDistributionPlan();
             if (userInfo.Companies.Count > 0)
             {
@@ -146,11 +146,9 @@ namespace CISSAPortal.Controllers
                                 else
                                 {
                                     if (item.Consumer == "" || item.Consumer == null) messages.Add("Поле Consumer не может быть пустым");
-                                    //if (item.Address == "" || item.Address == null) messages.Add("Поле Address не может быть пустым");
                                     if (item.Region == "" || item.Region == null) messages.Add("Поле Region не может быть пустым");
                                     if (item.ProductName == "" || item.ProductName == null) messages.Add("Поле ProductName не может быть пустым");
                                     if (item.Amount == null) messages.Add("Поле Amount не может быть пустым");
-                                    //if (item.Weight == null) messages.Add("Поле Weight не может быть пустым");
                                     if (item.Sum == null) messages.Add("Поле Sum не может быть пустым");
                                     if (unitType == null) messages.Add("Поле Unit не может быть пустым, или оно не найдено в справочнике");
                                 }
@@ -225,7 +223,7 @@ namespace CISSAPortal.Controllers
             return View(humDistributionPlan);
         }
 
-        // GET: HumDistributionPlans/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -241,7 +239,6 @@ namespace CISSAPortal.Controllers
         }
 
 
-        // GET: HumDistributionPlans/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -257,9 +254,6 @@ namespace CISSAPortal.Controllers
             return View(humDistributionPlan);
         }
 
-        // POST: HumDistributionPlans/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,CompanyId,Date")] HumDistributionPlan humDistributionPlan)
@@ -274,7 +268,6 @@ namespace CISSAPortal.Controllers
             return View(humDistributionPlan);
         }
 
-        // GET: HumDistributionPlans/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -289,7 +282,6 @@ namespace CISSAPortal.Controllers
             return View(humDistributionPlan);
         }
 
-        // POST: HumDistributionPlans/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
