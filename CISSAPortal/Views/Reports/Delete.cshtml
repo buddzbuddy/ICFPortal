@@ -1,14 +1,14 @@
 ﻿@model IdentitySample.Models.Report
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Удалить";
 }
 
-<h2>Delete</h2>
+<h2>Удалить</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Вы уверены что хотите удалить?</h3>
 <div>
-    <h4>Report</h4>
+    <h4>Отчет о распределении гум. помощи</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -28,11 +28,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Month)
+            @Html.DisplayNameFor(model => model.Quarter)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Month)
+            @Html.DisplayFor(model => model.Quarter)
         </dd>
 
         <dt>

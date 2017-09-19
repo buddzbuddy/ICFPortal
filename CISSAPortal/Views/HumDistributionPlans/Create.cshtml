@@ -7,14 +7,22 @@
 <h2>Ввод плана распределения</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "HumDistributionPlans", FormMethod.Post, new { enctype = "multipart/form-data" })) 
 {
     @Html.AntiForgeryToken()
-    
+
+    if (ViewBag.Messages != null)
+    {
+        foreach (var item in ViewBag.Messages)
+        {
+            <p>@item</p>
+        }
+    }
+
     <div class="form-horizontal">
-        <h4>HumDistributionPlan</h4>
+        <h4>План распределения (разнарядка)</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
         <div class="form-group">
             @Html.LabelFor(model => model.Company.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -33,17 +41,43 @@
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
             </div>
         </div>
-
+        <div class="form-group">
+            @Html.LabelFor(model => model.CurrencyISOCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CurrencyISOCode, new { htmlAttributes = new { @class = "form-control", list = "Currencies" } })
+                <datalist id="Currencies">
+                    @foreach (var currency in ViewBag.Currencies)
+                    {
+                        <option value="@currency">@currency</option>
+                    }
+                </datalist>
+                @Html.ValidationMessageFor(model => model.CurrencyISOCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="bg-info">
+            <h2>Загрузить Excel</h2>
+            <div class="form-group">
+                <div class="control-label col-md-2">Скачать форму:</div>
+                <div class="col-md-10">
+                    <a href="@Url.Action("DownloadExcel")"><img src="~/excel.ico" width="25" height="25" title="Download Excel format" alt="excel" /></a>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="control-label col-md-2">Excel:</div>
+                <div class="col-md-10">
+                    <input type="file" id="FileUpload" name="FileUpload" class="" />
+                </div>
+            </div>
+        </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Создать" class="btn btn-default" />
             </div>
         </div>
     </div>
 }
-
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Назад к списку", "Index")
 </div>
 @section styles{
     @Styles.Render("~/Content/jquery-ui-css")

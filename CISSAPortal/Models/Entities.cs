@@ -83,12 +83,12 @@ namespace IdentitySample.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required, Range(2017, 2099)]
         [Display(Name ="Год")]
-        public int Year { get; set; }
-        [Required]
-        [Display(Name = "Месяц")]
-        public int Month { get; set; }
+        public int? Year { get; set; }
+        [Required, Range(1, 4)]
+        [Display(Name = "Квартал")]
+        public int? Quarter { get; set; }
         [Required]
         [Display(Name = "Дата")]
         public DateTime? Date { get; set; }
@@ -106,6 +106,10 @@ namespace IdentitySample.Models
         public int? StateId { get; set; }
         public virtual DocumentState State { get; set; }
 
+        [ForeignKey("HumDistributionPlan")]
+        public int? HumDistributionPlanId { get; set; }
+        public virtual HumDistributionPlan HumDistributionPlan { get; set; }
+
         public virtual ICollection<ReportItem> ReportItems { get; set; }
     }
 
@@ -115,53 +119,57 @@ namespace IdentitySample.Models
         public int Id { get; set; }
 
         [ForeignKey("Report")]
-        public int ReportId { get; set; }
+        public int? ReportId { get; set; }
         public virtual Report Report { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "Организация, получившая гум.помощь")]
         public string OrganizationName { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "Регион")]
         public string Region { get; set; }
 
-        [Display(Name = "Адрес")]
+        //[Display(Name = "Адрес")]
         public string Address { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "Наименование гум. груза")]
         public string CargoName { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "Ед. измерения")]
         [ForeignKey("UnitType")]
-        public int UnitTypeId { get; set; }
+        public int? UnitTypeId { get; set; }
         public virtual UnitType UnitType { get; set; }
 
-        [Required]
+        //[Required]
         [Display(Name = "Вес (план)")]
-        public double PlanedAmount { get; set; }
-        [Required]
+        public double? PlanedAmount { get; set; }
+        //[Required]
         [Display(Name = "Сумма (план)")]
-        public decimal PlanedSum { get; set; }
+        public decimal? PlanedSum { get; set; }
 
-        [Display(Name = "Вес (факт)")]
-        public double FactAmount { get; set; }
-        [Display(Name = "Сумма (факт)")]
-        public decimal FactSum { get; set; }
+        [Display(Name = "Кол-во")]
+        public double? FactAmount { get; set; }
+        [Display(Name = "Сумма")]
+        public decimal? FactSum { get; set; }
 
-        [Required]
-        [Display(Name = "Вес (остаток)")]
-        public double BalanceAmount { get; set; }
-        [Required]
-        [Display(Name = "Сумма (остаток)")]
-        public decimal BalanceSum { get; set; }
+        //[Required]
+        [Display(Name = "Кол-во")]
+        public double? BalanceAmount { get; set; }
+        //[Required]
+        [Display(Name = "Сумма")]
+        public decimal? BalanceSum { get; set; }
 
-        [Display(Name = "Вес (резерв для ЧС)")]
-        public double ReserveAmount { get; set; }
-        [Display(Name = "Сумма (резерв для ЧС)")]
-        public decimal ReserveSum { get; set; }
+        [Display(Name = "Кол-во")]
+        public double? ReserveAmount { get; set; }
+        [Display(Name = "Сумма")]
+        public decimal? ReserveSum { get; set; }
+
+        [ForeignKey("HumDistributionPlanItem")]
+        public int? HumDistributionPlanItemId { get; set; }
+        public HumDistributionPlanItem HumDistributionPlanItem { get; set; }
     }
 
     public class UnitType
@@ -396,8 +404,32 @@ namespace IdentitySample.Models
         [Display(Name = "Дата предоставления плана")]
         [Required]
         public DateTime? Date { get; set; }
+        /// <summary>
+        /// Foreign Key to State
+        /// </summary>
+        [ForeignKey("State")]
+        public int? StateId { get; set; }
+        public virtual DocumentState State { get; set; }
+
+        [Required]
+        [MaxLength(3), MinLength(3)]
+        [Display(Name = "Валюта")]
+        public string CurrencyISOCode { get; set; }
+
+        [Display(Name = "Курс в сомах")]
+        public decimal? CurrencyRate { get; set; }
+
+        [Display(Name = "Дата курса")]
+        public DateTime? CurrencyRateDate { get; set; }
+
+        [Display(Name = "Дата выдачи заключения")]
+        public DateTime? CertificateDate { get; set; }
+
+        [Display(Name = "№ заключения")]
+        public string CertificateNo { get; set; }
 
         public virtual ICollection<HumDistributionPlanItem> HumDistributionPlanItems { get; set; }
+        public virtual ICollection<Report> Reports { get; set; }
     }
 
     public class HumDistributionPlanItem
@@ -434,12 +466,41 @@ namespace IdentitySample.Models
         [Display(Name = "Кол-во")]
         public int? Amount { get; set; }
 
-        [Required]
-        [Display(Name = "Вес (кг)")]
+        //[Required]
+        [Display(Name = "Вес")]
         public double? Weight { get; set; }
 
         [Required]
-        [Display(Name = "Сумма (сом)")]
+        [Display(Name = "Сумма")]
+        public decimal? Sum { get; set; }
+
+        [Display(Name = "Сумма в сомах (конвертация в день выдачи заключения)")]
+        public decimal? ConvertedSum
+        {
+            get
+            {
+                if (HumDistributionPlan != null)
+                {
+                    if(HumDistributionPlan.CurrencyRate != null)
+                    {
+                        return Sum * HumDistributionPlan.CurrencyRate;
+                    }
+                }
+                return null;
+            }
+        }
+    }
+    public class HumDistributionPlanItemModel
+    {
+        public int? HumDistributionPlanId { get; set; }
+        public string Consumer { get; set; }
+        public string Region { get; set; }
+        public string Address { get; set; }
+        public string ProductName { get; set; }
+        public string Unit { get; set; }
+        
+        public int? Amount { get; set; }
+        
         public decimal? Sum { get; set; }
     }
 

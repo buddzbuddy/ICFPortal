@@ -77,6 +77,9 @@
     <Reference Include="itextsharp">
       <HintPath>..\..\..\..\..\My_Applications\CISSASupport\ConsoleApplicationNew\bin\Debug\itextsharp.dll</HintPath>
     </Reference>
+    <Reference Include="LinqToExcel, Version=1.11.0.0, Culture=neutral, PublicKeyToken=9c8ea65a58f03f1f, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\LinqToExcel.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
     </Reference>
@@ -137,6 +140,15 @@
     </Reference>
     <Reference Include="Raven.Client.Lightweight">
       <HintPath>..\..\..\..\..\My_Applications\CISSASupport\ConsoleApplicationNew\bin\Debug\Raven.Client.Lightweight.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Data.Linq, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.Data.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Interfaces, Version=1.13.52.2, Culture=neutral, PublicKeyToken=0669cf0452175907, processorArchitecture=MSIL">
+      <HintPath>..\packages\LinqToExcel.1.11.0\lib\Remotion.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.1.4\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
@@ -301,6 +313,9 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Doc\CurrenciesReferenceList.xml" />
+    <Content Include="Doc\daily.xml" />
+    <Content Include="excel.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -315,6 +330,7 @@
     <Content Include="Model\Data\DataModel.csdl" />
     <Content Include="Model\Data\DataModel.msl" />
     <Content Include="Model\Data\DataModel.ssdl" />
+    <Content Include="Doc\Plan.xlsx" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -394,6 +410,7 @@
     <Compile Include="Controllers\DatasController.cs" />
     <Compile Include="Controllers\DeadInfoOnPayBenefitsController.cs" />
     <Compile Include="Controllers\DocumentStatesController.cs" />
+    <Compile Include="Controllers\ExchangeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HumDistributionPlanItemsController.cs" />
     <Compile Include="Controllers\HumDistributionPlansController.cs" />
@@ -462,7 +479,6 @@
     <Content Include="Views\BirthInfoOnPayBenefits\Edit.cshtml" />
     <Content Include="Views\BirthInfoOnPayBenefits\Index.cshtml" />
     <Content Include="Views\HumDistributionPlans\Create.cshtml" />
-    <Content Include="Views\HumDistributionPlans\Delete.cshtml" />
     <Content Include="Views\HumDistributionPlans\Details.cshtml" />
     <Content Include="Views\HumDistributionPlans\Edit.cshtml" />
     <Content Include="Views\HumDistributionPlans\Index.cshtml" />
@@ -471,6 +487,11 @@
     <Content Include="Views\HumDistributionPlanItems\Details.cshtml" />
     <Content Include="Views\HumDistributionPlanItems\Edit.cshtml" />
     <Content Include="Views\HumDistributionPlanItems\Index.cshtml" />
+    <Content Include="Views\Reports\SelectHumDistributionPlan.cshtml" />
+    <Content Include="Views\Exchange\Index.cshtml" />
+    <Content Include="Views\Reports\ReportListPartial.cshtml" />
+    <Content Include="TempDoc\tempPlan.xlsx" />
+    <Content Include="Views\HumDistributionPlans\Delete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

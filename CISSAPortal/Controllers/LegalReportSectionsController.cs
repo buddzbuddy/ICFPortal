@@ -206,8 +206,8 @@ namespace CISSAPortal.Controllers
                     reportDoc["DebtBalanceEnd"] = obj.DebtBalanceEnd;
                     docRepo.Save(reportDoc);
                     docRepo.SetDocState(reportDoc, portalStateTypeId);
-                    
-                    foreach(var objItem in obj.BirthInfoOnPayBenefits)
+
+                    foreach (var objItem in obj.BirthInfoOnPayBenefits)
                     {
                         var item = docRepo.New(BirthInfoOnPayBenefitDefId);
                         item["LegalReportSection"] = reportDoc.Id;
@@ -253,7 +253,8 @@ namespace CISSAPortal.Controllers
 
                 }
             }
-
+            else
+                throw new ArgumentNullException(paramName: "Report.Company", message: "Компания не найдена!");
         }
 
         Guid GetLegalPerson(WorkflowContext context, LegalReportSection obj)

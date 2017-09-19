@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="windows-1251" ?>
+<ReferenceList Name="Currencies Reference List">
+  <Currency ISOCode="FAKE">
+    <Nominal>1</Nominal>
+  </Currency>
+  <Currency ISOCode="AED">
+    <Nominal>1</Nominal>
+  </Currency>
+<Currency ISOCode="AFN">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="AMD">
+<Nominal>10</Nominal>
+</Currency>
+<Currency ISOCode="AUD">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="AZN">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="BGN">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="BRL">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="BYN">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="BYR">
+<Nominal>100</Nominal>
+</Currency>
+<Currency ISOCode="CAD">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="CHF">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="CNY">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="CZK">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="DKK">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="EUR">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="GBP">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="GEL">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="HUF">
+<Nominal>10</Nominal>
+</Currency>
+<Currency ISOCode="INR">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="IRR">
+<Nominal>10</Nominal>
+</Currency>
+<Currency ISOCode="JPY">
+<Nominal>10</Nominal>
+</Currency>
+<Currency ISOCode="KRW">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="KWD">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="KZT">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="MDL">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="MNT">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="MYR">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="NOK">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="NZD">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="PKR">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="PLN">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="RUB">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="SAR">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="SEK">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="SGD">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="TJS">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="TMT">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="TRY">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="TWD">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="UAH">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="USD">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="UZS">
+<Nominal>1</Nominal>
+</Currency>
+<Currency ISOCode="XDR">
+<Nominal>1</Nominal>
+</Currency>
+</ReferenceList>

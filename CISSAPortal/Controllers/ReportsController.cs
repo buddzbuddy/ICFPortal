@@ -42,6 +42,12 @@ namespace CISSAPortal.Controllers
             }
         }
 
+        public ActionResult ReportListPartial(int planId)
+        {
+            ViewBag.PlanId = planId;
+            return PartialView(db.Reports != null ? db.Reports.Where(x => x.HumDistributionPlanId == planId).ToList() : new List<Report>());
+        }
+
         // GET: Reports/Details/5
         public ActionResult Details(int? id)
         {
@@ -50,6 +56,11 @@ namespace CISSAPortal.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Report report = db.Reports.Find(id);
+            foreach(var item in report.ReportItems)
+            {
+                item.HumDistributionPlanItem = db.HumDistributionPlanItems.Find(item.HumDistributionPlanItemId);
+            }
+
             if (report == null)
             {
                 return HttpNotFound();
@@ -58,10 +69,40 @@ namespace CISSAPortal.Controllers
         }
 
         // GET: Reports/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create(int? humDistributionPlanId)
         {
-            ViewBag.UserId = new SelectList(db.Users, "Id", "Email");
-            return View();
+            if (humDistributionPlanId == null)
+                return RedirectToAction("SelectHumDistributionPlan");
+
+            var user = await UserManager.FindByNameAsync(User.Identity.Name);
+            var report = new Report { UserId = user.Id, User = user, HumDistributionPlanId = humDistributionPlanId };
+
+            //Init items from plan
+            var planItems = db.HumDistributionPlanItems.Where(x => x.HumDistributionPlanId == humDistributionPlanId).ToList();
+            var unitTypes = db.UnitTypes.ToList();
+            report.ReportItems = new List<ReportItem>();
+            foreach (var planItem in planItems)
+            {
+                var reportItem = new ReportItem
+                {
+                    HumDistributionPlanItemId = planItem.Id,
+                    HumDistributionPlanItem = planItem
+                };
+                report.ReportItems.Add(reportItem);
+            }
+
+            return View(report);
+        }
+
+        public ActionResult SelectHumDistributionPlan()
+        {
+            var humDistributionPlans = db.HumDistributionPlans.Include(h => h.Company).Where(x => x.Company.AspNetUser.UserName == User.Identity.Name);
+            return View(humDistributionPlans.ToList());
+        }
+
+        public ActionResult SelectPlan(int planId)
+        {
+            return RedirectToAction("Create", new { humDistributionPlanId = planId });
         }
 
         // POST: Reports/Create
@@ -69,17 +110,79 @@ namespace CISSAPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Year,Month,Date,UserId")] Report report)
+        public ActionResult Create([Bind(Include = "Id,Year,Quarter,Date,UserId,HumDistributionPlanId")] Report report)
         {
             if (ModelState.IsValid)
             {
                 db.Reports.Add(report);
                 db.SaveChanges();
+                
                 return RedirectToAction("Details", new { id = report.Id });
             }
 
             ViewBag.UserId = new SelectList(db.Users, "Id", "Email", report.UserId);
             return View(report);
+        }
+
+        [HttpPost]
+        public ActionResult CreateReport(Report report)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Reports.Add(report);
+                    db.SaveChanges();
+
+                    return Json(new { result = "success", report = report }, JsonRequestBehavior.AllowGet);
+                }
+                return Json(new { result = "error", message = ModelState.Where(x => x.Value.Errors.Count > 0).First().Value.Errors.First().ErrorMessage }, JsonRequestBehavior.AllowGet);
+            }
+            catch(Exception e)
+            {
+                return Json(new { result = "error", message = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        [HttpPost]
+        public JsonResult CreateItems(List<ReportItem> items)
+        {
+            try
+            {
+                if(items != null)
+                foreach(var item in items)
+                {
+                    if(item.HumDistributionPlanItemId != null)
+                    {
+                        db.ReportItems.Add(item);
+                        db.SaveChanges();
+                    }
+                }
+                
+                return Json(new { result = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { result = "error", message = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult GetPrevReportItems(int planId)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                var userInfo = UserManager.Users.First(x => x.UserName == User.Identity.Name);
+                var reportsByPlanId = db.Reports.Where(x => x.UserId == userInfo.Id && x.HumDistributionPlanId == planId).ToList();
+                if (reportsByPlanId.Count > 0)
+                {
+                    var prevReport = reportsByPlanId.First(x => x.Id == reportsByPlanId.Max(i => i.Id));
+                    return Json(new { result = true, items = prevReport.ReportItems.Select(x => new { x.BalanceAmount, x.BalanceSum, x.HumDistributionPlanItemId }).ToList() }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                    return Json(new { result = true, items = new List<ReportItem>() }, JsonRequestBehavior.AllowGet);
+            }
+            else
+                return Json(new { result = false, errorMessage = "Пользователь не авторизован!" }, JsonRequestBehavior.AllowGet);
         }
 
         // GET: Reports/Edit/5
