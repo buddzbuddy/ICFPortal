@@ -73,7 +73,7 @@
             }
         </dd>
     </dl>
-    @*@Html.ActionLink("Ввод распределения", "Create", "HumDistributionPlanItems", new { HumDistributionPlanId = Model.Id }, new { @class = "btn btn-primary" })*@
+    @Html.ActionLink("Ввод распределения", "Create", "HumDistributionPlanItems", new { HumDistributionPlanId = Model.Id }, new { @class = "btn btn-primary" })
     <table class="table table-striped table-bordered table-hover table-condensed">
         <thead>
             <tr>
@@ -154,8 +154,9 @@
         </tbody>
     </table>
 
-    @if(Model.Reports.Count > 0)
+    @if (Model.Reports.Count > 0)
     {
+        @Html.ActionLink("Создать отчет", "Create", "Reports", new { HumDistributionPlanId = Model.Id }, new { @class = "btn btn-primary" })
         Html.RenderAction("ReportListPartial", "Reports", new { planId = Model.Id });
     }
 </div>

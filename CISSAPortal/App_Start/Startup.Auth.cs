@@ -7,6 +7,7 @@ using Owin;
 using System;
 using Microsoft.Owin.Security;
 
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Web.config", Watch = true)]
 namespace IdentitySample
 {
     public partial class Startup

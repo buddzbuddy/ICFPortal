@@ -1,0 +1,30 @@
+﻿@model CISSAPortal.Models.PlanItemViewModel
+<tr>
+    @using (Html.BeginCollectionItem("Items"))
+    {
+        <td>
+            @Html.EditorFor(model => model.Consumer, new { htmlAttributes = new { @class = "form-control" } })
+        </td>
+        <td>
+            @Html.DropDownList("AreaId", ViewBag.AreaId as SelectList, htmlAttributes: new { @class = "form-control" })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+        </td>
+        <td>
+            @Html.DropDownList("UnitTypeId", ViewBag.UnitTypeId as SelectList, htmlAttributes: new { @class = "form-control" })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.Sum, new { htmlAttributes = new { @class = "form-control" } })
+        </td>
+        <td>
+            <a href="#" class="deleteRow btn btn-sm btn-danger">удалить</a>
+        </td>
+    }
+</tr>

@@ -489,6 +489,8 @@ namespace IdentitySample.Models
                 return null;
             }
         }
+
+        public virtual ICollection<ReportItem> ReportItems { get; set; }
     }
     public class HumDistributionPlanItemModel
     {
@@ -502,6 +504,31 @@ namespace IdentitySample.Models
         public int? Amount { get; set; }
         
         public decimal? Sum { get; set; }
+    }
+
+    public class Area
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "Область")]
+        public string Name { get; set; }
+    }
+
+    public class District
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "Район/Город")]
+        public string Name { get; set; }
+
+        [Display(Name = "Область")]
+        [ForeignKey("Area")]
+        public int AreaId { get; set; }
+        public virtual Area Area { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -541,5 +568,9 @@ namespace IdentitySample.Models
         public DbSet<HumDistributionPlan> HumDistributionPlans { get; set; }
 
         public DbSet<HumDistributionPlanItem> HumDistributionPlanItems { get; set; }
+
+        public System.Data.Entity.DbSet<IdentitySample.Models.Area> Areas { get; set; }
+
+        public System.Data.Entity.DbSet<IdentitySample.Models.District> Districts { get; set; }
     }
 }

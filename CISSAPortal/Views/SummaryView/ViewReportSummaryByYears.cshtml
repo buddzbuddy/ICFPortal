@@ -1,0 +1,114 @@
+﻿@model CISSAPortal.Models.CompanyByYearsViewModel
+@{
+    ViewBag.Title = "Просмотр организации по годам";
+}
+
+<h2>Просмотр организации @Model.Company.Name по годам</h2>
+<hr />
+@if (Model.Years.Count > 0)
+{
+    <div class="form-horizontal clearfix">
+        @foreach (var year in Model.Years.OrderBy(x => x.Year))
+        {
+            <div class="col-md-4">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th colspan="4" class="text-center">
+                                @year.Year
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Years.First().Quarters.First().Quarter)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Years.First().Quarters.First().PlanSum)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Years.First().Quarters.First().FactSum)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Years.First().Quarters.First().Balance)
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var quarter in year.Quarters.OrderBy(x => x.Quarter))
+                        {
+                            <tr>
+                                <td>
+                                    @quarter.Quarter
+                                </td>
+                                <td>
+                                    @quarter.PlanSum
+                                </td>
+                                <td>
+                                    @quarter.FactSum
+                                </td>
+                                <td>
+                                    @quarter.Balance
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <span class="text-info">К сожалению данные отсутствуют</span>
+}
+<p>
+    <a href="javascript://" onclick="window.history.back()" class="btn btn-primary">Назад</a>
+</p>
+@if(Model.Years.Count > 0)
+{
+    <div class="form-horizontal clearfix">
+        @foreach(var year in Model.Years)
+        {
+            <div class="col-md-4">
+                <div id="chart_@year.Year"></div>
+            </div>
+        }
+    </div>
+}
+@section styles{
+    @Styles.Render("~/Content/c3ss")
+}
+@section scripts{
+    @Scripts.Render("~/Scripts/c3js")
+<script>
+    function createChart(year, plan, fact, balance) {
+        var colors = ['#0089ff', '#2cff02','#feff00'];
+        var chart = c3.generate({
+            bindto: '#chart_' + year,
+            data: {
+                columns: [
+                    ['по плану', plan],
+                    ['фактически', fact],
+                    ['остаток', balance]
+                ],
+                type: 'donut',
+                onclick: function (d, i) {
+                    console.log('', d, i);
+                },
+                colors: {
+                    'по плану': 'grey',
+                    'фактически': 'blue',
+                    'остаток': 'green'
+                }
+            },
+            donut: {
+                title: year + '-й год'
+            }
+        });
+    }
+    @foreach (var year in Model.Years)
+    {
+        @:createChart(@year.Year, @year.Quarters.Sum(x => x.PlanSum).ToString().Replace(',', '.'), @year.Quarters.Sum(x => x.FactSum).ToString().Replace(',', '.'), @year.Quarters.Sum(x => x.Balance).ToString().Replace(',', '.'));
+    }
+    </script>
+    }

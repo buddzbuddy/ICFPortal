@@ -1,0 +1,131 @@
+﻿@model CISSAPortal.Models.PlanViewModel
+
+@{
+    ViewBag.Title = "Ввод плана распределения";
+}
+
+<h2>Ввод плана распределения</h2>
+@ViewBag.RowsCount
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+
+    if (ViewBag.Messages != null)
+    {
+        foreach (var item in ViewBag.Messages)
+        {
+            <p>@item</p>
+        }
+    }
+
+    <div class="form-horizontal">
+        <h4>План распределения (разнарядка)</h4>
+        <hr />
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Company.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @if (Model.Company != null)
+                {
+                    @Html.DisplayFor(model => model.Company.Name)
+                }
+            </div>
+            @Html.HiddenFor(model => model.CompanyId)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.CurrencyISOCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CurrencyISOCode, new { htmlAttributes = new { @class = "form-control", list = "Currencies" } })
+                <datalist id="Currencies">
+                    @foreach (var currency in ViewBag.Currencies)
+                    {
+                        <option value="@currency">@currency</option>
+                    }
+                </datalist>
+                @Html.ValidationMessageFor(model => model.CurrencyISOCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items.First().Consumer)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items.First().Area.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items.First().Address)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items.First().ProductName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items.First().UnitType.Name)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items.First().Amount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Items.First().Sum)
+                    </th>
+                    <th>
+
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="editorRows">
+                @foreach (var item in Model.Items)
+                {
+                    Html.RenderPartial("BlankEditorRow", item);
+                }
+            </tbody>
+        </table>
+        <p>
+            @Html.ActionLink("Добавить строки...", "BlankEditorRow", null, new { id = "addItem", @class = "btn btn-primary btn-sm" })
+        </p>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Сохранить" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Назад к списку", "Index")
+</div>
+@section styles{
+    @Styles.Render("~/Content/jquery-ui-css")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    <script>
+        $(function () {
+            $("#Date").datepicker();
+            $("#addItem").click(function () {
+                $.ajax({
+                    url: this.href,
+                    cache: false,
+                    success: function (html) { $("#editorRows").append(html); }
+                });
+                return false;
+            });
+            $(document).delegate("a.deleteRow", "click", function (e) {
+                e.preventDefault();
+                $(this).closest("tr").remove();
+                return false;
+            });
+        });
+    </script>
+}

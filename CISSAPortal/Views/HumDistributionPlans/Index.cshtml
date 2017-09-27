@@ -19,8 +19,11 @@
 <p>@item</p>
         }
     }
-<p>
+@*<p>
     @Html.ActionLink("Создать план", "Create", null, new { @class = "btn btn-primary" })
+</p>*@
+<p>
+    @Html.ActionLink("Создать план", "CreateWithRows", null, new { @class = "btn btn-primary" })
 </p>
 <table class="table table-striped table-bordered table-hover table-condensed">
     <thead>

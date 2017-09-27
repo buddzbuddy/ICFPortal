@@ -30,6 +30,12 @@ namespace IdentitySample
                       "~/Content/themes/base/jquery-ui.css"));
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
                         "~/Scripts/jquery-ui-{version}.js"));
+
+            //added src for c3js: chart-builder-lib
+            bundles.Add(new StyleBundle("~/Content/c3ss")
+                .Include("~/Content/c3.css"));
+            bundles.Add(new ScriptBundle("~/Scripts/c3js")
+                .Include("~/Scripts/d3.js", "~/Scripts/c3.js"));
         }
     }
 }

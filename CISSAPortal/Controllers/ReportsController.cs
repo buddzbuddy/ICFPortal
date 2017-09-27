@@ -41,7 +41,7 @@ namespace CISSAPortal.Controllers
                 return View(db.Reports != null ? db.Reports.Where(x => x.UserId == currentUser.Id).ToList() : new List<Report>());
             }
         }
-
+        [AllowAnonymous]
         public ActionResult ReportListPartial(int planId)
         {
             ViewBag.PlanId = planId;
@@ -49,6 +49,7 @@ namespace CISSAPortal.Controllers
         }
 
         // GET: Reports/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)

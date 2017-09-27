@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IdentitySample.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,19 +25,41 @@ namespace CISSAPortal.Models
 
     public class RegionViewModel: MonitorItemViewModel
     {
-        public string Region { get; set; }
+        public string Name { get; set; }
     }
 
     public class CompanyViewModel: MonitorItemViewModel
     {
-        public int CompanyId { get; set; }
-        public string CompanyName { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
     }
+
+    public class CompanyByYearsViewModel
+    {
+        public int CompanyId { get; set; }
+        public Company Company { get; set; }
+        public List<YearViewModel> Years { get; set; }
+    }
+    public class YearViewModel
+    {
+        [Display(Name = "Год"), Range(2017, 2099)]
+        public int Year { get; set; }
+        public List<QuarterViewModel> Quarters { get; set; }
+    }
+    public class QuarterViewModel: MonitorItemViewModel
+    {
+        [Display(Name = "Квартал"), Range(1, 4)]
+        public int Quarter { get; set; }
+    }
+
 
     public abstract class MonitorItemViewModel
     {
+        [Display(Name = "План")]
         public decimal PlanSum { get; set; }
+        [Display(Name = "Факт.")]
         public decimal FactSum { get; set; }
+        [Display(Name = "Остаток")]
         public decimal Balance
         {
             get
@@ -44,5 +67,6 @@ namespace CISSAPortal.Models
                 return PlanSum - FactSum;
             }
         }
+        public List<int> PlanItems { get; set; }
     }
 }

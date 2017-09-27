@@ -20,6 +20,7 @@ using LinqToExcel;
 using System.Data.Entity.Validation;
 using System.Xml;
 using System.Configuration;
+using CISSAPortal.Models;
 
 namespace CISSAPortal.Controllers
 {
@@ -46,11 +47,11 @@ namespace CISSAPortal.Controllers
             return File(path, "application/vnd.ms-excel", "Plan.xlsx");
         }
         
-        public async Task<ActionResult> Create()
+        public ActionResult Create()
         {
 
             var uManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var userInfo = await uManager.FindByNameAsync(User.Identity.Name);
+            var userInfo = uManager.FindByNameAsync(User.Identity.Name).GetAwaiter().GetResult();
             var model = new HumDistributionPlan();
             if (userInfo.Companies.Count > 0)
             {
@@ -77,6 +78,7 @@ namespace CISSAPortal.Controllers
             }
             return View(model);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(HttpPostedFileBase FileUpload, [Bind(Include = "Id,CompanyId,Date,CurrencyISOCode")] HumDistributionPlan humDistributionPlan)
@@ -211,9 +213,15 @@ namespace CISSAPortal.Controllers
             ViewBag.Messages = messages.ToArray();
             humDistributionPlan.Company = db.Companies.Find(humDistributionPlan.CompanyId);
 
-            var xmldoc = new XmlDocument();
 
-            xmldoc.Load("http://www.nbkr.kg/XML/CurrenciesReferenceList.xml");
+            var xmldoc = new XmlDocument();
+            string urlOrigin = "http://www.nbkr.kg/XML/CurrenciesReferenceList.xml";
+            string urlFake = Server.MapPath("~/Doc/CurrenciesReferenceList.xml");
+            string url = urlFake;
+            if (ConfigurationManager.AppSettings.AllKeys.Contains("HasInternetConnection") && ConfigurationManager.AppSettings["HasInternetConnection"] == "yes")
+                url = urlOrigin;
+
+            xmldoc.Load(url);
 
             var xdoc = DocumentExtensions.ToXDocument(xmldoc);
 
@@ -223,6 +231,104 @@ namespace CISSAPortal.Controllers
             return View(humDistributionPlan);
         }
 
+        public ActionResult CreateWithRows()
+        {
+
+            var uManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var userInfo = uManager.FindByNameAsync(User.Identity.Name).GetAwaiter().GetResult();
+            var model = new PlanViewModel { Items = new List<PlanItemViewModel> { new PlanItemViewModel() } };
+            if (userInfo.Companies.Count > 0)
+            {
+                model.CompanyId = userInfo.Companies.First().Id;
+                model.Company = userInfo.Companies.First();
+
+                var xmldoc = new XmlDocument();
+                string urlOrigin = "http://www.nbkr.kg/XML/CurrenciesReferenceList.xml";
+                string urlFake = Server.MapPath("~/Doc/CurrenciesReferenceList.xml");
+                string url = urlFake;
+                if (ConfigurationManager.AppSettings.AllKeys.Contains("HasInternetConnection") && ConfigurationManager.AppSettings["HasInternetConnection"] == "yes")
+                    url = urlOrigin;
+
+                xmldoc.Load(url);
+
+                var xdoc = DocumentExtensions.ToXDocument(xmldoc);
+
+                ViewBag.Currencies = from c in xdoc.Root.Elements()
+                                     select c.Attribute("ISOCode").Value;
+                ViewBag.AreaId = new SelectList(db.Areas.ToList(), "Id", "Name");
+                ViewBag.UnitTypeId = new SelectList(db.UnitTypes.ToList(), "Id", "Name");
+            }
+            else
+            {
+                return RedirectToAction("Create", "Companies", new { userId = userInfo.Id, returnUrl = Request.Path });
+            }
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult CreateWithRows([Bind(Include = "CompanyId,Date,CurrencyISOCode,Items")] PlanViewModel plan)
+        {
+            if (plan.Items == null)
+            {
+                ModelState.AddModelError("", "Введите строки");
+            }
+            if (ModelState.IsValid)
+            {
+                var humPlan = new HumDistributionPlan
+                {
+                    CompanyId = plan.CompanyId,
+                    CurrencyISOCode = plan.CurrencyISOCode,
+                    Date = plan.Date
+                };
+                db.HumDistributionPlans.Add(humPlan);
+                foreach(var planItem in plan.Items)
+                {
+                    var humPlanItem = new HumDistributionPlanItem
+                    {
+                        Address = planItem.Address,
+                        Amount = planItem.Amount,
+                        Consumer = planItem.Consumer,
+                        HumDistributionPlanId = humPlan.Id,
+                        ProductName = planItem.ProductName,
+                        Sum = planItem.Sum,
+                        UnitTypeId = planItem.UnitTypeId,
+                        Region = db.Areas.Find(planItem.AreaId ?? 0).Name
+                    };
+                    db.HumDistributionPlanItems.Add(humPlanItem);
+                }
+                db.SaveChanges();
+                return RedirectToAction("Details", new { id = humPlan.Id });
+            }
+            plan.Company = db.Companies.Find(plan.CompanyId);
+            plan.Items = plan.Items == null ? new List<PlanItemViewModel>() : plan.Items;
+
+            var xmldoc = new XmlDocument();
+            string urlOrigin = "http://www.nbkr.kg/XML/CurrenciesReferenceList.xml";
+            string urlFake = Server.MapPath("~/Doc/CurrenciesReferenceList.xml");
+            string url = urlFake;
+            if (ConfigurationManager.AppSettings.AllKeys.Contains("HasInternetConnection") && ConfigurationManager.AppSettings["HasInternetConnection"] == "yes")
+                url = urlOrigin;
+
+            xmldoc.Load(url);
+
+            var xdoc = DocumentExtensions.ToXDocument(xmldoc);
+
+            ViewBag.Currencies = from c in xdoc.Root.Elements()
+                                 select c.Attribute("ISOCode").Value;
+
+            ViewBag.AreaId = new SelectList(db.Areas.ToList(), "Id", "Name");
+            ViewBag.UnitTypeId = new SelectList(db.UnitTypes.ToList(), "Id", "Name");
+
+            return View(plan);
+        }
+        public ActionResult BlankEditorRow()
+        {
+            var model = new PlanItemViewModel();
+            ViewBag.UnitTypeId = new SelectList(db.UnitTypes.ToList(), "Id", "Name");
+
+            ViewBag.AreaId = new SelectList(db.Areas.ToList(), "Id", "Name");
+
+            return PartialView(model);
+        }
         [AllowAnonymous]
         public ActionResult Details(int? id)
         {

@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using CISSAPortal.Filters;
+using System.Web.Mvc;
 
 namespace IdentitySample
 {
@@ -6,7 +7,7 @@ namespace IdentitySample
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
-            filters.Add(new HandleErrorAttribute());
+            filters.Add(new Log4NetExceptionFilter());
         }
     }
 }
