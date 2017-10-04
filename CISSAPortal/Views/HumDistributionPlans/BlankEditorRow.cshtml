@@ -1,21 +1,23 @@
-﻿@model CISSAPortal.Models.PlanItemViewModel
+﻿@model IdentitySample.Models.HumDistributionPlanItem
 <tr>
     @using (Html.BeginCollectionItem("Items"))
     {
-        <td>
-            @Html.EditorFor(model => model.Consumer, new { htmlAttributes = new { @class = "form-control" } })
+        <td style="display:flex">
+            @Html.DropDownList("ConsumerId", ViewBag.ConsumerId as SelectList, htmlAttributes: new { @class = "chosen-select col-md-10" })
+            &nbsp;<a title="Добавить элемент" class="btn btn-primary btn-sm addConsumerBtn" href="#modal-form" data-toggle="modal"><span class="glyphicon">+</span></a>
         </td>
         <td>
-            @Html.DropDownList("AreaId", ViewBag.AreaId as SelectList, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("AreaId", ViewBag.AreaId as SelectList, htmlAttributes: new { @class = "chosen-select" })
         </td>
         <td>
             @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
         </td>
-        <td>
-            @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+        <td style="display:flex">
+            @Html.DropDownList("ProductId", ViewBag.ProductId as SelectList, htmlAttributes: new { @class = "chosen-select col-md-10" })
+            &nbsp;<a title="Добавить элемент" class="btn btn-primary btn-sm addProductBtn" href="#modal-form" data-toggle="modal"><span class="glyphicon">+</span></a>
         </td>
         <td>
-            @Html.DropDownList("UnitTypeId", ViewBag.UnitTypeId as SelectList, htmlAttributes: new { @class = "form-control" })
+            @Html.DropDownList("UnitTypeId", ViewBag.UnitTypeId as SelectList, htmlAttributes: new { @class = "chosen-select" })
         </td>
         <td>
             @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })

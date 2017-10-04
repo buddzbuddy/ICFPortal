@@ -15,7 +15,7 @@ namespace CISSAPortal.Controllers
         // GET: SummaryView
         public ActionResult Index(MonitorViewModel model)
         {
-            ViewBag.Regions = db.HumDistributionPlanItems.Select(x => x.Region).Distinct().ToList();
+            ViewBag.Regions = db.HumDistributionPlanItems.Select(x => x.Area.Name).Distinct().ToList();
             var companies = db.Companies.Select(x => new { x.Id, x.Name }).ToList();
             companies.Insert(0, new { Id = -1, Name = "-" });
             ViewBag.CompanyId = new SelectList(companies, "Id", "Name");
@@ -56,7 +56,7 @@ namespace CISSAPortal.Controllers
             //var dbcompanies = db.Companies.ToList();
 
             var regions = new List<RegionViewModel>();
-            foreach(var planItems2 in planItems.GroupBy(x => x.Region))
+            foreach(var planItems2 in planItems.GroupBy(x => x.Area.Name))
             {
                 var region = new RegionViewModel();
                 region.Name = planItems2.Key;

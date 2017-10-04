@@ -20,10 +20,10 @@
         </tr>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.First().Consumer)
+                @Html.DisplayNameFor(model => model.First().Consumer.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.First().ProductName)
+                @Html.DisplayNameFor(model => model.First().Product.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.First().UnitType.Name)
@@ -56,10 +56,10 @@
             {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Consumer)
+                    @Html.DisplayFor(modelItem => item.Consumer.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ProductName)
+                    @Html.DisplayFor(modelItem => item.Product.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.UnitType.Name)

@@ -16,15 +16,9 @@
 {
     <div class="form-horizontal">
         <div class="form-group visible-lg-inline-block">
-            @Html.LabelFor(model => model.Region, htmlAttributes: new { @class = "control-label col-md-5" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Region, new { htmlAttributes = new { @class = "form-control", list = "Regions" } })
-                <datalist id="Regions">
-                    @foreach (var region in ViewBag.Regions)
-                    {
-                        <option>@region</option>
-                    }
-                </datalist>
+            @Html.LabelFor(model => model.AreaId, htmlAttributes: new { @class = "control-label col-md-5" })
+            <div class="col-md-8">
+                @Html.DropDownList("AreaId", null, htmlAttributes: new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group visible-lg-inline-block">
@@ -36,25 +30,13 @@
         <div class="form-group visible-lg-inline-block">
             @Html.LabelFor(model => model.Quarter, htmlAttributes: new { @class = "control-label col-md-5" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Quarter, new { htmlAttributes = new { @class = "form-control", list = "Quarters" } })
-                <datalist id="Quarters">
-                    @foreach (var q in ViewBag.Quarters)
-                    {
-                        <option>@q</option>
-                    }
-                </datalist>
+                @Html.EditorFor(model => model.Quarter, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
         <div class="form-group visible-lg-inline-block">
             @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-5" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control", list = "Years" } })
-                <datalist id="Years">
-                    @foreach (var y in ViewBag.Years)
-                    {
-                        <option>@y</option>
-                    }
-                </datalist>
+                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
 

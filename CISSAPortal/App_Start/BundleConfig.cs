@@ -35,7 +35,13 @@ namespace IdentitySample
             bundles.Add(new StyleBundle("~/Content/c3ss")
                 .Include("~/Content/c3.css"));
             bundles.Add(new ScriptBundle("~/Scripts/c3js")
-                .Include("~/Scripts/d3.js", "~/Scripts/c3.js"));
+                .Include("~/Scripts/d3/d3.js", "~/Scripts/c3.js"));
+
+            //added src for chosen: searchable ddl
+            bundles.Add(new StyleBundle("~/chosen_v1.8.2/css")
+                .Include("~/chosen_v1.8.2/chosen.css"));
+            bundles.Add(new ScriptBundle("~/chosen_v1.8.2/js")
+                .Include("~/chosen_v1.8.2/chosen.jquery.js"));
         }
     }
 }

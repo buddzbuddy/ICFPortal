@@ -21,6 +21,13 @@ using System.Data.Entity.Validation;
 using System.Xml;
 using System.Configuration;
 using CISSAPortal.Models;
+using System.Net.Mime;
+using System.Text;
+using Intersoft.Cissa.Report.Xls;
+using Intersoft.Cissa.Report.Styles;
+using System.Drawing;
+using NPOI.SS.UserModel;
+using System.IO;
 
 namespace CISSAPortal.Controllers
 {
@@ -32,7 +39,7 @@ namespace CISSAPortal.Controllers
         // GET: HumDistributionPlans
         public ActionResult Index(string messages = "")
         {
-            if(messages != "")
+            if (messages != "")
             {
                 ViewBag.Messages = messages.Split(',');
             }
@@ -46,7 +53,7 @@ namespace CISSAPortal.Controllers
             string path = Server.MapPath("~/Doc/Plan.xlsx");//"/Doc/Plan.xlsx";
             return File(path, "application/vnd.ms-excel", "Plan.xlsx");
         }
-        
+
         public ActionResult Create()
         {
 
@@ -79,7 +86,7 @@ namespace CISSAPortal.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        /*[HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(HttpPostedFileBase FileUpload, [Bind(Include = "Id,CompanyId,Date,CurrencyISOCode")] HumDistributionPlan humDistributionPlan)
         {
@@ -117,7 +124,7 @@ namespace CISSAPortal.Controllers
                         var excelFile = new ExcelQueryFactory(pathToExcelFile);
                         var humDistributionPlanItems = from a in excelFile.Worksheet<HumDistributionPlanItemModel>(sheetName) select a;
                         var units = db.UnitTypes.ToList();
-                        
+
                         foreach (var item in humDistributionPlanItems)
                         {
                             try
@@ -199,7 +206,7 @@ namespace CISSAPortal.Controllers
                         db.Database.CurrentTransaction.Commit();
                         return RedirectToAction("Details", new { id = humDistributionPlan.Id });
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         messages.Add("Error on saving items: " + e.Message);
                         db.Database.CurrentTransaction.Rollback();
@@ -230,13 +237,13 @@ namespace CISSAPortal.Controllers
 
             return View(humDistributionPlan);
         }
-
+        */
         public ActionResult CreateWithRows()
         {
 
             var uManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var userInfo = uManager.FindByNameAsync(User.Identity.Name).GetAwaiter().GetResult();
-            var model = new PlanViewModel { Items = new List<PlanItemViewModel> { new PlanItemViewModel() } };
+            var model = new HumDistributionPlan { Items = new List<HumDistributionPlanItem> { new HumDistributionPlanItem() } };
             if (userInfo.Companies.Count > 0)
             {
                 model.CompanyId = userInfo.Companies.First().Id;
@@ -253,8 +260,10 @@ namespace CISSAPortal.Controllers
 
                 var xdoc = DocumentExtensions.ToXDocument(xmldoc);
 
-                ViewBag.Currencies = from c in xdoc.Root.Elements()
-                                     select c.Attribute("ISOCode").Value;
+                ViewBag.CurrencyISOCode = from c in xdoc.Root.Elements()
+                                     select new SelectListItem { Text = " " + c.Attribute("ISOCode").Value + " ", Value = c.Attribute("ISOCode").Value };
+                ViewBag.ConsumerId = new SelectList(db.Consumers.ToList(), "Id", "Name");
+                ViewBag.ProductId = new SelectList(db.Products.ToList(), "Id", "Name");
                 ViewBag.AreaId = new SelectList(db.Areas.ToList(), "Id", "Name");
                 ViewBag.UnitTypeId = new SelectList(db.UnitTypes.ToList(), "Id", "Name");
             }
@@ -265,11 +274,11 @@ namespace CISSAPortal.Controllers
             return View(model);
         }
         [HttpPost]
-        public ActionResult CreateWithRows([Bind(Include = "CompanyId,Date,CurrencyISOCode,Items")] PlanViewModel plan)
+        public ActionResult CreateWithRows([Bind(Include = "CompanyId,Date,CurrencyISOCode,Items")] HumDistributionPlan plan)
         {
             if (plan.Items == null)
             {
-                ModelState.AddModelError("", "Введите строки");
+                ModelState.AddModelError("", "Добавьте строки");
             }
             if (ModelState.IsValid)
             {
@@ -280,26 +289,16 @@ namespace CISSAPortal.Controllers
                     Date = plan.Date
                 };
                 db.HumDistributionPlans.Add(humPlan);
-                foreach(var planItem in plan.Items)
+                foreach (var planItem in plan.Items)
                 {
-                    var humPlanItem = new HumDistributionPlanItem
-                    {
-                        Address = planItem.Address,
-                        Amount = planItem.Amount,
-                        Consumer = planItem.Consumer,
-                        HumDistributionPlanId = humPlan.Id,
-                        ProductName = planItem.ProductName,
-                        Sum = planItem.Sum,
-                        UnitTypeId = planItem.UnitTypeId,
-                        Region = db.Areas.Find(planItem.AreaId ?? 0).Name
-                    };
-                    db.HumDistributionPlanItems.Add(humPlanItem);
+                    planItem.HumDistributionPlanId = humPlan.Id;
+                    db.HumDistributionPlanItems.Add(planItem);
                 }
                 db.SaveChanges();
                 return RedirectToAction("Details", new { id = humPlan.Id });
             }
             plan.Company = db.Companies.Find(plan.CompanyId);
-            plan.Items = plan.Items == null ? new List<PlanItemViewModel>() : plan.Items;
+            plan.Items = plan.Items == null ? new List<HumDistributionPlanItem>() : plan.Items;
 
             var xmldoc = new XmlDocument();
             string urlOrigin = "http://www.nbkr.kg/XML/CurrenciesReferenceList.xml";
@@ -312,9 +311,11 @@ namespace CISSAPortal.Controllers
 
             var xdoc = DocumentExtensions.ToXDocument(xmldoc);
 
-            ViewBag.Currencies = from c in xdoc.Root.Elements()
-                                 select c.Attribute("ISOCode").Value;
+            ViewBag.CurrencyISOCode = from c in xdoc.Root.Elements()
+                                      select new SelectListItem { Text = " " + c.Attribute("ISOCode").Value + " ", Value = c.Attribute("ISOCode").Value, Selected = c.Attribute("ISOCode").Value == plan.CurrencyISOCode };
 
+            ViewBag.ConsumerId = new SelectList(db.Consumers.ToList(), "Id", "Name");
+            ViewBag.ProductId = new SelectList(db.Products.ToList(), "Id", "Name");
             ViewBag.AreaId = new SelectList(db.Areas.ToList(), "Id", "Name");
             ViewBag.UnitTypeId = new SelectList(db.UnitTypes.ToList(), "Id", "Name");
 
@@ -322,13 +323,16 @@ namespace CISSAPortal.Controllers
         }
         public ActionResult BlankEditorRow()
         {
-            var model = new PlanItemViewModel();
-            ViewBag.UnitTypeId = new SelectList(db.UnitTypes.ToList(), "Id", "Name");
+            var model = new HumDistributionPlanItem();
 
+            ViewBag.ConsumerId = new SelectList(db.Consumers.ToList(), "Id", "Name");
+            ViewBag.ProductId = new SelectList(db.Products.ToList(), "Id", "Name");
             ViewBag.AreaId = new SelectList(db.Areas.ToList(), "Id", "Name");
+            ViewBag.UnitTypeId = new SelectList(db.UnitTypes.ToList(), "Id", "Name");
 
             return PartialView(model);
         }
+        
         [AllowAnonymous]
         public ActionResult Details(int? id)
         {
@@ -344,6 +348,94 @@ namespace CISSAPortal.Controllers
             return View(humDistributionPlan);
         }
 
+        [HttpPost]
+        public ActionResult Export(ExportViewModel model)
+        {
+            var cd = new ContentDisposition
+            {
+                FileName = "HumDistributionPlan.csv",
+                Inline = false
+            };
+            Response.AddHeader("Content-Disposition", cd.ToString());
+            return Content(model.Csv, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", Encoding.Default);
+        }
+
+        public FileResult GetFile(int planId)
+        {
+            var plan = db.HumDistributionPlans.Find(planId);
+            string filepath = "C://CissaFiles//Plan.xls";//Server.MapPath("~/Doc/ExcelPlan.xls");
+            using (var def = new XlsDef())
+            {
+
+                def.AddArea().AddRow().AddEmptyCell();
+                var s = def.AddArea().AddRow();
+                s.AddText("", 7);
+                s.AddText("Утверждаю", 3);
+                var s1 = def.AddArea().AddRow();
+                s1.AddText("", 7);
+                s1.AddText("Руководитель организации/Получатель", 3);
+                var s3 = def.AddArea().AddRow();
+                s3.AddText("", 7);
+                s3.AddText("______________________", 3);
+                var s4 = def.AddArea().AddRow();
+                s4.AddText("", 7);
+                s4.AddText("«    » _____________ 20___", 3);
+                def.AddArea().AddRow().AddEmptyCell();
+                var s5 = def.AddArea().AddRow();
+                s5.AddText("План распределения гуманитарной помощи получателя \"" + plan.Company.Name + "\"", 10);
+                s5.Style.HAlign = HAlignment.Center; //По центру
+                s5.Style.Bold();
+                var s6 = def.AddArea().AddRow();
+                s6.Style.HAlign = HAlignment.Center; //По центру         
+                s6.AddText("Дата: " + plan.Date.Value.ToShortDateString(), 10);
+
+                var h = def.AddArea().AddRow();
+                h.AddText("№");
+                h.AddText("Потребитель / Организация");
+                h.AddText("Регион");
+                h.AddText("Адрес");
+                h.AddText("Наименование гум. помощи (товара)");
+                h.AddText("Ед. изм.");
+                h.AddText("Кол-во");
+                h.AddText("Вес (кг)");
+                h.AddText("Сумма (у.е.)");
+                h.AddText("Примечание");
+                h.ShowAllBorders(true);
+                h.Style.FontStyle = FontStyle.Bold; //Шрифт жирный
+                h.Style.HAlign = HAlignment.Center; //По центру
+                h.Style.BgColor = IndexedColors.BLUE_GREY.Index; //48; Цвет шапки
+                h.Style.FontColor = IndexedColors.WHITE.Index; //Цвет шрифта
+                h.Style.WrapText = true;
+                h.Style.AutoWidth = true;
+                h.Style.AutoHeight = true;
+                int i = 1;
+                foreach(var item in plan.Items)
+                {
+                    var r = def.AddArea().AddRow();
+                    r.AddColumn().AddInt(i);
+                    r.AddColumn().AddText(item.Consumer.Name);
+                    r.AddColumn().AddText(item.Area.Name);
+                    r.AddColumn().AddText(item.Address);
+                    r.AddColumn().AddText(item.Product.Name);
+                    r.AddColumn().AddText(item.UnitType.Name);
+                    r.AddColumn().AddFloat(item.Amount ?? 0);
+                    r.AddColumn().AddText("");
+                    r.AddColumn().AddFloat((double)(item.Sum ?? 0));
+                    r.AddColumn().AddText("");
+                    r.ShowAllBorders(true);
+                    i++;
+                }
+                var builder = new XlsBuilder(def);
+                var workbook = builder.Build();
+
+                
+                using (var stream = new FileStream(filepath, FileMode.Create))
+                {
+                    workbook.Write(stream);
+                }
+                return File(filepath, "application/vnd.ms-excel", "Plan.xls");
+            }
+        }
 
         public ActionResult Edit(int? id)
         {
@@ -428,11 +520,11 @@ namespace CISSAPortal.Controllers
             var HumDistributionPlanItemDefId = new Guid("{EAA7299C-E4AF-4203-8D18-1733F639F902}");
             var portalStateTypeId = new Guid("{D6D8589D-46EF-4323-B25F-BE312260F1BB}");
             var positionId = new Guid("{DF1C36BB-85B0-4C53-8729-F18A5D6615F4}");
-            
+
             if (obj.Company != null)
             {
                 var company = obj.Company;
-                
+
                 var cissameta = new CissaMeta.MetaProxy();
                 var cissa_portal_users = cissameta.GetUsersByPositionId(positionId, company.OrgId ?? Guid.Empty);
                 if (cissa_portal_users != null && cissa_portal_users.Count() > 0)
@@ -445,21 +537,21 @@ namespace CISSAPortal.Controllers
                     reportDoc["LegalPerson"] = GetLegalPerson(context, obj);
                     reportDoc["PortalEntryId"] = obj.Id;
                     reportDoc["CurrencyISOCode"] = obj.CurrencyISOCode;
-                    reportDoc["TotalSum"] = obj.HumDistributionPlanItems.Sum(x => x.Sum);
+                    reportDoc["TotalSum"] = obj.Items.Sum(x => x.Sum);
                     docRepo.Save(reportDoc);
                     docRepo.SetDocState(reportDoc, portalStateTypeId);
 
-                    foreach (var objItem in obj.HumDistributionPlanItems)
+                    foreach (var objItem in obj.Items)
                     {
                         var item = docRepo.New(HumDistributionPlanItemDefId);
                         item["HumDistributionPlan"] = reportDoc.Id;
                         item["Consumer"] = objItem.Consumer;
-                        item["Region"] = objItem.Region;
+                        item["Region"] = objItem.Area.Name;
                         item["Address"] = objItem.Address;
-                        item["ProductName"] = objItem.ProductName;
+                        item["ProductName"] = objItem.Product.Name;
                         item["Unit"] = objItem.UnitType.EnumId;
                         item["Amount"] = objItem.Amount;
-                        item["Weight"] = objItem.Weight;
+                        //item["Weight"] = objItem.Weight;
                         item["Sum"] = objItem.Sum;
                         docRepo.Save(item);
                     }

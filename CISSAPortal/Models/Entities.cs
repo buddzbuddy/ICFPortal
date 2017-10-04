@@ -121,51 +121,16 @@ namespace IdentitySample.Models
         [ForeignKey("Report")]
         public int? ReportId { get; set; }
         public virtual Report Report { get; set; }
-
-        //[Required]
-        [Display(Name = "Организация, получившая гум.помощь")]
-        public string OrganizationName { get; set; }
-
-        //[Required]
-        [Display(Name = "Регион")]
-        public string Region { get; set; }
-
-        //[Display(Name = "Адрес")]
-        public string Address { get; set; }
-
-        //[Required]
-        [Display(Name = "Наименование гум. груза")]
-        public string CargoName { get; set; }
-
-        //[Required]
-        [Display(Name = "Ед. измерения")]
-        [ForeignKey("UnitType")]
-        public int? UnitTypeId { get; set; }
-        public virtual UnitType UnitType { get; set; }
-
-        //[Required]
-        [Display(Name = "Вес (план)")]
-        public double? PlanedAmount { get; set; }
-        //[Required]
-        [Display(Name = "Сумма (план)")]
-        public decimal? PlanedSum { get; set; }
-
+        
         [Display(Name = "Кол-во")]
         public double? FactAmount { get; set; }
         [Display(Name = "Сумма")]
         public decimal? FactSum { get; set; }
 
-        //[Required]
         [Display(Name = "Кол-во")]
         public double? BalanceAmount { get; set; }
-        //[Required]
         [Display(Name = "Сумма")]
         public decimal? BalanceSum { get; set; }
-
-        [Display(Name = "Кол-во")]
-        public double? ReserveAmount { get; set; }
-        [Display(Name = "Сумма")]
-        public decimal? ReserveSum { get; set; }
 
         [ForeignKey("HumDistributionPlanItem")]
         public int? HumDistributionPlanItemId { get; set; }
@@ -404,9 +369,7 @@ namespace IdentitySample.Models
         [Display(Name = "Дата предоставления плана")]
         [Required]
         public DateTime? Date { get; set; }
-        /// <summary>
-        /// Foreign Key to State
-        /// </summary>
+
         [ForeignKey("State")]
         public int? StateId { get; set; }
         public virtual DocumentState State { get; set; }
@@ -428,7 +391,7 @@ namespace IdentitySample.Models
         [Display(Name = "№ заключения")]
         public string CertificateNo { get; set; }
 
-        public virtual ICollection<HumDistributionPlanItem> HumDistributionPlanItems { get; set; }
+        public virtual ICollection<HumDistributionPlanItem> Items { get; set; }
         public virtual ICollection<Report> Reports { get; set; }
     }
 
@@ -437,25 +400,24 @@ namespace IdentitySample.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
         [ForeignKey("HumDistributionPlan")]
         public int? HumDistributionPlanId { get; set; }
         public virtual HumDistributionPlan HumDistributionPlan { get; set; }
 
-        [Required]
-        [Display(Name = "Потребитель / Организация")]
-        public string Consumer { get; set; }
+        [ForeignKey("Consumer")]
+        public int ConsumerId { get; set; }
+        public virtual Consumer Consumer { get; set; }
 
-        [Required]
-        [Display(Name = "Регион")]
-        public string Region { get; set; }
+        [ForeignKey("Area")]
+        public int AreaId { get; set; }
+        public virtual Area Area { get; set; }
 
         [Display(Name = "Адрес")]
         public string Address { get; set; }
 
-        [Required]
-        [Display(Name = "Наименование гум. помощи (товара)")]
-        public string ProductName { get; set; }
+        [ForeignKey("Product")]
+        public int ProductId { get; set; }
+        public virtual Product Product { get; set; }
 
         [Display(Name = "Ед. изм.")]
         [ForeignKey("UnitType")]
@@ -464,12 +426,8 @@ namespace IdentitySample.Models
 
         [Required]
         [Display(Name = "Кол-во")]
-        public int? Amount { get; set; }
-
-        //[Required]
-        [Display(Name = "Вес")]
-        public double? Weight { get; set; }
-
+        public double? Amount { get; set; }
+        
         [Required]
         [Display(Name = "Сумма")]
         public decimal? Sum { get; set; }
@@ -531,6 +489,26 @@ namespace IdentitySample.Models
         public virtual Area Area { get; set; }
     }
 
+    public class Consumer
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "Потребитель / Организация")]
+        public string Name { get; set; }
+    }
+
+    public class Product
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "Товар / Продукт / Изделие")]
+        public string Name { get; set; }
+    }
+
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
@@ -572,5 +550,9 @@ namespace IdentitySample.Models
         public System.Data.Entity.DbSet<IdentitySample.Models.Area> Areas { get; set; }
 
         public System.Data.Entity.DbSet<IdentitySample.Models.District> Districts { get; set; }
+
+        public System.Data.Entity.DbSet<IdentitySample.Models.Consumer> Consumers { get; set; }
+
+        public System.Data.Entity.DbSet<IdentitySample.Models.Product> Products { get; set; }
     }
 }

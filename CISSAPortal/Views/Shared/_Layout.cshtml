@@ -7,8 +7,21 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("styles", required: false)
+    <style>
+        #bs-alert{
+            z-index:2000;
+            position:absolute;
+            margin:0px auto;
+            display:none;
+            left:35%;
+            right:35%;
+        }
+    </style>
 </head>
 <body>
+    <div id="bs-alert" class="alert alert-danger">
+        <strong>Ошибка:</strong> <span id="bs-alert-message"></span>
+    </div>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -46,9 +59,20 @@
             <p>&copy; @DateTime.Now.Year - Intersoft</p>
         </footer>
     </div>
-
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script>
+        function bs_alert(message) {
+            $('#bs-alert-message').html(message);
+            $('#bs-alert').fadeIn(300);
+            setTimeout(function () {
+                $('#bs-alert').fadeOut(300);
+            }, 5000);
+        }
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 </body>
 </html>

@@ -10,7 +10,7 @@ namespace CISSAPortal.Models
     public class SearchViewModel
     {
         [Display(Name = "Регион")]
-        public string Region { get; set; }
+        public int? AreaId { get; set; }
         [Display(Name = "Компания")]
         public int? CompanyId { get; set; }
         [Display(Name = "Квартал"), Range(1, 4)]

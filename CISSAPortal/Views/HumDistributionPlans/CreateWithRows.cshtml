@@ -1,4 +1,4 @@
-﻿@model CISSAPortal.Models.PlanViewModel
+﻿@model IdentitySample.Models.HumDistributionPlan
 
 @{
     ViewBag.Title = "Ввод плана распределения";
@@ -44,13 +44,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.CurrencyISOCode, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.CurrencyISOCode, new { htmlAttributes = new { @class = "form-control", list = "Currencies" } })
-                <datalist id="Currencies">
-                    @foreach (var currency in ViewBag.Currencies)
-                    {
-                        <option value="@currency">@currency</option>
-                    }
-                </datalist>
+                @Html.DropDownList("CurrencyISOCode", ViewBag.CurrencyISOCode as SelectList, htmlAttributes: new { @class = "chosen-select col-md-2" })
                 @Html.ValidationMessageFor(model => model.CurrencyISOCode, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -58,7 +52,7 @@
             <thead>
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.Items.First().Consumer)
+                        @Html.DisplayNameFor(model => model.Items.First().Consumer.Name)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Items.First().Area.Name)
@@ -67,7 +61,7 @@
                         @Html.DisplayNameFor(model => model.Items.First().Address)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Items.First().ProductName)
+                        @Html.DisplayNameFor(model => model.Items.First().Product.Name)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Items.First().UnitType.Name)
@@ -93,7 +87,7 @@
         <p>
             @Html.ActionLink("Добавить строки...", "BlankEditorRow", null, new { id = "addItem", @class = "btn btn-primary btn-sm" })
         </p>
-
+        
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Сохранить" class="btn btn-default" />
@@ -104,12 +98,43 @@
 <div>
     @Html.ActionLink("Назад к списку", "Index")
 </div>
+<div class="modal fade" id="modal-form">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">&times;</a>
+    </div>
+    <div class="modal-body">
+        <p>Body of the form</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Закрыть</a>
+        <a href="#" class="btn btn-primary saveModal" data-field="">Сохранить</a>
+    </div>
+</div>
 @section styles{
     @Styles.Render("~/Content/jquery-ui-css")
+    @Styles.Render("~/chosen_v1.8.2/css")
+<style>
+    .ui-autocomplete {
+        max-height: 200px;
+        overflow-y: auto;
+        /* prevent horizontal scrollbar */
+        overflow-x: hidden;
+    }
+    .modal.fade.in {
+        left: 25%;
+        right: 25%;
+        border: 1px solid white;
+        bottom: auto;
+        top: 20%;
+        background: #fff;
+        border-radius: 5px;
+    }
+    </style>
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/chosen_v1.8.2/js")
     <script>
         $(function () {
             $("#Date").datepicker();
@@ -117,7 +142,10 @@
                 $.ajax({
                     url: this.href,
                     cache: false,
-                    success: function (html) { $("#editorRows").append(html); }
+                    success: function (html) {
+                        $("#editorRows").append(html);
+                        initRow();
+                    }
                 });
                 return false;
             });
@@ -126,6 +154,70 @@
                 $(this).closest("tr").remove();
                 return false;
             });
+
+            initRow();
+
+            //Default Save Event Listener for savings in Modal
+            $(document).delegate('#modal-form .saveModal', 'click', function (e) {
+                e.preventDefault();
+                saveAndUpdateChosenModal();
+            });
+            $(document).delegate('#modal-form form', 'submit', function (e) {
+                e.preventDefault();
+                saveAndUpdateChosenModal();
+            });
+
+            //Add New Consumer in Modal dialog
+            $(document).delegate('.addConsumerBtn', 'click', function (e) {
+                //e.preventDefault();
+                openNewModal('@Url.Action("Create", "Consumers")', $('select', $(this).closest('td')).attr('id'));
+            });
+
+            //Add New Product in Modal dialog
+            $(document).delegate('.addProductBtn', 'click', function (e) {
+                //e.preventDefault();
+                openNewModal('@Url.Action("Create", "Products")', $('select', $(this).closest('td')).attr('id'));
+            });
+
         });
+        function openNewModal(url, fieldId) {
+
+            $.get(url, function (data) {
+                $('#modal-form .modal-body').html(data);
+                $('#modal-form .modal-footer .saveModal').attr('data-field', fieldId);
+            });
+        }
+        function saveAndUpdateChosenModal() {
+            $.ajax({
+                type: 'POST',
+                url: $('#modal-form form').attr('action'),
+                data: $('#modal-form form').serialize(),
+                success: function (data) {
+                    if (data.error == null) {
+                        appendToChosen($('#modal-form .saveModal').attr('data-field'), data.Id, data.Name);
+                        $('#modal-form').modal('hide');
+                    }
+                    else {
+                        bs_alert(data.error);
+                    }
+                },
+                error: function (response) {
+                    alert(response);
+                }
+            });
+        }
+
+        function initRow() {
+            $('.chosen-select').chosen({ no_results_text: "Не найдено:" });
+        }
+        function appendToChosen(fieldId, val, text) {
+            $('#' + fieldId)
+                .append($('<option></option>')
+                    .val(val)
+                    .attr('selected', 'selected')
+                    .html(text)).trigger('chosen:updated');
+            $('#' + fieldId).chosen('destroy');
+            $('#' + fieldId).chosen();
+        }
     </script>
 }

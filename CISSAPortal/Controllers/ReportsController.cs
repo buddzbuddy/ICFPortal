@@ -167,7 +167,6 @@ namespace CISSAPortal.Controllers
                 return Json(new { result = "error", message = e.Message }, JsonRequestBehavior.AllowGet);
             }
         }
-
         public JsonResult GetPrevReportItems(int planId)
         {
             if (User.Identity.IsAuthenticated)
@@ -177,7 +176,8 @@ namespace CISSAPortal.Controllers
                 if (reportsByPlanId.Count > 0)
                 {
                     var prevReport = reportsByPlanId.First(x => x.Id == reportsByPlanId.Max(i => i.Id));
-                    return Json(new { result = true, items = prevReport.ReportItems.Select(x => new { x.BalanceAmount, x.BalanceSum, x.HumDistributionPlanItemId }).ToList() }, JsonRequestBehavior.AllowGet);
+                    
+                    return Json(new { result = true, items = prevReport.ReportItems.Select(x => new { x.BalanceAmount, x.BalanceSum, x.HumDistributionPlanItemId }) }, JsonRequestBehavior.AllowGet);
                 }
                 else
                     return Json(new { result = true, items = new List<ReportItem>() }, JsonRequestBehavior.AllowGet);

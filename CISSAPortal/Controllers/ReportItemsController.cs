@@ -17,7 +17,7 @@ namespace CISSAPortal.Controllers
         // GET: ReportItems
         public ActionResult Index()
         {
-            var reportItems = db.ReportItems.Include(r => r.Report).Include(r => r.UnitType);
+            var reportItems = db.ReportItems.Include(r => r.Report);
             return View(reportItems.ToList());
         }
 
@@ -59,7 +59,7 @@ namespace CISSAPortal.Controllers
             }
 
             //ViewBag.ReportId = new SelectList(db.Reports, "Id", "UserId", reportItem.ReportId);
-            ViewBag.UnitTypeId = new SelectList(db.UnitTypes, "Id", "Name", reportItem.UnitTypeId);
+            //ViewBag.UnitTypeId = new SelectList(db.UnitTypes, "Id", "Name", reportItem.UnitTypeId);
             return View(reportItem);
         }
 
@@ -76,7 +76,7 @@ namespace CISSAPortal.Controllers
                 return HttpNotFound();
             }
             ViewBag.ReportId = new SelectList(db.Reports, "Id", "UserId", reportItem.ReportId);
-            ViewBag.UnitTypeId = new SelectList(db.UnitTypes, "Id", "Name", reportItem.UnitTypeId);
+            //ViewBag.UnitTypeId = new SelectList(db.UnitTypes, "Id", "Name", reportItem.UnitTypeId);
             return View(reportItem);
         }
 
@@ -94,7 +94,7 @@ namespace CISSAPortal.Controllers
                 return RedirectToAction("Details", "Reports", new { id = reportItem.ReportId });
             }
             //ViewBag.ReportId = new SelectList(db.Reports, "Id", "UserId", reportItem.ReportId);
-            ViewBag.UnitTypeId = new SelectList(db.UnitTypes, "Id", "Name", reportItem.UnitTypeId);
+            //ViewBag.UnitTypeId = new SelectList(db.UnitTypes, "Id", "Name", reportItem.UnitTypeId);
             return View(reportItem);
         }
 

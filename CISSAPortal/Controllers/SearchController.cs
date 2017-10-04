@@ -15,15 +15,14 @@ namespace CISSAPortal.Controllers
         // GET: Search
         public ActionResult Index(SearchViewModel model)
         {
-            ViewBag.Regions = db.HumDistributionPlanItems.Select(x => x.Region).Distinct().ToList();
+            var areas = db.Areas.Select(x => new { x.Id, x.Name }).ToList();
+            areas.Insert(0, new { Id = -1, Name = "-" });
+            ViewBag.AreaId = new SelectList(areas, "Id", "Name");
+
             var companies = db.Companies.Select(x => new { x.Id, x.Name }).ToList();
             companies.Insert(0, new { Id = -1, Name = "-" });
             ViewBag.CompanyId = new SelectList(companies, "Id", "Name");
-
-            ViewBag.Quarters = db.Reports.Select(x => x.Quarter.Value).Distinct().OrderBy(x => x).ToList();
-
-            ViewBag.Years = db.Reports.Select(x => x.Year.Value).Distinct().OrderBy(x => x).ToList();
-
+            
             DateTime fd = new DateTime();
             DateTime ld = new DateTime();
             if(model.Quarter.HasValue && model.Year.HasValue)
@@ -36,7 +35,7 @@ namespace CISSAPortal.Controllers
                                          where
                                          (model.CompanyId != -1 ? p.Company.Id == model.CompanyId : true)
                                          &&
-                                         (!string.IsNullOrEmpty(model.Region) ? p.HumDistributionPlanItems.Any(x => x.Region == model.Region) : true)
+                                         (model.AreaId != -1 ? p.Items.Any(x => x.AreaId == model.AreaId) : true)
                                          &&
                                          (model.Year.HasValue && model.Quarter.HasValue ? (p.Date >= fd && p.Date <= ld) : true)
                                           select p).ToList();
@@ -48,7 +47,7 @@ namespace CISSAPortal.Controllers
                              &&
                              (model.Quarter.HasValue ? (r.Quarter == model.Quarter) : true)
                              &&
-                             (!string.IsNullOrEmpty(model.Region) ? r.HumDistributionPlan.HumDistributionPlanItems.Any(x => x.Region == model.Region) : true)
+                             (model.AreaId != -1 ? r.HumDistributionPlan.Items.Any(x => x.AreaId == model.AreaId) : true)
                              select r).ToList();
             return View(model);
         }
