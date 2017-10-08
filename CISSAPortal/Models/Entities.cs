@@ -91,6 +91,7 @@ namespace IdentitySample.Models
         public int? Quarter { get; set; }
         [Required]
         [Display(Name = "Дата")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime? Date { get; set; }
         /// <summary>
         /// Foreign Key
@@ -121,15 +122,19 @@ namespace IdentitySample.Models
         [ForeignKey("Report")]
         public int? ReportId { get; set; }
         public virtual Report Report { get; set; }
-        
+
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:# ### ### ##0.0}")]
         [Display(Name = "Кол-во")]
         public double? FactAmount { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:# ### ### ##0.0}")]
         [Display(Name = "Сумма")]
         public decimal? FactSum { get; set; }
 
         [Display(Name = "Кол-во")]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:# ### ### ##0.0}")]
         public double? BalanceAmount { get; set; }
         [Display(Name = "Сумма")]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:# ### ### ##0.0}")]
         public decimal? BalanceSum { get; set; }
 
         [ForeignKey("HumDistributionPlanItem")]
@@ -367,6 +372,7 @@ namespace IdentitySample.Models
         public int? CompanyId { get; set; }
         public virtual Company Company { get; set; }
         [Display(Name = "Дата предоставления плана")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         [Required]
         public DateTime? Date { get; set; }
 
@@ -383,9 +389,11 @@ namespace IdentitySample.Models
         public decimal? CurrencyRate { get; set; }
 
         [Display(Name = "Дата курса")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime? CurrencyRateDate { get; set; }
 
         [Display(Name = "Дата выдачи заключения")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime? CertificateDate { get; set; }
 
         [Display(Name = "№ заключения")]
@@ -393,6 +401,7 @@ namespace IdentitySample.Models
 
         public virtual ICollection<HumDistributionPlanItem> Items { get; set; }
         public virtual ICollection<Report> Reports { get; set; }
+        public virtual ICollection<Return> Returns { get; set; }
     }
 
     public class HumDistributionPlanItem
@@ -425,14 +434,20 @@ namespace IdentitySample.Models
         public virtual UnitType UnitType { get; set; }
 
         [Required]
+        //[DataType(DataType.Currency)]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:# ### ### ##0.0}")]
         [Display(Name = "Кол-во")]
         public double? Amount { get; set; }
         
         [Required]
         [Display(Name = "Сумма")]
+        //[DataType(DataType.Currency)]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:# ### ### ##0.0}")]
         public decimal? Sum { get; set; }
 
-        [Display(Name = "Сумма в сомах (конвертация в день выдачи заключения)")]
+        [Display(Name = "Сумма в сомах")]
+        //[DataType(DataType.Currency)]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:# ### ### ##0.0}")]
         public decimal? ConvertedSum
         {
             get
@@ -509,6 +524,26 @@ namespace IdentitySample.Models
         public string Name { get; set; }
     }
 
+    public class Return
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "Дата возврата")]
+        [DisplayFormat(DataFormatString = "{0:d}")]
+        public DateTime? ReturnedDate { get; set; }
+
+        [Required]
+        [Display(Name = "Комментарий")]
+        [DataType(DataType.MultilineText)]
+        public string Comments { get; set; }
+
+        [ForeignKey("HumDistributionPlan")]
+        public int? HumDistributionPlanId { get; set; }
+        public HumDistributionPlan HumDistributionPlan { get; set; }
+    }
+
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
@@ -554,5 +589,7 @@ namespace IdentitySample.Models
         public System.Data.Entity.DbSet<IdentitySample.Models.Consumer> Consumers { get; set; }
 
         public System.Data.Entity.DbSet<IdentitySample.Models.Product> Products { get; set; }
+
+        public DbSet<Return> Returns { get; set; }
     }
 }

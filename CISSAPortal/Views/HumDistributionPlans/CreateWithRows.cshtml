@@ -37,7 +37,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
+                @*<input type="text" name="Date" id="Date" class="form-control bs_datepicker" />*@
+                @Html.EditorFor(model => model.Date)
                 @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -111,7 +112,6 @@
     </div>
 </div>
 @section styles{
-    @Styles.Render("~/Content/jquery-ui-css")
     @Styles.Render("~/chosen_v1.8.2/css")
 <style>
     .ui-autocomplete {
@@ -133,11 +133,9 @@
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/chosen_v1.8.2/js")
     <script>
         $(function () {
-            $("#Date").datepicker();
             $("#addItem").click(function () {
                 $.ajax({
                     url: this.href,
@@ -208,7 +206,7 @@
         }
 
         function initRow() {
-            $('.chosen-select').chosen({ no_results_text: "Не найдено:" });
+            $('.chosen-select').chosen({ no_results_text: "Не найдено:", allow_single_deselect: true });
         }
         function appendToChosen(fieldId, val, text) {
             $('#' + fieldId)

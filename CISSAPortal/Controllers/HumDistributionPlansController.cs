@@ -262,10 +262,22 @@ namespace CISSAPortal.Controllers
 
                 ViewBag.CurrencyISOCode = from c in xdoc.Root.Elements()
                                      select new SelectListItem { Text = " " + c.Attribute("ISOCode").Value + " ", Value = c.Attribute("ISOCode").Value };
-                ViewBag.ConsumerId = new SelectList(db.Consumers.ToList(), "Id", "Name");
-                ViewBag.ProductId = new SelectList(db.Products.ToList(), "Id", "Name");
-                ViewBag.AreaId = new SelectList(db.Areas.ToList(), "Id", "Name");
-                ViewBag.UnitTypeId = new SelectList(db.UnitTypes.ToList(), "Id", "Name");
+
+                var consumers = db.Consumers.ToList();
+                consumers.Insert(0, new Consumer());
+                ViewBag.ConsumerId = new SelectList(consumers, "Id", "Name");
+
+                var products = db.Products.ToList();
+                products.Insert(0, new Product());
+                ViewBag.ProductId = new SelectList(products, "Id", "Name");
+
+                var areas = db.Areas.ToList();
+                areas.Insert(0, new Area());
+                ViewBag.AreaId = new SelectList(areas, "Id", "Name");
+
+                var unitTypes = db.UnitTypes.ToList();
+                unitTypes.Insert(0, new UnitType());
+                ViewBag.UnitTypeId = new SelectList(unitTypes, "Id", "Name");
             }
             else
             {
@@ -279,6 +291,20 @@ namespace CISSAPortal.Controllers
             if (plan.Items == null)
             {
                 ModelState.AddModelError("", "Добавьте строки");
+            }
+            else
+            {
+                foreach(var item in plan.Items)
+                {
+                    if (item.ConsumerId == 0)
+                        ModelState.AddModelError("", "Потребитель не указан");
+                    if (item.AreaId == 0)
+                        ModelState.AddModelError("", "Область не указана");
+                    if (item.ProductId == 0)
+                        ModelState.AddModelError("", "Товар / Продукт / Изделие не указано");
+                    if (item.UnitTypeId == 0)
+                        ModelState.AddModelError("", "Ед. измерения не указана");
+                }
             }
             if (ModelState.IsValid)
             {
@@ -314,10 +340,21 @@ namespace CISSAPortal.Controllers
             ViewBag.CurrencyISOCode = from c in xdoc.Root.Elements()
                                       select new SelectListItem { Text = " " + c.Attribute("ISOCode").Value + " ", Value = c.Attribute("ISOCode").Value, Selected = c.Attribute("ISOCode").Value == plan.CurrencyISOCode };
 
-            ViewBag.ConsumerId = new SelectList(db.Consumers.ToList(), "Id", "Name");
-            ViewBag.ProductId = new SelectList(db.Products.ToList(), "Id", "Name");
-            ViewBag.AreaId = new SelectList(db.Areas.ToList(), "Id", "Name");
-            ViewBag.UnitTypeId = new SelectList(db.UnitTypes.ToList(), "Id", "Name");
+            var consumers = db.Consumers.ToList();
+            consumers.Insert(0, new Consumer());
+            ViewBag.ConsumerId = new SelectList(consumers, "Id", "Name");
+
+            var products = db.Products.ToList();
+            products.Insert(0, new Product());
+            ViewBag.ProductId = new SelectList(products, "Id", "Name");
+
+            var areas = db.Areas.ToList();
+            areas.Insert(0, new Area());
+            ViewBag.AreaId = new SelectList(areas, "Id", "Name");
+
+            var unitTypes = db.UnitTypes.ToList();
+            unitTypes.Insert(0, new UnitType());
+            ViewBag.UnitTypeId = new SelectList(unitTypes, "Id", "Name");
 
             return View(plan);
         }
@@ -325,10 +362,21 @@ namespace CISSAPortal.Controllers
         {
             var model = new HumDistributionPlanItem();
 
-            ViewBag.ConsumerId = new SelectList(db.Consumers.ToList(), "Id", "Name");
-            ViewBag.ProductId = new SelectList(db.Products.ToList(), "Id", "Name");
-            ViewBag.AreaId = new SelectList(db.Areas.ToList(), "Id", "Name");
-            ViewBag.UnitTypeId = new SelectList(db.UnitTypes.ToList(), "Id", "Name");
+            var consumers = db.Consumers.ToList();
+            consumers.Insert(0, new Consumer());
+            ViewBag.ConsumerId = new SelectList(consumers, "Id", "Name");
+
+            var products = db.Products.ToList();
+            products.Insert(0, new Product());
+            ViewBag.ProductId = new SelectList(products, "Id", "Name");
+
+            var areas = db.Areas.ToList();
+            areas.Insert(0, new Area());
+            ViewBag.AreaId = new SelectList(areas, "Id", "Name");
+
+            var unitTypes = db.UnitTypes.ToList();
+            unitTypes.Insert(0, new UnitType());
+            ViewBag.UnitTypeId = new SelectList(unitTypes, "Id", "Name");
 
             return PartialView(model);
         }
@@ -347,19 +395,7 @@ namespace CISSAPortal.Controllers
             }
             return View(humDistributionPlan);
         }
-
-        [HttpPost]
-        public ActionResult Export(ExportViewModel model)
-        {
-            var cd = new ContentDisposition
-            {
-                FileName = "HumDistributionPlan.csv",
-                Inline = false
-            };
-            Response.AddHeader("Content-Disposition", cd.ToString());
-            return Content(model.Csv, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", Encoding.Default);
-        }
-
+        
         public FileResult GetFile(int planId)
         {
             var plan = db.HumDistributionPlans.Find(planId);
@@ -436,36 +472,7 @@ namespace CISSAPortal.Controllers
                 return File(filepath, "application/vnd.ms-excel", "Plan.xls");
             }
         }
-
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            HumDistributionPlan humDistributionPlan = db.HumDistributionPlans.Find(id);
-            if (humDistributionPlan == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.CompanyId = new SelectList(db.Companies, "Id", "Name", humDistributionPlan.CompanyId);
-            return View(humDistributionPlan);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CompanyId,Date")] HumDistributionPlan humDistributionPlan)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(humDistributionPlan).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.CompanyId = new SelectList(db.Companies, "Id", "Name", humDistributionPlan.CompanyId);
-            return View(humDistributionPlan);
-        }
-
+        
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -489,8 +496,7 @@ namespace CISSAPortal.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-
-
+        
         public ActionResult SetState(int reportId, int code)
         {
             var stateObj = db.DocumentStates.FirstOrDefault(x => x.Code == code);
@@ -501,7 +507,10 @@ namespace CISSAPortal.Controllers
                 {
                     if (code == 1)
                     {
-                        SendToCissa(reportObj);
+                        if (reportObj.StateId != stateObj.Id)
+                            SendToCissa(reportObj);
+                        else
+                            throw new Exception("План уже находится на рассмотрении в Министерстве!");
                     }
                     reportObj.StateId = stateObj.Id;
                     db.Entry(reportObj).State = EntityState.Modified;

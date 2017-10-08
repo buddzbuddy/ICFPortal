@@ -3,24 +3,12 @@
     ViewBag.Title = "Монитор сводных данных";
 }
 
-<h2>@Html.ActionLink("Поиск и просмотр данных", "Index", "Search") | Монитор сводных данных</h2>
+<h3>@Html.ActionLink("Поиск и просмотр данных", "Index", "Search") | <span class="label label-info">Монитор сводных данных</span> | @Html.ActionLink("Инфографика по республике", "Index", "Diagram")</h3>
 
 
 @using (Html.BeginForm())
 {
     <div class="form-horizontal">
-        @*<div class="form-group visible-lg-inline-block">
-            @Html.LabelFor(model => model.Region, htmlAttributes: new { @class = "control-label col-md-5" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Region, new { htmlAttributes = new { @class = "form-control", list = "Regions" } })
-                <datalist id="Regions">
-                    @foreach (var region in ViewBag.Regions)
-                    {
-                        <option>@region</option>
-                    }
-                </datalist>
-            </div>
-        </div>*@
         <div class="form-group visible-lg-inline-block">
             @Html.LabelFor(model => model.CompanyId, htmlAttributes: new { @class = "control-label col-md-5" })
             <div class="col-md-8">
@@ -30,25 +18,13 @@
         <div class="form-group visible-lg-inline-block">
             @Html.LabelFor(model => model.Quarter, htmlAttributes: new { @class = "control-label col-md-5" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Quarter, new { htmlAttributes = new { @class = "form-control", list = "Quarters" } })
-                <datalist id="Quarters">
-                    @foreach (var q in ViewBag.Quarters)
-                    {
-                        <option>@q</option>
-                    }
-                </datalist>
+                @Html.EditorFor(model => model.Quarter, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
         <div class="form-group visible-lg-inline-block">
             @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-5" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control", list = "Years" } })
-                <datalist id="Years">
-                    @foreach (var y in ViewBag.Years)
-                    {
-                        <option>@y</option>
-                    }
-                </datalist>
+                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>
 
@@ -84,7 +60,7 @@
                             @Html.LabelFor(model => model.Regions.First().PlanSum)
                         </td>
                         <td>
-                            @region.PlanSum
+                            @Html.DisplayFor(model => region.PlanSum)
                         </td>
                     </tr>
                     <tr>
@@ -92,7 +68,7 @@
                             @Html.LabelFor(model => model.Regions.First().FactSum)
                         </td>
                         <td>
-                            @region.FactSum
+                            @Html.DisplayFor(model => region.FactSum)
                         </td>
                     </tr>
                     <tr>
@@ -100,7 +76,7 @@
                             @Html.LabelFor(model => model.Regions.First().Balance)
                         </td>
                         <td>
-                            @region.Balance сом
+                            @Html.DisplayFor(model => region.Balance) сом
                         </td>
                     </tr>
                 </tbody>
@@ -122,7 +98,7 @@
                 @Html.LabelFor(model => model.Regions.First().PlanSum)
             </td>
             <td>
-                @Model.Regions.Sum(x => x.PlanSum)
+                @Model.Regions.Sum(x => x.PlanSum).ToString("# ### ### ##0.0")
             </td>
         </tr>
         <tr class="success">
@@ -130,7 +106,7 @@
                 @Html.LabelFor(model => model.Regions.First().FactSum)
             </td>
             <td>
-                @Model.Regions.Sum(x => x.FactSum)
+                @Model.Regions.Sum(x => x.FactSum).ToString("# ### ### ##0.0")
             </td>
         </tr>
         <tr class="warning">
@@ -138,7 +114,7 @@
                 @Html.LabelFor(model => model.Regions.First().Balance)
             </td>
             <td>
-                @Model.Regions.Sum(x => x.Balance) сом
+                @Model.Regions.Sum(x => x.Balance).ToString("# ### ### ##0.0") сом
             </td>
         </tr>
     </tbody>

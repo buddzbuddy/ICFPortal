@@ -74,16 +74,16 @@
                     @Html.DisplayFor(modelItem => item.ConvertedSum)
                 </td>
                 <td>
-                    @item.ReportItems.Sum(x => x.FactAmount)
+                    @item.ReportItems.Sum(x => x.FactAmount).Value.ToString("# ### ### ##0.0")
                 </td>
                 <td>
-                    @item.ReportItems.Sum(x => x.FactSum)
+                    @item.ReportItems.Sum(x => x.FactSum).Value.ToString("# ### ### ##0.0")
                 </td>
                 <td>
-                    @(item.Amount - item.ReportItems.Sum(x => x.FactAmount))
+                    @((item.Amount - item.ReportItems.Sum(x => x.FactAmount)).Value.ToString("# ### ### ##0.0"))
                 </td>
                 <td>
-                    @(item.Sum - item.ReportItems.Sum(x => x.FactSum))
+                    @((item.Sum - item.ReportItems.Sum(x => x.FactSum)).Value.ToString("# ### ### ##0.0"))
                 </td>
             </tr>
         }
@@ -92,25 +92,25 @@
                 Итого:
             </td>
             <td>
-                @Model.Sum(x => x.Amount)
+                @Model.Sum(x => x.Amount).Value.ToString("# ### ### ##0.0")
             </td>
             <td>
-                @Model.Sum(x => x.Sum)
+                @Model.Sum(x => x.Sum).Value.ToString("# ### ### ##0.0")
             </td>
             <td>
-                @(Math.Round(Model.Sum(x => x.ConvertedSum) ?? 0, 2))
+                @(Math.Round(Model.Sum(x => x.ConvertedSum) ?? 0, 2).ToString("# ### ### ##0.0"))
             </td>
             <td>
-                @Model.Sum(x => x.ReportItems.Sum(x1 => x1.FactAmount))
+                @Model.Sum(x => x.ReportItems.Sum(x1 => x1.FactAmount)).Value.ToString("# ### ### ##0.0")
             </td>
             <td>
-                @Model.Sum(x => x.ReportItems.Sum(x1 => x1.FactSum))
+                @Model.Sum(x => x.ReportItems.Sum(x1 => x1.FactSum)).Value.ToString("# ### ### ##0.0")
             </td>
             <td>
-                @(Model.Sum(x => x.Amount) - Model.Sum(x => x.ReportItems.Sum(x1 => x1.FactAmount)))
+                @((Model.Sum(x => x.Amount) - Model.Sum(x => x.ReportItems.Sum(x1 => x1.FactAmount))).Value.ToString("# ### ### ##0.0"))
             </td>
             <td>
-                @(Model.Sum(x => x.Sum) - Model.Sum(x => x.ReportItems.Sum(x1 => x1.FactSum)))
+                @((Model.Sum(x => x.Sum) - Model.Sum(x => x.ReportItems.Sum(x1 => x1.FactSum))).Value.ToString("# ### ### ##0.0"))
             </td>
         </tr>
     </tbody>

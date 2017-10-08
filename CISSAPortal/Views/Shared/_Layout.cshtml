@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Портал КИССП</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/bs-datepicker/css")
     @Scripts.Render("~/bundles/modernizr")
     @RenderSection("styles", required: false)
     <style>
@@ -38,11 +39,7 @@
                     <li>@Html.ActionLink("Открытые данные", "Index", "Search")</li>
                     @*<li>@Html.ActionLink("О портале", "About", "Home")</li>
                     <li>@Html.ActionLink("Контакты", "Contact", "Home")</li>*@
-                    @if (Request.IsAuthenticated)
-                    {
-                        <li>@Html.ActionLink("Отчеты и заявки", "Index", "Datas")</li>
-                    }
-
+                    
                     @if (Request.IsAuthenticated && User.IsInRole("Admin")) {
                         <li>@Html.ActionLink("Роли", "Index", "RolesAdmin")</li>
                         <li>@Html.ActionLink("Пользователи", "Index", "UsersAdmin")</li>
@@ -61,6 +58,7 @@
     </div>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bs-datepicker/js")
     @RenderSection("scripts", required: false)
     <script>
         function bs_alert(message) {
@@ -72,6 +70,13 @@
         }
         $(function () {
             $('[data-toggle="tooltip"]').tooltip();
+
+            $(".bs_datepicker").datepicker({
+                format: "dd.mm.yyyy",
+                language: "ru",
+                todayHighlight: true,
+                clearBtn: true
+            });
         });
     </script>
 </body>

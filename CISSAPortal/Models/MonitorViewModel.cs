@@ -56,10 +56,13 @@ namespace CISSAPortal.Models
     public abstract class MonitorItemViewModel
     {
         [Display(Name = "План")]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:# ### ### ##0.0}")]
         public decimal PlanSum { get; set; }
         [Display(Name = "Факт.")]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:# ### ### ##0.0}")]
         public decimal FactSum { get; set; }
         [Display(Name = "Остаток")]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:# ### ### ##0.0}")]
         public decimal Balance
         {
             get

@@ -15,15 +15,10 @@ namespace CISSAPortal.Controllers
         // GET: SummaryView
         public ActionResult Index(MonitorViewModel model)
         {
-            ViewBag.Regions = db.HumDistributionPlanItems.Select(x => x.Area.Name).Distinct().ToList();
             var companies = db.Companies.Select(x => new { x.Id, x.Name }).ToList();
             companies.Insert(0, new { Id = -1, Name = "-" });
             ViewBag.CompanyId = new SelectList(companies, "Id", "Name");
-
-            ViewBag.Quarters = db.Reports.Select(x => x.Quarter.Value).Distinct().OrderBy(x => x).ToList();
-
-            ViewBag.Years = db.Reports.Select(x => x.Year.Value).Distinct().OrderBy(x => x).ToList();
-
+            
             DateTime fd = new DateTime();
             DateTime ld = new DateTime();
             if (model.Quarter.HasValue && model.Year.HasValue)
@@ -34,13 +29,7 @@ namespace CISSAPortal.Controllers
 
             var planItems = new List<HumDistributionPlanItem>();
             var reportItems = new List<ReportItem>();
-            /*if(!string.IsNullOrEmpty(model.Region))
-            {
-                planItems = db.HumDistributionPlanItems.Where(x => x.Region == model.Region).ToList();
-                var planItemIds = planItems.Select(p => p.Id).ToList();
-                reportItems = db.ReportItems.Where(x => planItemIds.Contains(x.HumDistributionPlanItemId ?? 0)).ToList();
-            }*/
-
+            
             if (model.CompanyId.HasValue && model.CompanyId != -1)
             {
                 planItems = db.HumDistributionPlanItems.Where(x => x.HumDistributionPlan.CompanyId == model.CompanyId).Include(x => x.HumDistributionPlan).ToList();
@@ -52,9 +41,7 @@ namespace CISSAPortal.Controllers
                 planItems = db.HumDistributionPlanItems.Include(x => x.HumDistributionPlan).ToList();
                 reportItems = db.ReportItems.ToList();
             }
-
-            //var dbcompanies = db.Companies.ToList();
-
+            
             var regions = new List<RegionViewModel>();
             foreach(var planItems2 in planItems.GroupBy(x => x.Area.Name))
             {

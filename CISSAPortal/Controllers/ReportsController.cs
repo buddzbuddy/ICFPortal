@@ -9,6 +9,11 @@ using System.Web.Mvc;
 using IdentitySample.Models;
 using Microsoft.AspNet.Identity.Owin;
 using System.Threading.Tasks;
+using Intersoft.Cissa.Report.Xls;
+using Intersoft.Cissa.Report.Styles;
+using System.Drawing;
+using NPOI.SS.UserModel;
+using System.IO;
 
 namespace CISSAPortal.Controllers
 {
@@ -68,7 +73,118 @@ namespace CISSAPortal.Controllers
             }
             return View(report);
         }
+        public FileResult GetFile(int reportId)
+        {
+            var report = db.Reports.Find(reportId);
+            var HumDistributionPlan = db.HumDistributionPlans.Find(report.HumDistributionPlanId ?? 0);
 
+            string filepath = "C://CissaFiles//Report.xls";//Server.MapPath("~/Doc/ExcelPlan.xls");
+            using (var def = new XlsDef())
+            {
+                def.AddArea().AddRow().AddEmptyCell();
+                var s5 = def.AddArea().AddRow();
+                s5.AddText("Отчет получателя \"" + HumDistributionPlan.Company.Name + "\" о предоставлении гуманитарной помощи", 10);
+                s5.Style.HAlign = HAlignment.Center; //По центру
+                s5.Style.Bold();
+                def.AddArea().AddEmptyRow();
+                var h = def.AddArea().AddRow();
+                h.AddText("№");
+                h.AddText("Потребитель / Организация");
+                h.AddText("Регион");
+                h.AddText("Адрес");
+                h.AddText("Наименование гум. помощи (товара)");
+                h.AddText("Ед. изм.");
+                h.AddText("Кол-во (план)");
+                //h.AddText("Вес (кг) (план)");
+                h.AddText("Сумма (сом)(план)*");
+                h.AddText("Кол-во (факт)");
+                //h.AddText("Вес (кг) (факт)");
+                h.AddText("Сумма (факт)*");
+                h.AddText("Кол-во (остаток)");
+                //h.AddText("Вес (кг) (остаток)");
+                h.AddText("Сумма (остаток)*");
+                h.ShowAllBorders(true);
+                h.Style.FontStyle = FontStyle.Bold; //Шрифт жирный
+                h.Style.HAlign = HAlignment.Center; //По центру
+                h.Style.BgColor = IndexedColors.BLUE_GREY.Index; //48; Цвет шапки
+                h.Style.FontColor = IndexedColors.WHITE.Index; //Цвет шрифта
+                h.Style.WrapText = true;
+                h.Style.AutoWidth = true;
+                h.Style.AutoHeight = true;
+                int i = 1;
+                double planAmount = 0;
+                decimal planSum = 0;
+                double factAmount = 0;
+                decimal factSum = 0;
+                double balanceAmount = 0;
+                decimal balanceSum = 0;
+                foreach (var item in db.ReportItems.Where(x => x.ReportId == reportId).Include(x => x.HumDistributionPlanItem).ToList())
+                {
+                    var r = def.AddArea().AddRow();
+                    r.AddColumn().AddInt(i);
+                    r.AddColumn().AddText(item.HumDistributionPlanItem.Consumer.Name);
+                    r.AddColumn().AddText(item.HumDistributionPlanItem.Area.Name);
+                    r.AddColumn().AddText(item.HumDistributionPlanItem.Address);
+                    r.AddColumn().AddText(item.HumDistributionPlanItem.Product.Name);
+                    r.AddColumn().AddText(item.HumDistributionPlanItem.UnitType.Name);
+                    r.AddColumn().AddFloat(item.HumDistributionPlanItem.Amount ?? 0);
+                    //r.AddColumn().AddText("");
+                    r.AddColumn().AddFloat((double)(item.HumDistributionPlanItem.Sum ?? 0));
+                    r.AddColumn().AddFloat(item.FactAmount ?? 0);
+                    //r.AddColumn().AddText("");
+                    r.AddColumn().AddFloat((double)(item.FactSum ?? 0));
+                    r.AddColumn().AddFloat(item.BalanceAmount ?? 0);
+                    //r.AddColumn().AddText("");
+                    r.AddColumn().AddFloat((double)(item.BalanceSum ?? 0));
+                    r.ShowAllBorders(true);
+                    i++;
+
+                    planAmount += item.HumDistributionPlanItem.Amount ?? 0;
+                    planSum += item.HumDistributionPlanItem.Sum ?? 0;
+                    factAmount += item.FactAmount ?? 0;
+                    factSum += item.FactSum ?? 0;
+                    balanceAmount += item.BalanceAmount ?? 0;
+                    balanceSum += item.BalanceSum ?? 0;
+                }
+                var f = def.AddArea().AddRow();
+                f.AddText("Итого:", 6);
+                f.AddFloat(planAmount);
+                f.AddFloat((double)planSum);
+                f.AddFloat(factAmount);
+                f.AddFloat((double)factSum);
+                f.AddFloat(balanceAmount);
+                f.AddFloat((double)balanceSum);
+                f.ShowAllBorders(true);
+                f.Style.HAlign = HAlignment.Right;
+                f.Style.Bold();
+
+                def.AddArea().AddRow().AddEmptyCell();
+                var s1 = def.AddArea().AddRow();
+                s1.AddText("ФИО руководителя организации", 3);
+                var s3 = def.AddArea().AddRow();
+                s3.AddText("______________________", 3);
+                s3.AddText("подпись");
+                def.AddArea().AddEmptyRow();
+                var s4 = def.AddArea().AddRow();
+                s4.AddText("Дата: ", 3);
+                s4.AddText("«    » _____________ 20___");
+                def.AddArea().AddEmptyRow();
+                var s4_1 = def.AddArea().AddRow();
+                s4_1.AddText("М.П.", 3);
+                def.AddArea().AddEmptyRow();
+                var s4_2 = def.AddArea().AddRow();
+                s4_2.AddText("* сумма указана донором только для таможенных целей", 3);
+                var builder = new XlsBuilder(def);
+                var workbook = builder.Build();
+
+
+                using (var stream = new FileStream(filepath, FileMode.Create))
+                {
+                    workbook.Write(stream);
+                }
+                return File(filepath, "application/vnd.ms-excel", "Report.xls");
+            }
+        }
         // GET: Reports/Create
         public ActionResult Create(int? humDistributionPlanId)
         {

@@ -159,7 +159,7 @@ namespace IdentitySample.Controllers
                 {
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+                    await UserManager.SendEmailAsync(user.Id, "Подтвердите ваш аккаунт", "Пожалуйста, подтвердите Ваш аккаунт перейдя по этой: <a href=\"" + callbackUrl + "\">ссылке</a>");
                     ViewBag.Link = callbackUrl;
                     return View("DisplayEmail");
                 }

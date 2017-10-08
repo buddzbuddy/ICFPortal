@@ -41,13 +41,13 @@
                                     @quarter.Quarter
                                 </td>
                                 <td>
-                                    @quarter.PlanSum
+                                    @quarter.PlanSum.ToString("# ### ### ##0.0")
                                 </td>
                                 <td>
-                                    @quarter.FactSum
+                                    @quarter.FactSum.ToString("# ### ### ##0.0")
                                 </td>
                                 <td>
-                                    @quarter.Balance
+                                    @quarter.Balance.ToString("# ### ### ##0.0")
                                 </td>
                             </tr>
                         }
@@ -75,12 +75,54 @@ else
         }
     </div>
 }
+
+<div id="chart">
+
+</div>
 @section styles{
     @Styles.Render("~/Content/c3ss")
 }
 @section scripts{
     @Scripts.Render("~/Scripts/c3js")
 <script>
+    $(function () {
+        c3.generate({
+            bindto: '#chart',
+            data: {
+                columns: [
+                    ['data1', 70, 80, 90, 60, 85, 75],
+                    ['data2', 30, 20, 10, 40, 15, 25],
+                    ['data3', 40, 60, 80, 20, 70, 50]
+                ],
+                types: {
+                    data1: 'bar',
+                    data2: 'bar',
+                    data3: 'bar'
+                },
+                names: {
+                    data1: 'По плану',
+                    data2: 'Фактически',
+                    data3: 'Остаток'
+                },
+                colors: {
+                    data1: 'blue',
+                    data2: 'green',
+                    data3: 'red'
+                },
+                groups: [
+                    ['data2', 'data3']
+                ],
+                labels: true
+            },
+            axis: {
+                rotated: true,
+                x: {
+                    type: 'category',
+                    categories: ['обувь', 'одежда', 'питание', 'медикаменты', 'санитарные принадлежности', 'строй-материалы']
+                }
+            }
+        });
+    });
     function createChart(year, plan, fact, balance) {
         var colors = ['#0089ff', '#2cff02','#feff00'];
         var chart = c3.generate({

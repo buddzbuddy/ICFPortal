@@ -32,7 +32,7 @@
                             @Html.LabelFor(model => model.Companies.First().PlanSum)
                         </td>
                         <td>
-                            @company.PlanSum
+                            @company.PlanSum.ToString("# ### ### ##0.0")
                         </td>
                     </tr>
                     <tr>
@@ -40,7 +40,7 @@
                             @Html.LabelFor(model => model.Companies.First().FactSum)
                         </td>
                         <td>
-                            @company.FactSum
+                            @company.FactSum.ToString("# ### ### ##0.0")
                         </td>
                     </tr>
                     <tr>
@@ -48,7 +48,7 @@
                             @Html.LabelFor(model => model.Companies.First().Balance)
                         </td>
                         <td>
-                            @company.Balance сом
+                            @company.Balance.ToString("# ### ### ##0.0") сом
                         </td>
                     </tr>
                 </tbody>
@@ -70,7 +70,7 @@
                 @Html.LabelFor(model => model.Companies.First().PlanSum)
             </td>
             <td>
-                @Model.Companies.Sum(x => x.PlanSum)
+                @Model.Companies.Sum(x => x.PlanSum).ToString("# ### ### ##0.0")
             </td>
         </tr>
         <tr class="success">
@@ -78,7 +78,7 @@
                 @Html.LabelFor(model => model.Companies.First().FactSum)
             </td>
             <td>
-                @Model.Companies.Sum(x => x.FactSum)
+                @Model.Companies.Sum(x => x.FactSum).ToString("# ### ### ##0.0")
             </td>
         </tr>
         <tr class="warning">
@@ -86,7 +86,7 @@
                 @Html.LabelFor(model => model.Companies.First().Balance)
             </td>
             <td>
-                @Model.Companies.Sum(x => x.Balance) сом
+                @Model.Companies.Sum(x => x.Balance).ToString("# ### ### ##0.0") сом
             </td>
         </tr>
     </tbody>

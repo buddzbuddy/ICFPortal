@@ -1,0 +1,221 @@
+﻿@model CISSAPortal.Models.DiagramViewModel
+@{
+    ViewBag.Title = "Инфографика по республике";
+}
+
+<h3>@Html.ActionLink("Поиск и просмотр данных", "Index", "Search") | @Html.ActionLink("Монитор сводных данных", "Index", "SummaryView") | <span class="label label-info">Инфографика по республике</span></h3>
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <div class="form-group visible-lg-inline-block">
+            @Html.LabelFor(model => model.AreaId, htmlAttributes: new { @class = "control-label col-md-5" })
+            <div class="col-md-8">
+                @Html.DropDownList("AreaId", null, htmlAttributes: new { @class = "form-control chosen-select", data_placeholder = "Выбрать..." })
+            </div>
+        </div>
+        <div class="form-group visible-lg-inline-block">
+            @Html.LabelFor(model => model.From, htmlAttributes: new { @class = "control-label col-md-5" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.From)
+            </div>
+        </div>
+        <div class="form-group visible-lg-inline-block">
+            @Html.LabelFor(model => model.To, htmlAttributes: new { @class = "control-label col-md-5" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.To)
+            </div>
+        </div>
+        <div class="form-group h3 text-center">
+            <span class="glyphicon glyphicon-hand-right" data-toggle="tooltip" title="Выберите объект запроса"></span>
+            <label data-toggle="tooltip" title="@(Model.EntityType == CISSAPortal.Models.EntityType.Produt ? "Выбрано" : "Нажмите чтобы выбрать")" class="label label-@(Model.EntityType == CISSAPortal.Models.EntityType.Produt ? "primary" : "default")" style="cursor:pointer"><span class="@(Model.EntityType == CISSAPortal.Models.EntityType.Produt ? "glyphicon glyphicon-ok" : "")"></span>@Html.RadioButton("EntityType", CISSAPortal.Models.EntityType.Produt, new { id = "EntityTypeProduct", @class = "radio radio-inline hidden" }) Продукты/товары/изделия</label>
+            <label data-toggle="tooltip" title="@(Model.EntityType == CISSAPortal.Models.EntityType.Certificate ? "Выбрано" : "Нажмите чтобы выбрать")"  class="label label-@(Model.EntityType == CISSAPortal.Models.EntityType.Certificate ? "primary" : "default")" style="cursor:pointer"><span class="@(Model.EntityType == CISSAPortal.Models.EntityType.Certificate ? "glyphicon glyphicon-ok" : "")"></span>@Html.RadioButton("EntityType", CISSAPortal.Models.EntityType.Certificate, new { id = "EntityTypeCertificate", @class = "radio radio-inline hidden" }) Заключения</label>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-5 col-md-5">
+                <input type="submit" value="Поиск" class="btn btn-primary" />
+                <a href="" class="btn btn-default">Сбросить</a>
+            </div>
+        </div>
+    </div>
+}
+<hr />
+<div class="diagramResult @(Model.BarDiagramItems.Count == 0 && Model.PieDiagramItems.Count == 0 ? "hidden" : "")">
+    @if (ViewBag.QueryTitle != null)
+    {
+        <h3 class="text-info">
+            @ViewBag.QueryTitle
+        </h3>
+    }
+    <a href="#" id="barRotateBtn" class="@(Model.BarDiagramItems.Count == 0 ? "hidden" : "") pull-right"><span class="glyphicon glyphicon-retweet"></span> повернуть</a><br />
+    <div id="barChart" class="@(Model.BarDiagramItems.Count == 0 ? "hidden" : "")">
+
+    </div>
+
+    <div class="@(Model.PieDiagramItems.Count == 0 ? "hidden" : "")">
+        <h4>
+            В процентах (%)
+        </h4>
+    </div>
+    <div id="pieChart" class="@(Model.PieDiagramItems.Count == 0 ? "hidden" : "")">
+
+    </div>
+</div>
+@section styles{
+    @Styles.Render("~/chosen_v1.8.2/css")
+    @Styles.Render("~/Content/c3ss")
+    <style>
+        .diagramResult{
+            border: 1px solid grey;
+            padding: 5px;
+        }
+    </style>
+}
+
+@section scripts{
+    @Scripts.Render("~/chosen_v1.8.2/js")
+    @Scripts.Render("~/Scripts/c3js")
+    <script>
+        var pieJSON = {
+            columns: [],
+            names: {}
+        };
+        function createBarChart(data1src, data2src, data3src, catSrc) {
+            var toggleBtn = false;
+
+            var cats = catSrc.split(',');
+
+            var data1 = ['data1'];
+            data1src.split(',').forEach(function (item) {
+                data1.push(parseInt(item));
+            });
+            var data2 = ['data2'];
+            data2src.split(',').forEach(function (item) {
+                data2.push(parseInt(item));
+            });
+            var data3 = ['data3'];
+            data3src.split(',').forEach(function (item) {
+                data3.push(parseInt(item));
+            });
+
+            var barChart = c3.generate({
+                bindto: '#barChart',
+                data: {
+                    columns: [
+                        data1,
+                        data2,
+                        data3
+                    ],
+                    types: {
+                        data1: 'bar',
+                        data2: 'bar',
+                        data3: 'bar'
+                    },
+                    names: {
+                        data1: 'Поступило',
+                        data2: 'Выданы',
+                        data3: 'Остаток'
+                    },
+                    colors: {
+                        data1: 'blue',
+                        data2: 'green',
+                        data3: 'red'
+                    },
+                    groups: [
+                        ['data2', 'data3']
+                    ],
+                    labels: true
+                },
+                axis: {
+                    rotated: true,
+                    x: {
+                        type: 'category',
+                        categories: cats
+                    }
+                }
+            });
+            $(document).delegate('#barRotateBtn', 'click', function (e) {
+                e.preventDefault();
+                barChart = c3.generate({
+                    bindto: '#barChart',
+                    data: {
+                        columns: [
+                            data1,
+                            data2,
+                            data3
+                        ],
+                        types: {
+                            data1: 'bar',
+                            data2: 'bar',
+                            data3: 'bar'
+                        },
+                        names: {
+                            data1: 'Поступило',
+                            data2: 'Выданы',
+                            data3: 'Остаток'
+                        },
+                        colors: {
+                            data1: 'blue',
+                            data2: 'green',
+                            data3: 'red'
+                        },
+                        groups: [
+                            ['data2', 'data3']
+                        ],
+                        labels: true
+                    },
+                    axis: {
+                        rotated: toggleBtn,
+                        x: {
+                            type: 'category',
+                            categories: cats
+                        }
+                    }
+                });
+                toggleBtn = !toggleBtn;
+                return false;
+            });
+        }
+        function createPieChart(dataSrc) {
+            var i = 1;
+            dataSrc.split('|').forEach(function (itemSrc) {
+                var item = itemSrc.split(':');
+                pieJSON.names['data' + i.toString()] = item[0];
+                pieJSON.columns.push([
+                    'data' + i.toString(),
+                    parseInt(item[1])
+                ]);
+                i = i + 1;
+            });
+
+            var pieChart = c3.generate({
+                bindto: '#pieChart',
+                data: {
+                    columns: pieJSON.columns,
+                    type: 'pie',
+                    names: pieJSON.names
+                },
+                legend: {
+                    position: 'right'
+                }
+            });
+        }
+        $(function () {
+            $('.chosen-select').chosen({ allow_single_deselect: true, no_results_text: "Не найдено:" });
+
+            $('.radio').on('click', function (e) {
+                $('input[type="submit"]').click();
+            });
+            @if(Model.BarDiagramItems.Count > 0)
+            {
+                @:createBarChart('@(string.Join(",", Model.BarDiagramItems.Select(x => x.Received)))','@(string.Join(",", Model.BarDiagramItems.Select(x => x.Issued)))','@(string.Join(",", Model.BarDiagramItems.Select(x => x.Balance)))','@(string.Join(",", Model.BarDiagramItems.Select(x => x.CategoryName)))');
+            }
+
+            @if(Model.PieDiagramItems.Count > 0)
+            {
+                @:createPieChart('@(string.Join("|", Model.PieDiagramItems.Select(x => x.Name + ":" + x.Amount)))');
+            }
+
+        });
+    </script>
+}

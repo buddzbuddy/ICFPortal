@@ -42,6 +42,12 @@ namespace IdentitySample
                 .Include("~/chosen_v1.8.2/chosen.css"));
             bundles.Add(new ScriptBundle("~/chosen_v1.8.2/js")
                 .Include("~/chosen_v1.8.2/chosen.jquery.js"));
+
+            //added src for bs-datepicker with locales
+            bundles.Add(new StyleBundle("~/bs-datepicker/css")
+                .Include("~/bootstrap-datepicker-1.6.4-dist/css/bootstrap-datepicker.css"));
+            bundles.Add(new ScriptBundle("~/bs-datepicker/js")
+                .Include("~/bootstrap-datepicker-1.6.4-dist/js/bootstrap-datepicker.js", "~/bootstrap-datepicker-1.6.4-dist/locales/bootstrap-datepicker.ru.min.js"));
         }
     }
 }
