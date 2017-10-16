@@ -2,43 +2,55 @@
 @{
     ViewBag.Title = "Отчеты и заявки";
 }
-
-<h2>Отчеты и заявки</h2>
-
-<p>
-    @Html.ActionLink("План распределения гум. помощи", "Index", "HumDistributionPlans", null, new { @class = "btn btn-primary" })
-</p>
-<p>
-    @Html.ActionLink("Отчет о распределении гум. помощи", "Index", "Reports", null, new { @class = "btn btn-primary" })
-</p>
-<p>
-    @Html.ActionLink("Справочник товаров/изделий", "Index", "Products", null, new { @class = "btn btn-primary" })
-</p>
-<p>
-    @Html.ActionLink("Справочник потребителей/организаций", "Index", "Consumers", null, new { @class = "btn btn-primary" })
-</p>
-
-<p>
-    @Html.ActionLink("Официальный курс валют НБКР", "Index", "Exchange", null, new { @class = "btn btn-success" })
-</p>
-
-
-
-@if (User.IsInRole("Admin"))
+@if (User.IsInRole("DLO"))
 {
-    <p>
-        @Html.ActionLink("Компании", "Index", "Companies", null, new { @class = "btn btn-primary btn-block" })
-    </p>
+    Html.RenderAction("Index", "HumDistributionPlans", new { as_partial = true });
+}
+else
+{
+    <h2>Отчеты и заявки</h2>
+    if (User.IsInRole("HumRecipient"))
+    {
+        <p>
+            @Html.ActionLink("План распределения гум. помощи", "Index", "HumDistributionPlans", null, new { @class = "btn btn-primary" })
+        </p>
+        <p>
+            @Html.ActionLink("Отчет о распределении гум. помощи", "Index", "Reports", null, new { @class = "btn btn-primary" })
+        </p>
+    }
+    if (User.IsInRole("DLO"))
+    {
+        <p>
+            @Html.ActionLink("План распределения гум. помощи", "Index", "HumDistributionPlans", null, new { @class = "btn btn-primary" })
+        </p>
+    }
 
-    <p>
-        @Html.ActionLink("Справочник ед. измерения", "Index", "UnitTypes", null, new { @class = "btn btn-primary btn-block" })
-    </p>
+    if (User.IsInRole("Admin"))
+    {
+        <p>
+            @Html.ActionLink("Справочник товаров/изделий", "Index", "Products", null, new { @class = "btn btn-primary" })
+        </p>
+        <p>
+            @Html.ActionLink("Справочник потребителей/организаций", "Index", "Consumers", null, new { @class = "btn btn-primary" })
+        </p>
 
-    <p>
-        @Html.ActionLink("Статусы", "Index", "DocumentStates", null, new { @class = "btn btn-primary btn-block" })
-    </p>
+        <p>
+            @Html.ActionLink("Официальный курс валют НБКР", "Index", "Exchange", null, new { @class = "btn btn-success" })
+        </p>
+        <p>
+            @Html.ActionLink("Компании", "Index", "Companies", null, new { @class = "btn btn-primary btn-block" })
+        </p>
 
-    <p>
-        @Html.ActionLink("Отчет юр.лиц на получение выплат по беременности и родам и на погребение", "Index", "LegalReportSections", null, new { @class = "btn btn-primary btn-block" })
-    </p>
+        <p>
+            @Html.ActionLink("Справочник ед. измерения", "Index", "UnitTypes", null, new { @class = "btn btn-primary btn-block" })
+        </p>
+
+        <p>
+            @Html.ActionLink("Статусы", "Index", "DocumentStates", null, new { @class = "btn btn-primary btn-block" })
+        </p>
+
+        <p>
+            @Html.ActionLink("Отчет юр.лиц на получение выплат по беременности и родам и на погребение", "Index", "LegalReportSections", null, new { @class = "btn btn-primary btn-block" })
+        </p>
+    }
 }

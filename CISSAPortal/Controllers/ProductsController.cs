@@ -48,12 +48,12 @@ namespace CISSAPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name")] Product product)
+        public ActionResult Create([Bind(Include = "Id,Name,IsMedical")] Product product)
         {
+            if (db.Products.Any(x => x.Name.ToLower().Trim() == product.Name.ToLower().Trim()))
+                ModelState.AddModelError("Name", "Товар/Продукт/Изделие с таким названием существует!");
             if (ModelState.IsValid)
             {
-                if (db.Products.Any(x => x.Name.ToLower().Trim() == product.Name.ToLower().Trim()))
-                    return Json(new { error = "Товар/Продукт/Изделие с таким названием существует!" }, JsonRequestBehavior.AllowGet);
                 db.Products.Add(product);
                 db.SaveChanges();
                 if (Request.IsAjaxRequest())
@@ -85,7 +85,7 @@ namespace CISSAPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name")] Product product)
+        public ActionResult Edit([Bind(Include = "Id,Name,IsMedical")] Product product)
         {
             if (ModelState.IsValid)
             {

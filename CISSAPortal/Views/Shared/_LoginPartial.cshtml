@@ -5,7 +5,8 @@
 
         <ul class="nav navbar-nav navbar-right">
             <li>
-                @Html.ActionLink("Пользователь " + User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Управление" })
+                @*@Html.ActionLink("Пользователь " + User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Управление" })*@
+                <a href="@Url.Action("Index", "Manage")" title="Управление">@User.Identity.GetUserName() | @{Html.RenderAction("GetUserCompany", "Companies"); }</a>
             </li>
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Выход</a></li>
         </ul>

@@ -9,6 +9,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Configuration;
 
 namespace IdentitySample.Controllers
 {
@@ -65,16 +66,24 @@ namespace IdentitySample.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
+            //custom validation
+            var user = UserManager.Users.FirstOrDefault(u => u.Email == model.Email);
+            if(user != null && !user.EmailConfirmed)
+            {
+                ModelState.AddModelError("", "Пользователь не подтвердил аккаунт.");
+                return View(model);
+            }
+
             // This doen't count login failures towards lockout only two factor authentication
             // To enable password failures to trigger lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false).GetAwaiter().GetResult();
             //throw new ApplicationException(result.ToString());
             switch (result)
             {
@@ -90,7 +99,7 @@ namespace IdentitySample.Controllers
                     return View(model);
             }
         }
-
+        
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
@@ -158,8 +167,15 @@ namespace IdentitySample.Controllers
                 if (result.Succeeded)
                 {
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Подтвердите ваш аккаунт", "Пожалуйста, подтвердите Ваш аккаунт перейдя по этой: <a href=\"" + callbackUrl + "\">ссылке</a>");
+                    string port = "";
+                    if (ConfigurationManager.AppSettings["PORT"] != "" || ConfigurationManager.AppSettings["PORT"] != "80")
+                        port = ":" + ConfigurationManager.AppSettings["PORT"];
+
+                    var callbackUrl = string.Format("http://{0}{1}/{2}", ConfigurationManager.AppSettings["HOST"], port, Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }));
+                    string subjectMsg = "Подтвердите ваш аккаунт";
+                    string bodyMsg = string.Format("Пожалуйста, подтвердите Ваш аккаунт перейдя по этой: <a href=\"{0}\">ссылке</a><br/><br/><br/>Если ссылка не отображается или не получается ее открыть то скопируйте эту ссылку:<br/><strong>{0}</strong><br/> и вставьте ее в адресную строку браузера и нажмите <strong>ENTER</strong>", callbackUrl);
+
+                    await UserManager.SendEmailAsync(user.Id, subjectMsg, bodyMsg);
                     ViewBag.Link = callbackUrl;
                     return View("DisplayEmail");
                 }
@@ -458,5 +474,7 @@ namespace IdentitySample.Controllers
             }
         }
         #endregion
+
+        
     }
 }

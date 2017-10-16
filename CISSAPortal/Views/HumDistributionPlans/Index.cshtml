@@ -7,24 +7,18 @@
         { 1, "lightblue" },
         { 2, "lightgreen" },
         { 3, "red" },
+        { 4, "yellow" },
         { 0, "" }
     };
 }
 
 <h2>План распределения гум. помощи</h2>
-    @if (ViewBag.Messages != null)
-    {
-        foreach (var item in ViewBag.Messages)
-        {
-<p>@item</p>
-        }
-    }
-@*<p>
-    @Html.ActionLink("Создать план", "Create", null, new { @class = "btn btn-primary" })
-</p>*@
-<p>
-    @Html.ActionLink("Создать план", "CreateWithRows", null, new { @class = "btn btn-primary" })
-</p>
+@if (User.IsInRole("HumRecipient"))
+{
+    <p>
+        @Html.ActionLink("Создать план", "CreateWithRows", null, new { @class = "btn btn-primary" })
+    </p>
+}
 <table class="table table-striped table-bordered table-hover table-condensed">
     <thead>
         <tr>

@@ -37,13 +37,19 @@ namespace CISSAPortal.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: HumDistributionPlans
-        public ActionResult Index(string messages = "")
+        public ActionResult Index(bool as_partial = false)
         {
-            if (messages != "")
+            var humDistributionPlans = db.HumDistributionPlans.Include(h => h.Company).Include(x => x.State);
+            if (User.IsInRole("DLO"))
             {
-                ViewBag.Messages = messages.Split(',');
+                humDistributionPlans = humDistributionPlans.Include(x => x.PlanStates).Where(x => x.PlanStates.Any(x1 => x1.DocumentState.Code == 4));//Отправлен в ДЛО
             }
-            var humDistributionPlans = db.HumDistributionPlans.Include(h => h.Company).Where(x => x.Company.AspNetUser.UserName == User.Identity.Name);
+            else if (User.IsInRole("HumRecipient"))
+            {
+                humDistributionPlans = humDistributionPlans.Where(x => x.Company.AspNetUser.UserName == User.Identity.Name);
+            }
+            if (as_partial)
+                return PartialView(humDistributionPlans.ToList());
             return View(humDistributionPlans.ToList());
         }
 
@@ -388,7 +394,11 @@ namespace CISSAPortal.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            HumDistributionPlan humDistributionPlan = db.HumDistributionPlans.Find(id);
+            HumDistributionPlan humDistributionPlan = db.HumDistributionPlans
+                .Include(x => x.PlanStates.Select(x1 => x1.DocumentState))
+                .Include(x => x.Items.Select(x1 => x1.Product))
+                .Include(x => x.Attachments.Select(x1 => x1.AttachmentType))
+                .FirstOrDefault(x => x.Id == id);
             if (humDistributionPlan == null)
             {
                 return HttpNotFound();
@@ -497,6 +507,80 @@ namespace CISSAPortal.Controllers
             return RedirectToAction("Index");
         }
         
+        public ActionResult AddAttachment(int planId)
+        {
+            var model = new Attachment
+            {
+                HumDistributionPlanId = planId
+            };
+            ViewBag.AttachmentTypeId = new SelectList(db.AttachmentTypes.ToList(), "Id", "Name");
+            return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult SaveAttachment(int? planId, int? typeId)
+        {
+            try
+            {
+                if (planId == null)
+                    throw new Exception("План не передан!");
+                if (typeId == null)
+                    throw new Exception("Тип вложения не передан!");
+                string strImageName, strImageSize;
+                
+                var file = Request.Files.Get("RemoteFile");
+
+                var KB = (double)file.ContentLength / 1024;
+                if (KB > 1024)
+                {
+                    var MB = (double)file.ContentLength / 1024 / 1024;
+                    strImageSize = Math.Round(MB, 1).ToString() + " MB";
+                }
+                else
+                    strImageSize = Math.Round(KB, 1).ToString() + " KB";
+                //Save to Folder
+                /*var newGuid = Guid.NewGuid();
+                strImageName = newGuid + ".pdf";//uploadfile.FileName;
+                string strInputFile = Server.MapPath("~\\ExtraActions\\UploadedImages") + "\\" + strImageName;
+                file.SaveAs(strInputFile);*/
+
+                //Save to DB
+                byte[] data = new byte[file.ContentLength];
+                file.InputStream.Read(data, 0, file.ContentLength);
+
+                db.Attachments.Add(new Attachment
+                {
+                    AttachmentTypeId = typeId,
+                    HumDistributionPlanId = planId,
+                    FileSize = strImageSize,//"~/ExtraActions/UploadedImages/" + strImageName,
+                    Data = data
+                });
+                db.SaveChanges();
+                return Json(new { result = "success" }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception e)
+            {
+                return Json(new { result = "failed", error = e.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public FileResult GetAttachment(int id)
+        {
+            var attachment = db.Attachments.Find(id);
+            byte[] fileBytes = attachment.Data;
+            string fileName = "";
+            return File(fileBytes, MediaTypeNames.Application.Pdf, fileName);
+        }
+
+        public ActionResult DeleteAttachment(int id)
+        {
+            var obj = db.Attachments.Find(id);
+            var planId = obj.HumDistributionPlanId;
+            db.Attachments.Remove(obj);
+            db.SaveChanges();
+            return RedirectToAction("Details", new { id = planId });
+        }
+
         public ActionResult SetState(int reportId, int code)
         {
             var stateObj = db.DocumentStates.FirstOrDefault(x => x.Code == code);
@@ -554,7 +638,7 @@ namespace CISSAPortal.Controllers
                     {
                         var item = docRepo.New(HumDistributionPlanItemDefId);
                         item["HumDistributionPlan"] = reportDoc.Id;
-                        item["Consumer"] = objItem.Consumer;
+                        item["Consumer"] = objItem.Consumer.Name;
                         item["Region"] = objItem.Area.Name;
                         item["Address"] = objItem.Address;
                         item["ProductName"] = objItem.Product.Name;

@@ -48,6 +48,13 @@ namespace IdentitySample
                 .Include("~/bootstrap-datepicker-1.6.4-dist/css/bootstrap-datepicker.css"));
             bundles.Add(new ScriptBundle("~/bs-datepicker/js")
                 .Include("~/bootstrap-datepicker-1.6.4-dist/js/bootstrap-datepicker.js", "~/bootstrap-datepicker-1.6.4-dist/locales/bootstrap-datepicker.ru.min.js"));
+
+            //Scan WebTWAIN Libraries
+            bundles.Add(new ScriptBundle("~/bundles/dynamsoft-dwt").Include(
+                "~/Scripts/Resources/dynamsoft.webtwain.config.js",
+                "~/Scripts/Resources/dynamsoft.webtwain.initiate.js",
+                "~/Scripts/Resources/addon/dynamsoft.webtwain.addon.pdf.js"
+                ));
         }
     }
 }

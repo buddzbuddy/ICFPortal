@@ -95,16 +95,16 @@ namespace IdentitySample.Models
         {
             using (MailMessage mail = new MailMessage())
             {
-                mail.From = new MailAddress("abormokov@gmail.com");
+                mail.From = new MailAddress("cissaportal@gmail.com");
                 mail.To.Add(message.Destination);
-                mail.Subject = "Hello World" + message.Subject;
-                mail.Body = "<h1>Hello</h1>" + message.Body;
+                mail.Subject = string.Format("Портал КИССП: {0}", message.Subject);
+                mail.Body = "<h2>Министерство труда и социального развития Кыргызской Республики</h2>" + message.Body;
                 mail.IsBodyHtml = true;
-                mail.Attachments.Add(new Attachment("D:\\ad.zip"));
+                //mail.Attachments.Add(new Attachment("D:\\ad.zip"));
 
                 using (SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587))
                 {
-                    smtp.Credentials = new NetworkCredential("abormokov@gmail.com", "8031993gmail");
+                    smtp.Credentials = new NetworkCredential("cissaportal@gmail.com", "8031993cissaportal");
                     smtp.EnableSsl = true;
                     smtp.Send(mail);
                 }

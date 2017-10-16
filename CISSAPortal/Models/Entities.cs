@@ -402,6 +402,8 @@ namespace IdentitySample.Models
         public virtual ICollection<HumDistributionPlanItem> Items { get; set; }
         public virtual ICollection<Report> Reports { get; set; }
         public virtual ICollection<Return> Returns { get; set; }
+        public virtual ICollection<PlanState> PlanStates { get; set; }
+        public virtual ICollection<Attachment> Attachments { get; set; }
     }
 
     public class HumDistributionPlanItem
@@ -522,6 +524,10 @@ namespace IdentitySample.Models
         [Required]
         [Display(Name = "Товар / Продукт / Изделие")]
         public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Медицинское изделие/оборудование (Минздрав)")]
+        public bool IsMedical { get; set; } = false;
     }
 
     public class Return
@@ -541,7 +547,56 @@ namespace IdentitySample.Models
 
         [ForeignKey("HumDistributionPlan")]
         public int? HumDistributionPlanId { get; set; }
-        public HumDistributionPlan HumDistributionPlan { get; set; }
+        public virtual HumDistributionPlan HumDistributionPlan { get; set; }
+    }
+
+    public class PlanState
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "Дата/время установки статуса")]
+        public DateTime StateDate { get; set; }
+
+        [Required]
+        [ForeignKey("HumDistributionPlan")]
+        public int? HumDistributionPlanId { get; set; }
+        public virtual HumDistributionPlan HumDistributionPlan { get; set; }
+
+        [Required]
+        [ForeignKey("DocumentState")]
+        public int? DocumentStateId { get; set; }
+        public virtual DocumentState DocumentState { get; set; }
+    }
+
+    public class AttachmentType
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "Документ")]
+        public string Name { get; set; }
+    }
+
+    public class Attachment
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [ForeignKey("AttachmentType")]
+        public int? AttachmentTypeId { get; set; }
+        public virtual AttachmentType AttachmentType { get; set; }
+
+        [ForeignKey("HumDistributionPlan")]
+        public int? HumDistributionPlanId { get; set; }
+        public virtual HumDistributionPlan HumDistributionPlan { get; set; }
+
+        [Display(Name = "Размер файла")]
+        public string FileSize { get; set; }
+
+        public byte[] Data { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -590,6 +645,12 @@ namespace IdentitySample.Models
 
         public System.Data.Entity.DbSet<IdentitySample.Models.Product> Products { get; set; }
 
+        public DbSet<PlanState> PlanStates { get; set; }
+
         public DbSet<Return> Returns { get; set; }
+
+        public DbSet<AttachmentType> AttachmentTypes { get; set; }
+
+        public DbSet<Attachment> Attachments { get; set; }
     }
 }

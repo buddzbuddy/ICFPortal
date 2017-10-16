@@ -68,7 +68,8 @@ namespace IdentitySample.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var user = await UserManager.FindByIdAsync(id);
-            
+
+            ViewBag.RoleNames = UserManager.GetRoles(user.Id);
             return View(user);
         }
 

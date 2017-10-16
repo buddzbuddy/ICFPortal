@@ -7,9 +7,11 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using IdentitySample.Models;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace CISSAPortal.Controllers
 {
+    [Authorize]
     public class CompaniesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -69,13 +71,24 @@ namespace CISSAPortal.Controllers
                 db.SaveChanges();
                 if (returnUrl != null)
                     return Redirect(returnUrl);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
 
             ViewBag.AspNetUserId = new SelectList(db.Users, "Id", "Email", company.AspNetUserId);
             return View(company);
         }
 
+        public string GetUserCompany()
+        {
+            var uManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var userInfo = uManager.FindByNameAsync(User.Identity.Name).GetAwaiter().GetResult();
+            var company = db.Companies.FirstOrDefault(x => x.AspNetUserId == userInfo.Id);
+            if (company != null)
+            {
+                return company.Name;
+            }
+            return "---";
+        }
         // GET: Companies/Edit/5
         public ActionResult Edit(int? id)
         {
