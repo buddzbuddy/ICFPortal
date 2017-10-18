@@ -53,8 +53,8 @@ namespace CISSAPortal.Controllers
             var usrList = cissameta.GetUSRList();
             //ViewBag.AspNetUserId = new SelectList(db.Users, "Id", "Email");
 
-            ViewBag.OrgId = new SelectList(usrList, "Id", "Name");
-            var model = new Company { AspNetUserId = userId };
+            //ViewBag.OrgId = new SelectList(usrList, "Id", "Name");
+            var model = new Company { AspNetUserId = userId, OrgId = usrList.First().Id };
             return View(model);
         }
 

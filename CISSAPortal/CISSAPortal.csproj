@@ -434,9 +434,19 @@
     <Content Include="Content\c3.min.css" />
     <Content Include="Content\manuals\img1.png" />
     <Content Include="Content\manuals\image002.png" />
+    <Content Include="Content\manuals\img10.png" />
+    <Content Include="Content\manuals\img11.png" />
+    <Content Include="Content\manuals\img12.png" />
+    <Content Include="Content\manuals\img13.png" />
+    <Content Include="Content\manuals\img14.png" />
     <Content Include="Content\manuals\img2.png" />
     <Content Include="Content\manuals\img3.png" />
     <Content Include="Content\manuals\img4.png" />
+    <Content Include="Content\manuals\img5.png" />
+    <Content Include="Content\manuals\img6.png" />
+    <Content Include="Content\manuals\img7.png" />
+    <Content Include="Content\manuals\img8.png" />
+    <Content Include="Content\manuals\img9.png" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
@@ -770,6 +780,8 @@
     <Content Include="Scripts\Resources\reference\LICENSE" />
     <Content Include="Scripts\Resources\WinDWT_13.0.0.0404.zip" />
     <Content Include="Views\HumDistributionPlans\AddAttachment.cshtml" />
+    <Content Include="Views\HumDistributionPlans\Return.cshtml" />
+    <Content Include="Views\HumDistributionPlans\EditRow.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

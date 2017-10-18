@@ -33,7 +33,7 @@ namespace IdentitySample.Models
         public int Id { get; set; }
 
         [Required]
-        [Display(Name = "Название компании/юр.лица")]
+        [Display(Name = "Название организации")]
         public string Name { get; set; }
 
         [Required]

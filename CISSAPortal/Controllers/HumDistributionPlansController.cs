@@ -581,6 +581,90 @@ namespace CISSAPortal.Controllers
             return RedirectToAction("Details", new { id = planId });
         }
 
+        public ActionResult Return(int planId)
+        {
+            var model = new Return
+            {
+                HumDistributionPlanId = planId,
+                ReturnedDate = DateTime.Now
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Return(Return model)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Returns.Add(model);
+                db.SaveChanges();
+                return RedirectToAction("SetState", new { reportId = model.HumDistributionPlanId, code = 3 });
+            }
+            return View(model);
+        }
+
+        public ActionResult EditRow(int planItemId)
+        {
+            var model = db.HumDistributionPlanItems.Find(planItemId);
+
+            var consumers = db.Consumers.ToList();
+            consumers.Insert(0, new Consumer());
+            ViewBag.ConsumerId = new SelectList(consumers, "Id", "Name", model.ConsumerId);
+
+            var products = db.Products.ToList();
+            products.Insert(0, new Product());
+            ViewBag.ProductId = new SelectList(products, "Id", "Name", model.ProductId);
+
+            var areas = db.Areas.ToList();
+            areas.Insert(0, new Area());
+            ViewBag.AreaId = new SelectList(areas, "Id", "Name", model.AreaId);
+
+            var unitTypes = db.UnitTypes.ToList();
+            unitTypes.Insert(0, new UnitType());
+            ViewBag.UnitTypeId = new SelectList(unitTypes, "Id", "Name", model.UnitTypeId);
+
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        public JsonResult EditRow(HumDistributionPlanItem model)
+        {
+            var errors = new List<string>();
+            if (model.ConsumerId == 0)
+                errors.Add("Потребитель не указан");
+            if (model.AreaId == 0)
+                errors.Add("Область не указана");
+            if (model.ProductId == 0)
+                errors.Add("Товар / Продукт / Изделие не указано");
+            if (model.UnitTypeId == 0)
+                errors.Add("Ед. измерения не указана");
+            
+            if (errors.Count == 0)
+            {
+                db.Entry(model).State = EntityState.Modified;
+                db.SaveChanges();
+                return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new { success = false, error = string.Join(",", errors) }, JsonRequestBehavior.AllowGet);
+        }
+        public static string RenderViewToString(ControllerContext context, string viewName, object model)
+        {
+            if (string.IsNullOrEmpty(viewName))
+                viewName = context.RouteData.GetRequiredString("action");
+
+            ViewDataDictionary viewData = new ViewDataDictionary(model);
+
+            using (StringWriter sw = new StringWriter())
+            {
+                ViewEngineResult viewResult = ViewEngines.Engines.FindPartialView(context, viewName);
+                ViewContext viewContext = new ViewContext(context, viewResult.View, viewData, new TempDataDictionary(), sw);
+                viewResult.View.Render(viewContext, sw);
+
+                return sw.GetStringBuilder().ToString();
+            }
+        }
+
         public ActionResult SetState(int reportId, int code)
         {
             var stateObj = db.DocumentStates.FirstOrDefault(x => x.Code == code);
@@ -602,7 +686,7 @@ namespace CISSAPortal.Controllers
                     return RedirectToAction("Details", new { id = reportId });
                 }
                 else
-                    return HttpNotFound("Отчет не найден! Id=" + reportId);
+                    return HttpNotFound("План не найден! Id=" + reportId);
             }
             return HttpNotFound("Статус с кодом '" + code + "' не найден!");
         }

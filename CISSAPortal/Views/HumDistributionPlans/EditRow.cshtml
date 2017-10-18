@@ -1,0 +1,67 @@
+﻿@model IdentitySample.Models.HumDistributionPlanItem
+@using (Html.BeginForm("EditRow", "HumDistributionPlans"))
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Consumer.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Area.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Product.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UnitType.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Amount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Sum)
+                </th>
+                <th>
+
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="display:flex">
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.HumDistributionPlanId)
+                    @Html.DropDownList("ConsumerId", null, htmlAttributes: new { @class = "chosen-select col-md-10", data_placeholder = "Выбрать..." })
+                    @Html.ValidationMessageFor(model => model.ConsumerId)
+                    &nbsp;<a title="Добавить элемент" class="btn btn-primary btn-sm addConsumerBtn" href="#modal-form" data-toggle="modal"><span class="glyphicon">+</span></a>
+                </td>
+                <td>
+                    @Html.DropDownList("AreaId", null, htmlAttributes: new { @class = "chosen-select", data_placeholder = "Выбрать..." })
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td style="display:flex">
+                    @Html.DropDownList("ProductId", null, htmlAttributes: new { @class = "chosen-select col-md-10", data_placeholder = "Выбрать..." })
+                    &nbsp;<a title="Добавить элемент" class="btn btn-primary btn-sm addProductBtn" href="#modal-form" data-toggle="modal"><span class="glyphicon">+</span></a>
+                </td>
+                <td>
+                    @Html.DropDownList("UnitTypeId", null, htmlAttributes: new { @class = "chosen-select", data_placeholder = "Выбрать..." })
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Sum, new { htmlAttributes = new { @class = "form-control" } })
+                </td>
+                <td>
+                    <a href="#" class="deleteRow btn btn-sm btn-danger">удалить</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}

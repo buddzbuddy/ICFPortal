@@ -1,14 +1,10 @@
-﻿
-@{
-    ViewBag.Title = "Отчеты и заявки";
-}
-@if (User.IsInRole("DLO"))
+﻿@if (User.IsInRole("DLO"))
 {
     Html.RenderAction("Index", "HumDistributionPlans", new { as_partial = true });
 }
 else
 {
-    <h2>Отчеты и заявки</h2>
+    <h2>Страница пользователя</h2>
     if (User.IsInRole("HumRecipient"))
     {
         <p>

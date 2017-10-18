@@ -48,7 +48,7 @@ namespace CISSAPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,IsMedical")] Product product)
+        public ActionResult Create([Bind(Include = "Id,Name")] Product product)
         {
             if (db.Products.Any(x => x.Name.ToLower().Trim() == product.Name.ToLower().Trim()))
                 ModelState.AddModelError("Name", "Товар/Продукт/Изделие с таким названием существует!");
