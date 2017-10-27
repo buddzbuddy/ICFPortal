@@ -398,6 +398,7 @@ namespace CISSAPortal.Controllers
                 .Include(x => x.PlanStates.Select(x1 => x1.DocumentState))
                 .Include(x => x.Items.Select(x1 => x1.Product))
                 .Include(x => x.Attachments.Select(x1 => x1.AttachmentType))
+                .Include(x => x.Items.Select(x1 => x1.HumDistributionPlanItemChanges))
                 .FirstOrDefault(x => x.Id == id);
             if (humDistributionPlan == null)
             {
@@ -513,7 +514,15 @@ namespace CISSAPortal.Controllers
             {
                 HumDistributionPlanId = planId
             };
-            ViewBag.AttachmentTypeId = new SelectList(db.AttachmentTypes.ToList(), "Id", "Name");
+            var aTypes = db.AttachmentTypes.AsQueryable();
+            var existAttachments = db.Attachments.Where(a => a.HumDistributionPlanId == planId).Select(p => p.AttachmentTypeId).ToList();
+            if(existAttachments.Count > 0)
+            {
+                aTypes = aTypes.Where(x => !existAttachments.Contains(x.Id));
+            }
+            var attachmentTypes = aTypes.ToList();
+            if (attachmentTypes.Count == 0) throw new Exception("Весь перечень документов уже представлен!");
+            ViewBag.AttachmentTypeId = new SelectList(attachmentTypes, "Id", "Name");
             return View(model);
         }
 
@@ -676,7 +685,11 @@ namespace CISSAPortal.Controllers
                     if (code == 1)
                     {
                         if (reportObj.StateId != stateObj.Id)
+                        {
+                            if (db.Attachments.Where(a => a.HumDistributionPlanId == reportId).ToList().Count != db.AttachmentTypes.ToList().Count)
+                                throw new Exception("Представлен не весь пакет документов!");
                             SendToCissa(reportObj);
+                        }
                         else
                             throw new Exception("План уже находится на рассмотрении в Министерстве!");
                     }

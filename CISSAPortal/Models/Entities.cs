@@ -466,6 +466,7 @@ namespace IdentitySample.Models
         }
 
         public virtual ICollection<ReportItem> ReportItems { get; set; }
+        public virtual ICollection<HumDistributionPlanItemChange> HumDistributionPlanItemChanges { get; set; }
     }
     public class HumDistributionPlanItemModel
     {
@@ -599,6 +600,66 @@ namespace IdentitySample.Models
         public byte[] Data { get; set; }
     }
 
+    public class HumDistributionPlanItemChange
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [ForeignKey("HumDistributionPlanItem")]
+        public int? HumDistributionPlanItemId { get; set; }
+        public virtual HumDistributionPlanItem HumDistributionPlanItem { get; set; }
+
+        [ForeignKey("Consumer")]
+        public int ConsumerId { get; set; }
+        public virtual Consumer Consumer { get; set; }
+
+        [ForeignKey("Area")]
+        public int AreaId { get; set; }
+        public virtual Area Area { get; set; }
+
+        [Display(Name = "Адрес")]
+        public string Address { get; set; }
+
+        [ForeignKey("Product")]
+        public int ProductId { get; set; }
+        public virtual Product Product { get; set; }
+
+        [Display(Name = "Ед. изм.")]
+        [ForeignKey("UnitType")]
+        public int UnitTypeId { get; set; }
+        public virtual UnitType UnitType { get; set; }
+
+        [Required]
+        //[DataType(DataType.Currency)]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:# ### ### ##0.0}")]
+        [Display(Name = "Кол-во")]
+        public double? Amount { get; set; }
+
+        [Required]
+        [Display(Name = "Сумма")]
+        //[DataType(DataType.Currency)]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:# ### ### ##0.0}")]
+        public decimal? Sum { get; set; }
+
+        [Display(Name = "Сумма в сомах")]
+        //[DataType(DataType.Currency)]
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:# ### ### ##0.0}")]
+        public decimal? ConvertedSum
+        {
+            get
+            {
+                if (HumDistributionPlanItem != null && HumDistributionPlanItem.HumDistributionPlan != null)
+                {
+                    if (HumDistributionPlanItem.HumDistributionPlan.CurrencyRate != null)
+                    {
+                        return Sum * HumDistributionPlanItem.HumDistributionPlan.CurrencyRate;
+                    }
+                }
+                return null;
+            }
+        }
+    }
+
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
@@ -652,5 +713,7 @@ namespace IdentitySample.Models
         public DbSet<AttachmentType> AttachmentTypes { get; set; }
 
         public DbSet<Attachment> Attachments { get; set; }
+
+        public DbSet<HumDistributionPlanItemChange> HumDistributionPlanItemChanges { get; set; }
     }
 }

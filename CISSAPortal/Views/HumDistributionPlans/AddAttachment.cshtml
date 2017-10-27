@@ -2,18 +2,32 @@
 @{
     ViewBag.Title = "Сканировать документы";
 }
+
+@section styles{
+@Styles.Render("~/chosen_v1.8.2/css")
+    }
+@section scripts{
+    @Scripts.Render("~/chosen_v1.8.2/js")
+<script>
+    $(function () {
+        $('.chosen-select').chosen({ no_results_text: "Не найдено:" });
+    });
+    </script>
+    }
+
 @Scripts.Render("~/bundles/dynamsoft-dwt")
 <div class="jumbotron">
     <p>
-        <input type="button" value="Сканировать" onclick="AcquireImage();" class="btn btn-primary btn-lg" />
-        <input type="button" value="Открыть сущ. файл" onclick="LoadImages();" class="btn btn-primary btn-lg" />
-        <input type="button" value="Сохранить" onclick="UploadImage();" class="btn btn-primary btn-lg" />
+        <input type="button" value="Сканировать" onclick="AcquireImage();" class="btn btn-primary" />
+        <input type="button" value="Открыть сущ. файл" onclick="LoadImages();" class="btn btn-primary" />
+        <input type="button" value="Сохранить" onclick="UploadImage();" class="btn btn-primary" />
+        <input type="button" value="Отмена" onclick="window.history.back();" class="btn btn-default" />
     </p>
     <p>
         <div class="form-group">
             @Html.LabelFor(model => model.AttachmentTypeId, "Документ", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("AttachmentTypeId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("AttachmentTypeId", null, htmlAttributes: new { @class = "form-control chosen-select" })
                 @Html.ValidationMessageFor(model => model.AttachmentTypeId, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -157,8 +171,10 @@
             DWObject.HTTPPort = _strPort;
         }
         function UploadImage() {
-            if (DWObject.HowManyImagesInBuffer == 0)
-                return;
+            if (DWObject.HowManyImagesInBuffer == 0) {
+                bs_alert('Документ не прикреплен!');
+                return false;
+            }
             upload_preparation();
             var Digital = new Date();
             var uploadfilename = Digital.getMilliseconds(); // Uses milliseconds according to local time as the file name
