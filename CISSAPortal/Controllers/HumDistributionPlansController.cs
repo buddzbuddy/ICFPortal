@@ -696,6 +696,18 @@ namespace CISSAPortal.Controllers
                     reportObj.StateId = stateObj.Id;
                     db.Entry(reportObj).State = EntityState.Modified;
                     db.SaveChanges();
+
+                    if(code == 2)//Принят
+                    {
+                        var emailSvc = new EmailService();
+                        emailSvc.SendAsync(new Microsoft.AspNet.Identity.IdentityMessage
+                        {
+                            Destination = reportObj.Company.AspNetUser.Email,
+                            Subject = string.Format("Заключение о гуманитарном характере груза № {0} от {1:d}", reportObj.CertificateNo, reportObj.CertificateDate),
+                            Body = string.Format("Согласно вашего плана от {0:d} Вам выдано заключение о гуманитарном характере груза № {1} от {2:d}.", reportObj.Date, reportObj.CertificateNo, reportObj.CertificateDate)
+                        }).GetAwaiter().GetResult();
+                    }
+
                     return RedirectToAction("Details", new { id = reportId });
                 }
                 else
