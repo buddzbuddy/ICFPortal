@@ -88,6 +88,16 @@
                     @Html.ActionLink("Утвердить и отправить в министерство ТСР", "SetState", new { reportId = Model.Id, code = 1 }, new { @class = "btn btn-info" }) <text>|</text> @Html.ActionLink("Возвратить на доработку", "Return", new { planId = Model.Id }, new { @class = "btn btn-danger" })
                 }</div>
             }
+            else if (Model.State.Code == 5)
+            {
+                <div class="alert alert-danger">@Html.DisplayFor(model => model.State.Name)
+                @Html.ActionLink("Приложить подтверждающий документ", "AddAttachment", new { planId = Model.Id, attachmentTypeId = 8 }, new { @class = "btn btn-info" })
+                </div>
+            }
+            @if (Model.State == null || Model.State.Code != 5)
+            {
+                @Html.ActionLink("Аннулировать (в случае реэкспорта)", "SetState", new { reportId = Model.Id, code = 5 }, new { @class = "btn btn-danger" })
+            }
         </dd>
     </dl>
     @if (User.IsInRole("HumRecipient"))

@@ -85,7 +85,9 @@ namespace CISSAPortal.Controllers
             var company = db.Companies.FirstOrDefault(x => x.AspNetUserId == userInfo.Id);
             if (company != null)
             {
-                return company.Name;
+                var maxLength = company.Name.Length <= 15 ? company.Name.Length : 15;
+                var name = company.Name.Substring(0, maxLength);
+                return company.Name.Length > name.Length ? name + "..." : name;
             }
             return "---";
         }

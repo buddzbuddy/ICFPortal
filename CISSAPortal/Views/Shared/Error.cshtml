@@ -8,7 +8,7 @@
     <h1 class="text-error">Ошибка</h1>
 </hgroup>
 <div class="text-danger"><span class="label label-danger">Текст</span> @ViewData.Model.Exception.Message</div>
-<div class="text-info"><span class="label label-info">Трассировка стэков</span> @ViewData.Model.Exception.StackTrace</div>
+@*<div class="text-info"><span class="label label-info">Трассировка стэков</span> @ViewData.Model.Exception.StackTrace</div>*@
 @if (ViewData.Model.Exception.InnerException != null)
 {
     var e = ViewData.Model.Exception;

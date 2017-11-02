@@ -508,11 +508,12 @@ namespace CISSAPortal.Controllers
             return RedirectToAction("Index");
         }
         
-        public ActionResult AddAttachment(int planId)
+        public ActionResult AddAttachment(int planId, int? attachmentTypeId)
         {
             var model = new Attachment
             {
-                HumDistributionPlanId = planId
+                HumDistributionPlanId = planId,
+                AttachmentTypeId = attachmentTypeId
             };
             var aTypes = db.AttachmentTypes.AsQueryable();
             var existAttachments = db.Attachments.Where(a => a.HumDistributionPlanId == planId).Select(p => p.AttachmentTypeId).ToList();
@@ -573,6 +574,7 @@ namespace CISSAPortal.Controllers
             }
         }
 
+        [AllowAnonymous]
         public FileResult GetAttachment(int id)
         {
             var attachment = db.Attachments.Find(id);
@@ -588,6 +590,23 @@ namespace CISSAPortal.Controllers
             db.Attachments.Remove(obj);
             db.SaveChanges();
             return RedirectToAction("Details", new { id = planId });
+        }
+
+        [AllowAnonymous]
+        public ActionResult ShowAttachments(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var plan = db.HumDistributionPlans
+                .Include(x => x.Attachments.Select(x1 => x1.AttachmentType))
+                .FirstOrDefault(x => x.Id == id);
+            if (plan != null)
+            {
+                return View(plan);
+            }
+            return HttpNotFound("Запрашиваемый план не найден на портале. Возможно он удален получателем.");
         }
 
         public ActionResult Return(int planId)
@@ -674,44 +693,84 @@ namespace CISSAPortal.Controllers
             }
         }
 
-        public ActionResult SetState(int reportId, int code)
+        [AllowAnonymous]
+        public ActionResult SetState(int? reportId, int? planId, int code)
         {
+            if (reportId != null) planId = reportId;
             var stateObj = db.DocumentStates.FirstOrDefault(x => x.Code == code);
             if (stateObj != null)
             {
-                var reportObj = db.HumDistributionPlans.Find(reportId);
-                if (reportObj != null)
+                var planObj = db.HumDistributionPlans.Find(planId);
+                if (planObj != null)
                 {
                     if (code == 1)
                     {
-                        if (reportObj.StateId != stateObj.Id)
+                        if (planObj.StateId != stateObj.Id)
                         {
-                            if (db.Attachments.Where(a => a.HumDistributionPlanId == reportId).ToList().Count != db.AttachmentTypes.ToList().Count)
+                            if (db.Attachments.Where(a => a.HumDistributionPlanId == planId && a.AttachmentType.IsRequired).ToList().Count != db.AttachmentTypes.Where(at => at.IsRequired).ToList().Count)
                                 throw new Exception("Представлен не весь пакет документов!");
-                            SendToCissa(reportObj);
+                            SendToCissa(planObj);
                         }
                         else
                             throw new Exception("План уже находится на рассмотрении в Министерстве!");
                     }
-                    reportObj.StateId = stateObj.Id;
-                    db.Entry(reportObj).State = EntityState.Modified;
+                    planObj.StateId = stateObj.Id;
+                    db.Entry(planObj).State = EntityState.Modified;
                     db.SaveChanges();
-
-                    if(code == 2)//Принят
+                    
+                    if(code == 5)
                     {
-                        var emailSvc = new EmailService();
-                        emailSvc.SendAsync(new Microsoft.AspNet.Identity.IdentityMessage
-                        {
-                            Destination = reportObj.Company.AspNetUser.Email,
-                            Subject = string.Format("Заключение о гуманитарном характере груза № {0} от {1:d}", reportObj.CertificateNo, reportObj.CertificateDate),
-                            Body = string.Format("Согласно вашего плана от {0:d} Вам выдано заключение о гуманитарном характере груза № {1} от {2:d}.", reportObj.Date, reportObj.CertificateNo, reportObj.CertificateDate)
-                        }).GetAwaiter().GetResult();
+                        //TODO
                     }
 
-                    return RedirectToAction("Details", new { id = reportId });
+                    if (code == 2)//Принят
+                    {
+                        try
+                        {
+                            string email = "";
+                            if(planObj.Company != null)
+                                email = planObj.Company.AspNetUser.Email;
+                            else
+                            {
+                                var company = db.Companies.Include(x => x.AspNetUser).FirstOrDefault(x => x.Id == planObj.CompanyId);
+                                if (company != null)
+                                {
+                                    if(company.AspNetUser != null)
+                                    {
+                                        if (!string.IsNullOrEmpty(company.AspNetUser.Email))
+                                        {
+                                            email = company.AspNetUser.Email;
+                                        }
+                                        else
+                                            throw new Exception("Email у данного пользователя не найдена! Параметр UserID:" + company.AspNetUser.Id);
+                                    }
+                                    else
+                                        throw new Exception("Пользователь у данной организации не найден! Параметр CompanyID:" + company.Id + ", UserID:" + company.AspNetUserId);
+                                }
+                                else
+                                    throw new Exception("Организация у данного плана не найдена! Параметр planID:" + planObj.Id + ", CompanyID:" + planObj.CompanyId);
+                            }
+                            var emailSvc = new EmailService();
+                            emailSvc.SendAsync(new Microsoft.AspNet.Identity.IdentityMessage
+                            {
+                                Destination = email,
+                                Subject = string.Format("Заключение о гуманитарном характере груза № {0} от {1:d}", planObj.CertificateNo, planObj.CertificateDate),
+                                Body = string.Format("Согласно вашего плана от {0:d} Вам выдано заключение о гуманитарном характере груза № {1} от {2:d}.", planObj.Date, planObj.CertificateNo, planObj.CertificateDate)
+                            }).GetAwaiter().GetResult();
+                            return Json(new { result = true }, JsonRequestBehavior.AllowGet);
+                        }
+                        catch(Exception e)
+                        {
+                            while (e.InnerException != null) e = e.InnerException;
+                            return Json(new { result = false, errorMessage = e.Message }, JsonRequestBehavior.AllowGet);
+                        }
+
+                    }
+
+                    return RedirectToAction("Details", new { id = planId });
                 }
                 else
-                    return HttpNotFound("План не найден! Id=" + reportId);
+                    return HttpNotFound("План не найден! Id=" + planId);
             }
             return HttpNotFound("Статус с кодом '" + code + "' не найден!");
         }

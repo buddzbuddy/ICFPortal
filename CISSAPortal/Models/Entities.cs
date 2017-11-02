@@ -579,6 +579,7 @@ namespace IdentitySample.Models
         [Required]
         [Display(Name = "Документ")]
         public string Name { get; set; }
+        public bool IsRequired { get; set; }
     }
 
     public class Attachment

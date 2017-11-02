@@ -166,6 +166,8 @@ namespace IdentitySample.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    UserManager.AddToRole(user.Id, "HumRecipient");
+
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     string port = "";
                     if (ConfigurationManager.AppSettings["PORT"] != "" || ConfigurationManager.AppSettings["PORT"] != "80")
