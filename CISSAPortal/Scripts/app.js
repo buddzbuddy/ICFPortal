@@ -5,9 +5,10 @@ var UnitTypeList = (function () {
     }
     UnitTypeList.prototype.load = function () {
         var _this = this;
-        $.getJSON('http://localhost:3180/UnitTypes/GetUnitTypesTS', function (data) {
+        $.getJSON(getUnitTypesUrl, function (data) {
             _this.unitTypes = data;
-            alert('данные загружены');
+            _this.displayUnitTypes();
+            //alert('данные загружены');
         });
     };
     UnitTypeList.prototype.displayUnitTypes = function () {
@@ -32,6 +33,6 @@ var UnitType = (function () {
 window.onload = function () {
     var unitTypeList = new UnitTypeList();
     $("#loadBtn").click(function () { unitTypeList.load(); });
-    $("#displayBtn").click(function () { unitTypeList.displayUnitTypes(); });
+    //$("#displayBtn").click(() => { unitTypeList.displayUnitTypes(); });
 };
 //# sourceMappingURL=app.js.map

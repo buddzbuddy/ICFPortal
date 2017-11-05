@@ -7,7 +7,10 @@
 
 <div id="content"></div>
 <button class="btn" id="loadBtn">Загрузить</button>
-<button class="btn" id="displayBtn">Показать</button>
+@*<button class="btn" id="displayBtn">Показать</button>*@
 @section scripts{
+    <script>
+        var getUnitTypesUrl = '@Url.Action("GetUnitTypesTS")';
+    </script>
     <script src='@Url.Content("~/Scripts/app.js")'></script>
 }

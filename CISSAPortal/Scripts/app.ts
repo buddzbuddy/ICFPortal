@@ -1,20 +1,18 @@
 ﻿/// <reference path="typings/jquery/jquery.d.ts" />
+declare var getUnitTypesUrl: string;
 class UnitTypeList {
 
     private unitTypes: Array<UnitType> = new Array<UnitType>();
-
     load(): void {
-
-        $.getJSON('http://localhost:3180/UnitTypes/GetUnitTypesTS',
+        $.getJSON(getUnitTypesUrl,
             (data) => {
                 this.unitTypes = data;
-                alert('данные загружены');
-
+                this.displayUnitTypes();
+                //alert('данные загружены');
             });
     }
 
     displayUnitTypes(): void {
-
         var table = '<table class="table">'
         for (var i = 0; i < this.unitTypes.length; i++) {
 
@@ -38,5 +36,5 @@ class UnitType {
 window.onload = () => {
     var unitTypeList: UnitTypeList = new UnitTypeList();
     $("#loadBtn").click(() => { unitTypeList.load(); });
-    $("#displayBtn").click(() => { unitTypeList.displayUnitTypes(); });
+    //$("#displayBtn").click(() => { unitTypeList.displayUnitTypes(); });
 };
