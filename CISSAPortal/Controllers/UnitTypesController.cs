@@ -20,6 +20,16 @@ namespace CISSAPortal.Controllers
         {
             return View(db.UnitTypes.ToList());
         }
+        // GET: UnitTypes
+        public ActionResult IndexTS()
+        {
+            return View();
+        }
+
+        public JsonResult GetUnitTypesTS()
+        {
+            return Json(db.UnitTypes.ToList(), JsonRequestBehavior.AllowGet);
+        }
 
         // GET: UnitTypes/Details/5
         public ActionResult Details(int? id)
