@@ -190,7 +190,8 @@ namespace CISSAPortal.Controllers
         {
             if (humDistributionPlanId == null)
                 return RedirectToAction("SelectHumDistributionPlan");
-
+            if (db.HumDistributionPlans.Any(x => x.Id == humDistributionPlanId && x.State.Code == 5))
+                throw new Exception("Отчет нельзя формировать для аннулированных планов распределений!");
             var user = UserManager.FindByNameAsync(User.Identity.Name).GetAwaiter().GetResult();
             var report = new Report { UserId = user.Id, User = user, HumDistributionPlanId = humDistributionPlanId };
 
