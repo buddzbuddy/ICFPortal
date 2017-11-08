@@ -37,14 +37,6 @@
                 @Html.EditorFor(model => model.Date)
             </div>
         </div>
-
-        @*<div class="form-group">
-            @Html.LabelFor(model => model.UserId, "UserId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("UserId", null, htmlAttributes: new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.UserId, "", new { @class = "text-danger" })
-            </div>
-        </div>*@
         @Html.HiddenFor(model => model.UserId)
         @Html.HiddenFor(model => model.HumDistributionPlanId)
     </div>
@@ -59,6 +51,9 @@
                 </th>
                 <th colspan="2" class="text-center">
                     Фактически
+                </th>
+                <th colspan="2" class="text-center">
+                    Испорчены
                 </th>
                 <th colspan="2" class="text-center">
                     Остаток на конец отчетного периода
@@ -85,6 +80,12 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.ReportItems.First().HumDistributionPlanItem.Sum)
+                </th>
+                <th>
+                    Кол-во
+                </th>
+                <th>
+                    Сумма
                 </th>
                 <th>
                     Кол-во
@@ -144,6 +145,12 @@
                         <input type="text" class="form-control fact_sum" />
                     </td>
                     <td>
+                        <input type="text" class="form-control spoiled_amount" />
+                    </td>
+                    <td>
+                        <input type="text" class="form-control spoiled_sum" />
+                    </td>
+                    <td>
                         <input type="text" class="form-control balance_amount" disabled />
                     </td>
                     <td>
@@ -193,33 +200,41 @@
         $(function () {
             prev_report_initializer.init();
 
-            $(document).delegate('.fact_amount', 'change', function (e) {
+            $(document).delegate('.fact_amount, .spoiled_amount', 'change', function (e) {
                 var row = $(this).closest('tr');
                 var planAmount = parseFloat($('.plan_amount', row).html().replace(/\s/g, ''));
-                var factAmount = parseFloat($(this).val());
+                var factAmount = parseFloat($('.fact_amount', row).val()) || 0.0;
+                var spoiled_amount = parseFloat($('.spoiled_amount', row).val()) || 0.0;
                 var prev_balance_amount = parseFloat($('.prev_balance_amount', row).val());
 
                 if (prev_balance_amount > 0)
                     planAmount = prev_balance_amount;
-                if (factAmount >= 0) {
-                    $('.balance_amount', row).val(planAmount - factAmount);
+                if (factAmount >= 0 && spoiled_amount >= 0) {
+                    $('.balance_amount', row).val(planAmount - factAmount - spoiled_amount);
                 }
                 else {
-                    $(this).val(null);
+                    if (!(factAmount >= 0))
+                        $('.fact_amount', row).val(0);
+                    if (!(spoiled_amount >= 0))
+                        $('.spoiled_amount', row).val(0);
                 }
             });
-            $(document).delegate('.fact_sum', 'change', function (e) {
+            $(document).delegate('.fact_sum, .spoiled_sum', 'change', function (e) {
                 var row = $(this).closest('tr');
                 var plansum = parseFloat($('.plan_sum', row).html().replace(/\s/g, ''));
-                var factsum = parseFloat($(this).val());
+                var factsum = parseFloat($('.fact_sum', row).val()) || 0;
+                var spoiled_sum = parseFloat($('.spoiled_sum', row).val()) || 0;
                 var prev_balance_sum = parseFloat($('.prev_balance_sum', row).val());
                 if (prev_balance_sum > 0)
                     plansum = prev_balance_sum;
-                if (factsum >= 0) {
-                    $('.balance_sum', row).val(plansum - factsum);
+                if (factsum >= 0 && spoiled_sum >= 0) {
+                    $('.balance_sum', row).val(plansum - factsum - spoiled_sum);
                 }
                 else {
-                    $(this).val(null);
+                    if (!(factsum >= 0))
+                        $('.fact_sum', row).val(0);
+                    if (!(spoiled_sum >= 0))
+                        $('.spoiled_sum', row).val(0);
                 }
             });
 
@@ -227,6 +242,8 @@
             //set defaults
             $('.fact_amount').val(0).trigger('change');
             $('.fact_sum').val(0).trigger('change');
+            $('.spoiled_amount').val(0).trigger('change');
+            $('.spoiled_sum').val(0).trigger('change');
 
             $('#Create').on('click', function (e) {
                 e.preventDefault();

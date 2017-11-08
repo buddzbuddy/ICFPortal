@@ -130,6 +130,13 @@ namespace IdentitySample.Models
         [Display(Name = "Сумма")]
         public decimal? FactSum { get; set; }
 
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:# ### ### ##0.0}")]
+        [Display(Name = "Кол-во")]
+        public double? SpoiledAmount { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:# ### ### ##0.0}")]
+        [Display(Name = "Сумма")]
+        public decimal? SpoiledSum { get; set; }
+
         [Display(Name = "Кол-во")]
         [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:# ### ### ##0.0}")]
         public double? BalanceAmount { get; set; }

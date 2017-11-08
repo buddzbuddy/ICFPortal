@@ -213,7 +213,7 @@ namespace CISSAPortal.Controllers
 
         public ActionResult SelectHumDistributionPlan()
         {
-            var humDistributionPlans = db.HumDistributionPlans.Include(h => h.Company).Where(x => x.Company.AspNetUser.UserName == User.Identity.Name);
+            var humDistributionPlans = db.HumDistributionPlans.Include(h => h.Company).Include(h => h.State).Where(x => x.Company.AspNetUser.UserName == User.Identity.Name && x.State.Code == 2);
             return View(humDistributionPlans.ToList());
         }
 
@@ -248,6 +248,8 @@ namespace CISSAPortal.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    if (db.Reports.Any(x => x.Year == report.Year && x.Quarter == report.Quarter && x.State.Code != 5))
+                        throw new Exception("Отчет за этот период уже существует!");
                     db.Reports.Add(report);
                     db.SaveChanges();
 
