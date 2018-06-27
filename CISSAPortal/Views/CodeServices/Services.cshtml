@@ -1,0 +1,21 @@
+﻿@model IEnumerable<IdentitySample.Models.CodeService>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ServiceType.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ServiceType.Name)
+        </td>
+        <td>
+            @Html.ActionLink("удалить", "Delete", new { id = item.Id })
+        </td>
+    </tr>
+}
+
+</table>

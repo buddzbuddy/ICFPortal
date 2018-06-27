@@ -1,0 +1,53 @@
+﻿@model IEnumerable<IdentitySample.Models.IPR>
+
+@{
+    ViewBag.Title = "СПИСОК ИНДИВИДУАЛЬНОЙ ПРОГРАММЫ РЕАБИЛИТАЦИИ РЕБЕНКА С ОВЗ";
+}
+
+<h2>СПИСОК ИНДИВИДУАЛЬНОЙ ПРОГРАММЫ РЕАБИЛИТАЦИИ РЕБЕНКА С ОВЗ</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ParentCase.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EndDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MedicalActNo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NextDateExamination)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ParentCase.FullName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MedicalActNo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NextDateExamination)
+        </td>
+        <td>
+            @Html.ActionLink("Просмотр", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Удалить", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

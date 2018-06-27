@@ -1,0 +1,165 @@
+﻿@model IdentitySample.Models.ParentCase
+
+@{
+    ViewBag.Title = "АНКЕТА ДЛЯ ОЦЕНКИ АКТИВНОСТИ И СПОСОБНОСТИ УЧАСТИЯ РЕБЕНКА";
+}
+
+<h2>Просмотр</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>АНКЕТА ДЛЯ ОЦЕНКИ АКТИВНОСТИ И СПОСОБНОСТИ УЧАСТИЯ РЕБЕНКА</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div>
+            @Html.HiddenFor(model => model.PatientId)
+            <h4>Инфомация о пациенте</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Patient.LastName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Patient.LastName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Patient.FirstName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Patient.FirstName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Patient.MiddleName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Patient.MiddleName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Patient.Contacts)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Patient.Contacts)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Patient.BirthDate)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Patient.BirthDate)
+                </dd>
+
+            </dl>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FullName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FilledPlaceName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FilledPlaceName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FilledPlaceName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FilledDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FilledDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FilledDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <p>На вопросы по вопроснику отвечает сам ребенок или же законный представитель ребенка.</p>
+            <p>Далее представлены вопросы, связанные с повседневной деятельностью детей. При заполнении анкеты требуется отметить (очеркнуть кругом), как часто каждый из следующих видов деятельности вызывали затруднения.&nbsp;</p>
+
+            @Html.Label("Reference3Id", labelText: "Шкала оценки:", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Reference3Id", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Reference3Id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <p><i><span style="font-size: 10pt; line-height: 115%; font-family: &quot;Times New Roman&quot;, serif;">Ответы на уточняющие вопросы &laquo;Почему? Причины?&raquo;, запишите в <b>Вопроснике </b>в блоке <b>&laquo;Описание проблемы&raquo;.</b> Будьте внимательны с кодами, помните, что есть три раздела, куда вы можете разнести ответ. К примеру, если у ребенка трудности с умыванием, и причина в том, что имеется <b>спастика рук/кистей</b>, то ответ вы запишите в разделе &laquo;<b>Функции организма</b>&raquo;. В случае, когда его просто <b>не научили</b>, то это раздел &laquo;<b>Активность и участие</b>&raquo;, если у ребенка <b>нет воды и раковины</b> для умывания , то это раздел &laquo;<b>Факторы окружающей среды</b>&raquo;.</span></i></p>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th rowspan="2">
+                        <p align="center">Активность и участие ребенка</p>
+                    </th>
+                    <th colspan="5">
+                        <p align="center">Шкала затруднений</p>
+                    </th>
+                </tr>
+                <tr>
+                    @foreach (var valName in ViewBag.Reference4Names as List<string>)
+                    {
+                        <th>
+                            <p align="center">@valName</p>
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="6">
+                        <p align="center"><strong>Базовые способности ребенка</strong></p>
+                    </td>
+                </tr>
+
+                @foreach (var propertyInfo in typeof(IdentitySample.Models.ParentCase).GetProperties().Where(p => p.Name.StartsWith("Reference4_")))
+                {
+                    var attr = propertyInfo.GetCustomAttributes(typeof(System.ComponentModel.DataAnnotations.DisplayAttribute), true).FirstOrDefault();
+                    if (attr != null)
+                    {
+                        var fieldName = propertyInfo.Name;
+                        <tr>
+                            <td>
+                                @(((System.ComponentModel.DataAnnotations.DisplayAttribute)attr).Name)
+                            </td>
+                            @foreach (var radio in (SelectList)ViewData[fieldName])//ViewBag.Reference4_1_1Id)
+                            {
+                                <td align="center" class="h4">
+                                    @Html.Label(fieldName + radio.Value, radio.Text, new { @class = "label label-primary" })
+                                    @Html.RadioButton(fieldName, radio.Value, radio.Selected, new { id = fieldName + radio.Value, @class = "radio" })
+                                </td>
+                            }
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+<div>
+    <a href="~/Doc/3_Анкета для родителей_МКФ 14-18_final.docx" class="btn btn-primary">Распечатать</a>
+    @Html.ActionLink("Назад к списку", "Index")
+    |
+    @Html.ActionLink("Создать вопросник МКФ", "CreateWithModel", "Questions", new { patientId = Model.PatientId }, new { @class = "btn btn-primary" })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+<script>
+    $(document).ready(function () {
+        $("form :input").prop("disabled", true);
+    });
+    </script>
+}

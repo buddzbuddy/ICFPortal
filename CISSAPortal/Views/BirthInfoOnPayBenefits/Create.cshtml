@@ -51,8 +51,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.BirthDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.BirthDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.BirthDate, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.BirthDate)
             </div>
         </div>
 
@@ -83,7 +82,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PassportDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.PassportDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.PassportDate)
                 @Html.ValidationMessageFor(model => model.PassportDate, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -107,7 +106,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DateFrom, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DateFrom, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.DateFrom)
                 @Html.ValidationMessageFor(model => model.DateFrom, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -115,7 +114,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.DateTo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.DateTo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(model => model.DateTo)
                 @Html.ValidationMessageFor(model => model.DateTo, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -208,17 +207,16 @@
     @Html.ActionLink("Отмена", "Details", "LegalReportSections", new { id = Model.ReportId }, null)
 </div>
 @section styles{
-    @Styles.Render("~/Content/jquery-ui-css")
+    @*@Styles.Render("~/Content/jquery-ui-css")*@
 }
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jqueryui")
     <script>
         $(function () {
-            $("#BirthDate").datepicker();
-            $("#PassportDate").datepicker();
-            $("#DateFrom").datepicker();
-            $("#DateTo").datepicker();
+            //$("#BirthDate").datepicker();
+            //$("#PassportDate").datepicker();
+            //$("#DateFrom").datepicker();
+            //$("#DateTo").datepicker();
         });
     </script>
 }

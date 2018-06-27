@@ -29,8 +29,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ReportDate, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.ReportDate, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ReportDate, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.ReportDate)
             </div>
         </div>
 
@@ -93,15 +92,11 @@
 <div>
     @Html.ActionLink("Назад к списку", "Index")
 </div>
-@section styles{
-    @Styles.Render("~/Content/jquery-ui-css")
-}
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-@Scripts.Render("~/bundles/jqueryui")
 <script>
-        $(function () {
-            $("#ReportDate").datepicker();
-        });
+        //$(function () {
+        //    $("#ReportDate").datepicker();
+        //});
 </script>
 }

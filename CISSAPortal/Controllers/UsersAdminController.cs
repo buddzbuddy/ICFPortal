@@ -84,9 +84,9 @@ namespace IdentitySample.Controllers
 
             ViewBag.RoleNames = UserManager.GetRoles(user.Id);
             var RGUSOrgId = new Guid("{6853C82D-751E-40DD-AA14-21AF0AB7C64E}");
-            var cissameta = new CissaMeta.MetaProxy();
-            var usrList = cissameta.GetUSRList();
-            ViewBag.UsrList = usrList;//usrList.Where(x => user.Companies.Select(c => c.OrgId ?? Guid.Empty).Contains(x.Id));
+            //var cissameta = new CissaMeta.MetaProxy();
+            //var usrList = cissameta.GetUSRList();
+            //ViewBag.UsrList = usrList;//usrList.Where(x => user.Companies.Select(c => c.OrgId ?? Guid.Empty).Contains(x.Id));
             return PartialView("Details", user);
         }
 

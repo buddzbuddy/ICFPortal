@@ -1,0 +1,679 @@
+﻿@model CISSAPortal.Models.CreateIPRViewModel
+
+@{
+    ViewBag.Title = "Создание ИНДИВИДУАЛЬНОЙ ПРОГРАММЫ РЕАБИЛИТАЦИИ РЕБЕНКА С ОВЗ";
+
+    var Answer1Values = (ViewBag.Answer1Values as IEnumerable<IdentitySample.Models.Answer1Value>).ToList();
+    var Answer1ValuesTarget = from a in Answer1Values
+                              select new SelectListItem
+                              {
+                                  Text = a.Name,
+                                  Value = a.Id.ToString()
+                              };
+    var Answer2Values1 = (ViewBag.Answer2Values1 as IEnumerable<IdentitySample.Models.Answer2Value1>).ToList();
+    var Answer2Values1Target = from a in Answer2Values1
+                               select new SelectListItem
+                               {
+                                   Text = a.Name,
+                                   Value = a.Id.ToString()
+                               };
+    var Answer2Values2 = (ViewBag.Answer2Values2 as IEnumerable<IdentitySample.Models.Answer2Value2>).ToList();
+    var Answer2Values2Target = from a in Answer2Values2
+                               select new SelectListItem
+                               {
+                                   Text = a.Name,
+                                   Value = a.Id.ToString()
+                               };
+    var Answer3Values1 = (ViewBag.Answer3Values1 as IEnumerable<IdentitySample.Models.Answer3Value1>).ToList();
+    var Answer3Values1Target = from a in Answer3Values1
+                               select new SelectListItem
+                               {
+                                   Text = a.Name,
+                                   Value = a.Id.ToString()
+                               };
+    var Answer3Values2 = (ViewBag.Answer3Values2 as IEnumerable<IdentitySample.Models.Answer3Value2>).ToList();
+    var Answer3Values2Target = from a in Answer3Values2
+                               select new SelectListItem
+                               {
+                                   Text = a.Name,
+                                   Value = a.Id.ToString()
+                               };
+    var Answer4Values = (ViewBag.Answer4Values as IEnumerable<IdentitySample.Models.Answer4Value>).ToList();
+    var Answer4ValuesTarget = from a in Answer4Values
+                              select new SelectListItem
+                              {
+                                  Text = a.Name,
+                                  Value = a.Id.ToString()
+                              };
+}
+@using (Html.BeginForm("CreateMain", "IPRs"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4 style="text-align: center;font-family: cambria;font-weight: bold;">ИНДИВИДУАЛЬНАЯ ПРОГРАММА РЕАБИЛИТАЦИИ РЕБЕНКА С ОВЗ</h4>
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.IPR.ParentCaseId)
+        <table class="table table-bordered" style="font-family:'Times New Roman', Times, serif;font-weight:bold;">
+            <tr>
+                <td colspan="4" class="h4" style="background-color: #7ce2dc;text-align:center">КОНТАКТНАЯ ИНФОРМАЦИЯ</td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    ФИО ребенка: @(string.Format("{0} {1} {2}", Model.IPR.ParentCase.Patient.LastName, Model.IPR.ParentCase.Patient.FirstName, Model.IPR.ParentCase.Patient.MiddleName))
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Дата рождения:
+                </td>
+                <td>
+                    @(string.Format("{0:d}", Model.IPR.ParentCase.Patient.BirthDate))
+                </td>
+                <td>
+                    ИПР на срок:
+                </td>
+                <td>
+                    @Html.DisplayNameFor(model => model.IPR.StartDate)
+                    @Html.DisplayFor(model => model.IPR.StartDate)
+                    @Html.HiddenFor(model => model.IPR.StartDate)
+                    <br />
+                    @Html.DisplayNameFor(model => model.IPR.EndDate)
+                    @Html.DisplayFor(model => model.IPR.EndDate)
+                    @Html.HiddenFor(model => model.IPR.EndDate)
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Контакты:
+                </td>
+                <td>
+                    @(string.Format("{0}", Model.IPR.ParentCase.Patient.Contacts))
+                </td>
+                <td>МСЭК:</td>
+                <td>@(string.Format("{0}", Model.IPR.ParentCase.FilledPlaceName))</td>
+            </tr>
+            <tr>
+                <td>Адрес:</td>
+                <td>@(string.Format("{0}", Model.IPR.ParentCase.Patient.Address))</td>
+                <td>@Html.DisplayNameFor(model => model.IPR.MedicalActNo)</td>
+                <td>
+                    @Html.DisplayFor(model => model.IPR.MedicalActNo)
+                    @Html.HiddenFor(model => model.IPR.MedicalActNo)
+                </td>
+            </tr>
+            <tr>
+                <td>Диагноз по МКБ-10:</td>
+                <td>Церебральный паралич (G80)</td>
+                <td>@Html.DisplayNameFor(model => model.IPR.NextDateExamination)</td>
+                <td>
+                    @Html.DisplayFor(model => model.IPR.NextDateExamination)
+                    @Html.HiddenFor(model => model.IPR.NextDateExamination)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">Родители/законный представитель: @(string.Format("{0}", Model.IPR.ParentCase.FullName))</td>
+            </tr>
+        </table>
+
+        <table class="table table-bordered" style="font-family:'Times New Roman', Times, serif;font-weight:bold;">
+            <tr>
+                <td class="h4" style="background-color: #7ce2dc;text-align:center" colspan="2">ЦЕЛИ ПРОГРАММЫ РЕАБИЛИТАЦИИ</td>
+            </tr>
+            <tr>
+                <td colspan="2">Главная цель: <i>интегрирование в общество</i></td>
+            </tr>
+            <tr>
+                <td>
+                    Цель программы реабилитации:@Html.HiddenFor(model => model.TargetSelected)
+                </td>
+                <td>
+                    № цели
+                </td>
+            </tr>
+            @foreach (var t in Model.Targets)
+            {
+                <tr>
+                    <td align="right">@t.RehabilitationTarget.Name</td>
+                    <td>@t.No</td>
+                </tr>
+            }
+        </table>
+        <div class="questions_table">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            ФУНКЦИИ ОРГАНИЗМА
+                        </th>
+                        @foreach (var answerValue in ViewBag.Answer1Values as IEnumerable<IdentitySample.Models.Answer1Value>)
+                        {
+                            <th>
+                                @answerValue.Description
+                            </th>
+                        }
+                        <th>
+                            Значение цели
+                        </th>
+                        <th>
+                            Номер цели
+                        </th>
+                        <th>
+                            Мероприятия, услуги
+                        </th>
+                        <th>
+                            Ответственные организации
+                        </th>
+                        <th>
+                            Специалисты
+                        </th>
+                        <th>
+                            Назначено на срок
+                        </th>
+                        <th>
+                            Отметка об исполнении /
+                            причина неисполнения
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var answer in Model.QuestionViewModel.Answers1)
+                    {
+                        <tr>
+                            <td>
+                                @answer.Code.Name
+                            </td>
+                            <td>
+                                @answer.Code.FullName
+                            </td>
+                            @foreach (var answerValue in Answer1Values)
+                            {
+                                <td align="center" class="locked">
+                                    @Html.Label(answer.Code.Name + answerValue.Id, answerValue.Name, new { @class = "label label-primary answerRadioValue" })
+                                    @Html.RadioButton(answer.Code.Name, answerValue.Id, answerValue.Id == answer.ValueId, new { id = answer.Code.Name + answerValue.Id, @class = "radio answerRadioValue" })
+                                </td>
+                            }
+                            <td>
+                                @Html.DropDownList(answer.Code.Name + "_target", Answer1ValuesTarget.Select(x => new SelectListItem { Text = x.Text, Value = x.Value, Selected = (Model.AnswerTargets1.Count > 0 && Model.AnswerTargets1.Any(x1 => x1.CodeId == answer.CodeId && x1.ValueId.Value.ToString() == x.Value)) }), "-", new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.DropDownList(answer.Code.Name + "_target_id", Model.Targets.Select(x => new SelectListItem { Text = x.No.ToString(), Value = x.TargetId.Value.ToString(), Selected = (Model.SelectedTargets1.Count > 0 && Model.SelectedTargets1.Any(x1 => x1.CodeId == answer.CodeId && x1.TargetId == x.TargetId)) }), "-", new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.DropDownList(answer.Code.Name + "_service_id", Model.ServiceTypes.Select(x => new SelectListItem { Text = x.Name.ToString(), Value = x.Id.ToString(), Selected = (Model.SelectedServices1.Count > 0 && Model.SelectedServices1.Any(x1 => x1.CodeId == answer.CodeId && x1.ServiceTypeId == x.Id)) }), "", new { multiple = "multiple", @class = "chosen-select service", data_placeholder = "Выбрать..." })
+                            </td>
+                            <td class="sOrg">
+                                @Html.DropDownList(answer.Code.Name + "_service_org_id", new List<SelectListItem>
+                           {
+                           }, "", new { multiple = "multiple", @class = "chosen-select service_org", data_placeholder = "Выбрать..." })
+                            </td>
+                            <td class="sOrgStaff">
+                                @Html.DropDownList(answer.Code.Name + "_service_org_staff_id", new List<SelectListItem>
+                           {
+                           }, "", new { multiple = "multiple", @class = "chosen-select", data_placeholder = "Выбрать..." })
+                            </td>
+                            <td>
+                                <input type="text" style="width: 100px;" name="@(answer.Code.Name + "_assigned_to")" id="@(answer.Code.Name + "_assigned_to")" class="form-control bs_datepicker" value="@("")" />
+                            </td>
+                            <td>
+                                @Html.TextBox(answer.Code.Name + "_comments", null, new { @class = "form-control" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th colspan="3">
+                            СТРУКТУРЫ ОРГАНИЗМА
+                            <p>Анатомические части тела, такие как органы, конечности и их составных частей</p>
+                        </th>
+                        @foreach (var answerValue in Answer2Values1)
+                        {
+                            <th>
+                                @answerValue.Description
+                            </th>
+                        }
+                        <th>
+                            Значение цели
+                        </th>
+                        <th>
+                            Номер цели
+                        </th>
+                        <th>
+                            Мероприятия, услуги
+                        </th>
+                        <th>
+                            Специалисты
+                        </th>
+                        <th>
+                            Ответственные организации
+                        </th>
+                        <th>
+                            Назначено на срок
+                        </th>
+                        <th>
+                            Отметка об исполнении /
+                            причина неисполнения
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var answer in Model.QuestionViewModel.Answers2)
+                    {
+                        <tr>
+                            <td rowspan="2">
+                                @answer.Code.Name
+                            </td>
+                            <td rowspan="2">
+                                @answer.Code.FullName
+                            </td>
+                            <td>
+                                Характер изменений*
+                            </td>
+                            @foreach (var answerValue in Answer2Values1)
+                            {
+                                <td align="center" class="locked">
+                                    @Html.Label(answer.Code.Name + answerValue.Id + "_v1", answerValue.Name, new { @class = "label label-primary answerRadioValue" })
+                                    @Html.RadioButton(answer.Code.Name + "_v1", answerValue.Id, answerValue.Id == answer.ValueId1, new { id = answer.Code.Name + answerValue.Id + "_v1", @class = "radio answerRadioValue" })
+                                </td>
+                            }
+                            <td>
+                                @Html.DropDownList(answer.Code.Name + "_v1_target", Answer2Values1Target.Select(x => new SelectListItem { Text = x.Text, Value = x.Value, Selected = (Model.AnswerTargets2.Count > 0 && Model.AnswerTargets2.Any(x1 => x1.CodeId == answer.CodeId && x1.ValueId1.Value.ToString() == x.Value)) }), "-", new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.DropDownList(answer.Code.Name + "_v1_target_id", Model.Targets.Select(x => new SelectListItem { Text = x.No.ToString(), Value = x.TargetId.Value.ToString(), Selected = (Model.SelectedTargets2.Count > 0 && Model.SelectedTargets2.Any(x1 => x1.CodeId == answer.CodeId && x1.TargetId1 == x.TargetId)) }), "-", new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.DropDownList(answer.Code.Name + "_v1_service_id", Model.ServiceTypes.Select(x => new SelectListItem { Text = x.Name.ToString(), Value = x.Id.ToString(), Selected = (Model.SelectedServices1.Count > 0 && Model.SelectedServices1.Any(x1 => x1.CodeId == answer.CodeId && x1.ServiceTypeId == x.Id)) }), "", new { multiple = "multiple", @class = "chosen-select service", data_placeholder = "Выбрать..." })
+                            </td>
+                            <td class="sOrg">
+                                @Html.DropDownList(answer.Code.Name + "_v1_service_org_id", new List<SelectListItem>
+                           {
+                           }, "", new { multiple = "multiple", @class = "chosen-select service_org", data_placeholder = "Выбрать..." })
+                            </td>
+                            <td class="sOrgStaff">
+                                @Html.DropDownList(answer.Code.Name + "_v1_service_org_staff_id", new List<SelectListItem>
+                           {
+                           }, "", new { multiple = "multiple", @class = "chosen-select", data_placeholder = "Выбрать..." })
+                            </td>
+                            <td>
+                                <input type="text" style="width: 100px;" name="@(answer.Code.Name + "_v1_assigned_to")" id="@(answer.Code.Name + "_assigned_to")" class="form-control bs_datepicker" value="@("")" />
+                            </td>
+                            <td>
+                                @Html.TextBox(answer.Code.Name + "_v1_comments", null, new { @class = "form-control" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Локализация**
+                            </td>
+                            @foreach (var answerValue in Answer2Values2)
+                    {
+                                <td align="center" class="locked">
+                                    @Html.Label(answer.Code.Name + answerValue.Id + "_v2", answerValue.Name, new { @class = "label label-primary answerRadioValue" })
+                                    @Html.RadioButton(answer.Code.Name + "_v2", answerValue.Id, answerValue.Id == answer.ValueId2, new { id = answer.Code.Name + answerValue.Id + "_v2", @class = "radio answerRadioValue" })
+                                </td>
+                            }
+                            <td>
+                                @Html.DropDownList(answer.Code.Name + "_v2_target", Answer2Values2Target.Select(x => new SelectListItem { Text = x.Text, Value = x.Value, Selected = (Model.AnswerTargets2.Count > 0 && Model.AnswerTargets2.Any(x1 => x1.CodeId == answer.CodeId && x1.ValueId2.Value.ToString() == x.Value)) }), "-", new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.DropDownList(answer.Code.Name + "_v2_target_id", Model.Targets.Select(x => new SelectListItem { Text = x.No.ToString(), Value = x.TargetId.Value.ToString(), Selected = (Model.SelectedTargets2.Count > 0 && Model.SelectedTargets2.Any(x1 => x1.CodeId == answer.CodeId && x1.TargetId2 == x.TargetId)) }), "-", new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.DropDownList(answer.Code.Name + "_v2_service_id", Model.ServiceTypes.Select(x => new SelectListItem { Text = x.Name.ToString(), Value = x.Id.ToString(), Selected = (Model.SelectedServices1.Count > 0 && Model.SelectedServices1.Any(x1 => x1.CodeId == answer.CodeId && x1.ServiceTypeId == x.Id)) }), "", new { multiple = "multiple", @class = "chosen-select service", data_placeholder = "Выбрать..." })
+                            </td>
+                            <td class="sOrg">
+                                @Html.DropDownList(answer.Code.Name + "_v2_service_org_id", new List<SelectListItem>
+                           {
+                           }, "", new { multiple = "multiple", @class = "chosen-select service_org", data_placeholder = "Выбрать..." })
+                            </td>
+                            <td class="sOrgStaff">
+                                @Html.DropDownList(answer.Code.Name + "_v2_service_org_staff_id", new List<SelectListItem>
+                           {
+                           }, "", new { multiple = "multiple", @class = "chosen-select", data_placeholder = "Выбрать..." })
+                            </td>
+                            <td>
+                                <input type="text" style="width: 100px;" name="@(answer.Code.Name + "_v2_assigned_to")" id="@(answer.Code.Name + "_assigned_to")" class="form-control bs_datepicker" value="@("")" />
+                            </td>
+                            <td>
+                                @Html.TextBox(answer.Code.Name + "_v2_comments", null, new { @class = "form-control" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th colspan="3">
+                            АКТИВНОСТЬ И УЧАСТИЕ
+                            Насколько затруднительно ли человек выполняет задачи или действия, индивидуально или вовлечен в жизненную ситуацию
+                            <br />p = <b>реализация</b>
+                            <br />с = <b>потенциальная способность выполнять</b>, или справляться с какой-либо задачей или действием
+                        </th>
+                        @foreach (var answerValue in Answer3Values1)
+                        {
+                            <th>
+                                @answerValue.Description
+                            </th>
+                        }
+                        <th>
+                            Значение цели
+                        </th>
+                        <th>
+                            Номер цели
+                        </th>
+                        <th>
+                            Мероприятия, услуги
+                        </th>
+                        <th>
+                            Специалисты
+                        </th>
+                        <th>
+                            Ответственные организации
+                        </th>
+                        <th>
+                            Назначено на срок
+                        </th>
+                        <th>
+                            Отметка об исполнении /
+                            причина неисполнения
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var answer in Model.QuestionViewModel.Answers3)
+                    {
+                        <tr>
+                            <td rowspan="2">
+                                @answer.Code.Name
+                            </td>
+                            <td rowspan="2">
+                                @answer.Code.FullName
+                            </td>
+                            <td>
+                                р
+                            </td>
+                            @foreach (var answerValue in Answer3Values1)
+                            {
+                                <td align="center" class="locked">
+                                    @Html.Label(answer.Code.Name + answerValue.Id + "_v1", answerValue.Name, new { @class = "label label-primary answerRadioValue" })
+                                    @Html.RadioButton(answer.Code.Name + "_v1", answerValue.Id, answerValue.Id == answer.ValueId1, new { id = answer.Code.Name + answerValue.Id + "_v1", @class = "radio answerRadioValue" })
+                                </td>
+                            }
+                            <td>
+                                @Html.DropDownList(answer.Code.Name + "_v1_target", Answer3Values1Target.Select(x => new SelectListItem { Text = x.Text, Value = x.Value, Selected = (Model.AnswerTargets3.Count > 0 && Model.AnswerTargets3.Any(x1 => x1.CodeId == answer.CodeId && x1.ValueId1.Value.ToString() == x.Value)) }), "-", new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.DropDownList(answer.Code.Name + "_v1_target_id", Model.Targets.Select(x => new SelectListItem { Text = x.No.ToString(), Value = x.TargetId.Value.ToString(), Selected = (Model.SelectedTargets3.Count > 0 && Model.SelectedTargets3.Any(x1 => x1.CodeId == answer.CodeId && x1.TargetId1 == x.TargetId)) }), "-", new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.DropDownList(answer.Code.Name + "_v1_service_id", Model.ServiceTypes.Select(x => new SelectListItem { Text = x.Name.ToString(), Value = x.Id.ToString(), Selected = (Model.SelectedServices1.Count > 0 && Model.SelectedServices1.Any(x1 => x1.CodeId == answer.CodeId && x1.ServiceTypeId == x.Id)) }), "", new { multiple = "multiple", @class = "chosen-select service", data_placeholder = "Выбрать..." })
+                            </td>
+                            <td class="sOrg">
+                                @Html.DropDownList(answer.Code.Name + "_v1_service_org_id", new List<SelectListItem>
+                           {
+                           }, "", new { multiple = "multiple", @class = "chosen-select service_org", data_placeholder = "Выбрать..." })
+                            </td>
+                            <td class="sOrgStaff">
+                                @Html.DropDownList(answer.Code.Name + "_v1_service_org_staff_id", new List<SelectListItem>
+                           {
+                           }, "", new { multiple = "multiple", @class = "chosen-select", data_placeholder = "Выбрать..." })
+                            </td>
+                            <td>
+                                <input type="text" style="width: 100px;" name="@(answer.Code.Name + "_v1_assigned_to")" id="@(answer.Code.Name + "_assigned_to")" class="form-control bs_datepicker" value="@("")" />
+                            </td>
+                            <td>
+                                @Html.TextBox(answer.Code.Name + "_v1_comments", null, new { @class = "form-control" })
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                с
+                            </td>
+                            @foreach (var answerValue in Answer3Values2)
+                            {
+                                <td align="center" class="locked">
+                                    @Html.Label(answer.Code.Name + answerValue.Id + "_v2", answerValue.Name, new { @class = "label label-primary answerRadioValue" })
+                                    @Html.RadioButton(answer.Code.Name + "_v2", answerValue.Id, answerValue.Id == answer.ValueId2, new { id = answer.Code.Name + answerValue.Id + "_v2", @class = "radio answerRadioValue" })
+                                </td>
+                            }
+                            <td>
+                                @Html.DropDownList(answer.Code.Name + "_v2_target", Answer3Values2Target.Select(x => new SelectListItem { Text = x.Text, Value = x.Value, Selected = (Model.AnswerTargets3.Count > 0 && Model.AnswerTargets3.Any(x1 => x1.CodeId == answer.CodeId && x1.ValueId2.Value.ToString() == x.Value)) }), "-", new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.DropDownList(answer.Code.Name + "_v2_target_id", Model.Targets.Select(x => new SelectListItem { Text = x.No.ToString(), Value = x.TargetId.Value.ToString(), Selected = (Model.SelectedTargets3.Count > 0 && Model.SelectedTargets3.Any(x1 => x1.CodeId == answer.CodeId && x1.TargetId2 == x.TargetId)) }), "-", new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.DropDownList(answer.Code.Name + "_v1_service_id", Model.ServiceTypes.Select(x => new SelectListItem { Text = x.Name.ToString(), Value = x.Id.ToString(), Selected = (Model.SelectedServices1.Count > 0 && Model.SelectedServices1.Any(x1 => x1.CodeId == answer.CodeId && x1.ServiceTypeId == x.Id)) }), "", new { multiple = "multiple", @class = "chosen-select service", data_placeholder = "Выбрать..." })
+                            </td>
+                            <td class="sOrg">
+                                @Html.DropDownList(answer.Code.Name + "_v1_service_org_id", new List<SelectListItem>
+                           {
+                           }, "", new { multiple = "multiple", @class = "chosen-select service_org", data_placeholder = "Выбрать..." })
+                            </td>
+                            <td class="sOrgStaff">
+                                @Html.DropDownList(answer.Code.Name + "_v1_service_org_staff_id", new List<SelectListItem>
+                           {
+                           }, "", new { multiple = "multiple", @class = "chosen-select", data_placeholder = "Выбрать..." })
+                            </td>
+                            <td>
+                                <input type="text" style="width: 100px;" name="@(answer.Code.Name + "_v1_assigned_to")" id="@(answer.Code.Name + "_assigned_to")" class="form-control bs_datepicker" value="@("")" />
+                            </td>
+                            <td>
+                                @Html.TextBox(answer.Code.Name + "_v1_comments", null, new { @class = "form-control" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th colspan="2">
+                            ФАКТОРЫ ОКРУЖАЮЩЕЙ СРЕДЫ
+                        </th>
+                        @foreach (var answerValue in Answer4Values)
+                        {
+                            <th>
+                                @answerValue.Description
+                            </th>
+                        }
+                        <th>
+                            Значение цели
+                        </th>
+                        <th>
+                            Номер цели
+                        </th>
+                        <th>
+                            Мероприятия, услуги
+                        </th>
+                        <th>
+                            Специалисты
+                        </th>
+                        <th>
+                            Ответственные организации
+                        </th>
+                        <th>
+                            Назначено на срок
+                        </th>
+                        <th>
+                            Отметка об исполнении /
+                            причина неисполнения
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var answer in Model.QuestionViewModel.Answers4)
+                    {
+                        <tr>
+                            <td>
+                                @answer.Code.Name
+                            </td>
+                            <td>
+                                @answer.Code.FullName
+                            </td>
+                            @foreach (var answerValue in Answer4Values)
+                            {
+                                <td align="center" class="locked">
+                                    @Html.Label(answer.Code.Name + answerValue.Id, answerValue.Name, new { @class = "label label-primary answerRadioValue" })
+                                    @Html.RadioButton(answer.Code.Name, answerValue.Id, answerValue.Id == answer.ValueId, new { id = answer.Code.Name + answerValue.Id, @class = "radio answerRadioValue" })
+                                </td>
+                            }
+                            <td>
+                                @Html.DropDownList(answer.Code.Name + "_target", Answer4ValuesTarget.Select(x => new SelectListItem { Text = x.Text, Value = x.Value, Selected = (Model.AnswerTargets4.Count > 0 && Model.AnswerTargets4.Any(x1 => x1.CodeId == answer.CodeId && x1.ValueId.Value.ToString() == x.Value)) }), "-", new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.DropDownList(answer.Code.Name + "_target_id", Model.Targets.Select(x => new SelectListItem { Text = x.No.ToString(), Value = x.TargetId.Value.ToString(), Selected = (Model.SelectedTargets4.Count > 0 && Model.SelectedTargets4.Any(x1 => x1.CodeId == answer.CodeId && x1.TargetId == x.TargetId)) }), "-", new { @class = "form-control" })
+                            </td>
+                            <td>
+                                @Html.DropDownList(answer.Code.Name + "_service_id", Model.ServiceTypes.Select(x => new SelectListItem { Text = x.Name.ToString(), Value = x.Id.ToString(), Selected = (Model.SelectedServices1.Count > 0 && Model.SelectedServices1.Any(x1 => x1.CodeId == answer.CodeId && x1.ServiceTypeId == x.Id)) }), "", new { multiple = "multiple", @class = "chosen-select service", data_placeholder = "Выбрать..." })
+                            </td>
+                            <td class="sOrg">
+                                @Html.DropDownList(answer.Code.Name + "_service_org_id", new List<SelectListItem>
+                           {
+                           }, "", new { multiple = "multiple", @class = "chosen-select service_org", data_placeholder = "Выбрать..." })
+                            </td>
+                            <td class="sOrgStaff">
+                                @Html.DropDownList(answer.Code.Name + "_service_org_staff_id", new List<SelectListItem>
+                           {
+                           }, "", new { multiple = "multiple", @class = "chosen-select", data_placeholder = "Выбрать..." })
+                            </td>
+                            <td>
+                                <input type="text" style="width: 100px;" name="@(answer.Code.Name + "_assigned_to")" id="@(answer.Code.Name + "_assigned_to")" class="form-control bs_datepicker" value="@("")" />
+                            </td>
+                            <td>
+                                @Html.TextBox(answer.Code.Name + "_comments", null, new { @class = "form-control" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Сохранить" class="btn btn-info" />
+            </div>
+        </div>
+        <a href="~/Doc/3 ИПР_14-18 лет.docx" class="btn btn-primary">Сформировать ИПР</a>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Назад к списку", "Index")
+</div>
+@section styles{
+    @Styles.Render("~/chosen_v1.8.2/css")
+<style>
+    .questions_table {
+        max-width: 30%;
+        font-size: small;
+    }
+        .questions_table table tr td {
+            padding: 0px 1px 0px 1px;
+        }
+</style>
+
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/chosen_v1.8.2/js")
+
+    <script>
+        $(function () {
+            $('.chosen-select').chosen({ no_results_text: "Не найдено:", allow_single_deselect: true });
+            $('.chosen-choices').addClass('form-control');
+
+            var targetSelected = '@(Model.TargetSelected != null ? string.Join(",", Model.TargetSelected) : "")';
+            if (targetSelected != '') {
+                var targetSelected_array = targetSelected.split(',');
+
+                for (var i = 0; i < targetSelected_array.length; i++) {
+                    targetSelected_array[i] = targetSelected_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+                }
+
+                $("#TargetSelected").val(targetSelected_array);
+            }
+
+            $(".questions_table .locked :input").prop("disabled", true);
+
+            $('.service').on('change', function (e, params) {
+                var r = $(e.target).closest('tr');
+                var orgCol = $('.sOrg', r);
+                //TODO: var orgStaffCol = $('.sOrgStaff', r);
+                var currentVals = $(e.target).val();
+                //if (params.selected)
+                {
+                    //orgCol.html('selected:' + params.selected + ', currentVals:' + currentVals);
+                    $.ajax({
+                        url: '@Url.Action("GetByServiceTypes", "ServiceOrganizations")',
+                        data: { types: currentVals.toString() },
+                        success: function (data) {
+                            $('.chosen-select', orgCol).empty();
+                            
+                            //TODO: $('.chosen-select', orgStaffCol).chosen().empty();//.empty();
+                            //console.log(orgStaffCol.html());
+                            //console.log({
+                            //    o: 'selected:' + params.selected + ', currentVals:' + currentVals,
+                            //    data: data
+                            //});
+                            if (data.result) {
+                                var orgs = data.items;
+                                $('.chosen-select', orgCol).append('<option value=""></option>');
+                                $(orgs).each(function (i, item) {
+                                    $('.chosen-select', orgCol).append('<option value="' + item.Id + '">' + item.Name + '</option>').chosen("destroy").chosen();
+                                });
+                            }
+                            $('.chosen-select', orgCol).chosen("destroy").chosen({ no_results_text: "Не найдено:", allow_single_deselect: true });
+                            $('.chosen-choices').addClass('form-control');
+                        }
+                    });
+                }
+                //else if (params.deselected) {
+                    //orgCol.html('deselected:' + params.deselected + ', currentVals:' + currentVals);
+                //}
+            });
+
+            $('.service_org').on('change', function (e, params) {
+                var r = $(e.target).closest('tr');
+                var orgCol = $('.sOrgStaff', r);
+                var currentVals = $(e.target).val();
+                //if (params.selected)
+                {
+                    //orgCol.html('selected:' + params.selected + ', currentVals:' + currentVals);
+                    $.ajax({
+                        url: '@Url.Action("GetStaffsByOrgIds", "OrgStaffs")',
+                        data: { orgs: currentVals.toString() },
+                        success: function (data) {
+                            $('.chosen-select', orgCol).empty();
+                            //console.log({
+                            //    o: 'selected:' + params.selected + ', currentVals:' + currentVals,
+                            //    data: data
+                            //});
+                            if (data.result) {
+                                var orgs = data.items;
+                                $('.chosen-select', orgCol).append('<option value=""></option>');
+                                $(orgs).each(function (i, item) {
+                                    $('.chosen-select', orgCol).append('<option value="' + item.Id + '">' + item.Name + '</option>').chosen("destroy").chosen();
+                                });
+                            }
+                            $('.chosen-select', orgCol).chosen("destroy").chosen({ no_results_text: "Не найдено:", allow_single_deselect: true });
+                            $('.chosen-choices').addClass('form-control');
+                        }
+                    });
+                }
+                //else if (params.deselected) {
+                    //orgCol.html('deselected:' + params.deselected + ', currentVals:' + currentVals);
+                //}
+            });
+        });
+    </script>
+}

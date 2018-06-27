@@ -1,0 +1,126 @@
+﻿@model IdentitySample.Models.ServiceOrganization
+
+@{
+    ViewBag.Title = "Просмотр";
+}
+
+<h2>Просмотр</h2>
+
+<div>
+    <h4>Организация</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DisabilityTypes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DisabilityTypes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ages)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ages)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ManagerName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ManagerName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StaffPositionsCount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StaffPositionsCount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FinanceSource)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FinanceSource)
+        </dd>
+
+    </dl>
+
+    <p>
+        @Html.ActionLink("Добавить услугу", "Create", "ServiceTypes", new { ServiceOrganizationId = Model.Id }, null)
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ServiceTypes.First().Name)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.ServiceTypes)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("изменить", "Edit", "ServiceTypes", new { id = item.Id }, null) |
+                    @Html.ActionLink("удалить", "Delete", "ServiceTypes", new { id = item.Id }, null)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <p>
+        @Html.ActionLink("Добавить специалиста", "Create", "OrgStaffs", new { ServiceOrganizationId = Model.Id }, null)
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrgStaffs.First().Name)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model.OrgStaffs)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Редактировать", "Edit", new { id = item.Id }) |
+                    @Html.ActionLink("Удалить", "Delete", new { id = item.Id })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<p>
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Назад к списку", "Index")
+</p>

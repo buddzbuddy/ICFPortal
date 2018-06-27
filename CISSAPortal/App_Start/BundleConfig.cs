@@ -55,6 +55,7 @@ namespace IdentitySample
                 "~/Scripts/Resources/dynamsoft.webtwain.initiate.js",
                 "~/Scripts/Resources/addon/dynamsoft.webtwain.addon.pdf.js"
                 ));
+            
         }
     }
 }

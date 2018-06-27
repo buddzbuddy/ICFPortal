@@ -1,52 +1,38 @@
-﻿@if (User.IsInRole("DLO"))
-{
-    Html.RenderAction("Index", "HumDistributionPlans", new { as_partial = true });
-}
-else
-{
-    <h2>Страница пользователя</h2>
-    if (User.IsInRole("HumRecipient"))
-    {
-        <p>
-            @Html.ActionLink("План распределения гум. помощи", "Index", "HumDistributionPlans", null, new { @class = "btn btn-primary" })
-        </p>
-        <p>
-            @Html.ActionLink("Отчет о распределении гум. помощи", "Index", "Reports", null, new { @class = "btn btn-primary" })
-        </p>
-    }
-    if (User.IsInRole("DLO"))
-    {
-        <p>
-            @Html.ActionLink("План распределения гум. помощи", "Index", "HumDistributionPlans", null, new { @class = "btn btn-primary" })
-        </p>
-    }
-
-    if (User.IsInRole("Admin"))
-    {
-        <p>
-            @Html.ActionLink("Справочник товаров/изделий", "Index", "Products", null, new { @class = "btn btn-primary" })
-        </p>
-        <p>
-            @Html.ActionLink("Справочник потребителей/организаций", "Index", "Consumers", null, new { @class = "btn btn-primary" })
-        </p>
-
-        <p>
-            @Html.ActionLink("Официальный курс валют НБКР", "Index", "Exchange", null, new { @class = "btn btn-success" })
-        </p>
-        <p>
-            @Html.ActionLink("Компании", "Index", "Companies", null, new { @class = "btn btn-primary btn-block" })
-        </p>
-
-        <p>
-            @Html.ActionLink("Справочник ед. измерения", "Index", "UnitTypes", null, new { @class = "btn btn-primary btn-block" })
-        </p>
-
-        <p>
-            @Html.ActionLink("Статусы", "Index", "DocumentStates", null, new { @class = "btn btn-primary btn-block" })
-        </p>
-
-        <p>
-            @Html.ActionLink("Отчет юр.лиц на получение выплат по беременности и родам и на погребение", "Index", "LegalReportSections", null, new { @class = "btn btn-primary btn-block" })
-        </p>
-    }
-}
+﻿<h2>Страница пользователя</h2>
+<p>
+    @Html.ActionLink("Информация о пациентах", "Index", "Patients", null, new { @class = "btn btn-primary" })
+</p>
+<p>
+    @Html.ActionLink("АНКЕТА ДЛЯ ОЦЕНКИ АКТИВНОСТИ И СПОСОБНОСТИ УЧАСТИЯ РЕБЕНКА", "Index", "ParentCases", null, new { @class = "btn btn-primary" })
+</p>
+<p>
+    @Html.ActionLink("Вопросник МКФ", "Index", "Questions", null, new { @class = "btn btn-primary" })
+</p>
+<p>
+    @Html.ActionLink("ИПР", "Index", "IPRs", null, new { @class = "btn btn-primary" })
+</p>
+<p>
+    @Html.ActionLink("Справочник реабилитационных  услуг", "Index", "ServiceTypes", null, new { @class = "btn btn-primary" })
+</p>
+<p>
+    @Html.ActionLink("База данных организаций – реестр реабилитационных  услуг", "Index", "ServiceOrganizations", null, new { @class = "btn btn-primary" })
+</p>
+<p>
+    <h4>Справочник для вопросников:</h4>
+    <h3>ФУНКЦИИ ОРГАНИЗМА</h3>
+    @Html.ActionLink("Коды", "Index", "Code1", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Виды ответов", "Index", "Answer1Value", null, new { @class = "btn btn-primary" })
+    <h3>СТРУКТУРЫ ОРГАНИЗМА</h3>
+    @Html.ActionLink("Коды", "Index", "Code2", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Виды ответов 1", "Index", "Answer2Value1", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Виды ответов 2", "Index", "Answer2Value2", null, new { @class = "btn btn-primary" })
+    <h3>АКТИВНОСТЬ И УЧАСТИЕ</h3>
+    @Html.ActionLink("Коды", "Index", "Code3", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Виды ответов 1", "Index", "Answer3Value1", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Виды ответов 2", "Index", "Answer3Value2", null, new { @class = "btn btn-primary" })
+    <h3>ФАКТОРЫ ОКРУЖАЮЩЕЙ СРЕДЫ</h3>
+    @Html.ActionLink("Коды", "Index", "Code4", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Виды ответов", "Index", "Answer4Value", null, new { @class = "btn btn-primary" })
+    <h3>Возраста</h3>
+    @Html.ActionLink("Тип возраста", "Index", "Cases", null, new { @class = "btn btn-primary" })
+</p>

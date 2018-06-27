@@ -1,0 +1,208 @@
+﻿@model IdentitySample.Models.Patient
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Patient</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Atacsium.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Atacsium.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Discinesis.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Discinesis.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Epilepcy.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Epilepcy.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IcpPeriod.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IcpPeriod.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IcpReason.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IcpReason.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Spastic.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Spastic.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MiddleName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contacts)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contacts)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CSM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CSM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthPlace)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthPlace)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WeightOnBirth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WeightOnBirth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DiagnosisAge)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiagnosisAge)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShortAnamnez)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShortAnamnez)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EpilepcyType1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EpilepcyType1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EpilepcyType2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EpilepcyType2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EpilepcyType3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EpilepcyType3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EpilepcyType4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EpilepcyType4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EpilepcyType5)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EpilepcyType5)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Diagnosis)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Diagnosis)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

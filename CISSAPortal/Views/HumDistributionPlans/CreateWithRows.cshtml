@@ -65,6 +65,9 @@
                         @Html.DisplayNameFor(model => model.Items.First().Product.Name)
                     </th>
                     <th>
+                        @Html.DisplayNameFor(model => model.Items.First().ProductFullName)
+                    </th>
+                    <th>
                         @Html.DisplayNameFor(model => model.Items.First().UnitType.Name)
                     </th>
                     <th>
@@ -104,7 +107,7 @@
         <a class="close" data-dismiss="modal">&times;</a>
     </div>
     <div class="modal-body">
-        <p>Body of the form</p>
+        <p>Загрузка формы...</p>
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Закрыть</a>
@@ -146,6 +149,20 @@
                     }
                 });
                 return false;
+            });
+            $(document).delegate("a.copyRow", "click", function (e) {
+                e.preventDefault();
+                var row = $(this).closest('tr');
+                var consumerId = $('.consumer', row).val() || 0;
+                var areaId = $('.area', row).val() || 0;
+                $.ajax({
+                    url: '@Url.Action("BlankEditorRow")' + '?consumerId=' + consumerId + '&areaId=' + areaId,
+                    cache: false,
+                    success: function (html) {
+                        $("#editorRows").append(html);
+                        initRow();
+                    }
+                });
             });
             $(document).delegate("a.deleteRow", "click", function (e) {
                 e.preventDefault();

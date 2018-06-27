@@ -42,7 +42,7 @@ namespace IdentitySample.Controllers
 
             var uManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var userInfo = await uManager.FindByNameAsync(User.Identity.Name);
-            if(User.Identity.IsAuthenticated && userInfo.Companies != null && userInfo.Companies.Count > 0)
+            /*if(User.Identity.IsAuthenticated && userInfo.Companies != null && userInfo.Companies.Count > 0)
             {
                 var company = userInfo.Companies.First();
 
@@ -57,7 +57,7 @@ namespace IdentitySample.Controllers
                     var ui = context.GetUserInfo();
                     ViewBag.CISSA = ui.Organization.Name + ", username: " + ui.UserName;
                 }
-            }
+            }*/
             
             return View();
         }

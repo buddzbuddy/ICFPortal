@@ -115,16 +115,10 @@
 <div>
     @Html.ActionLink("Отмена", "Details", "LegalReportSections", new { id = Model.ReportId }, null)
 </div>
-@section styles{
-    @Styles.Render("~/Content/jquery-ui-css")
-}
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jqueryui")
     <script>
         $(function () {
-            $("#BirthDate").datepicker();
-            $("#DeadDateOfCertificate").datepicker();
         });
     </script>
 }

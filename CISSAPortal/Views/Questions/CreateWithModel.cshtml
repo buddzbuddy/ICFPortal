@@ -1,0 +1,332 @@
+﻿@model CISSAPortal.Models.QuestionViewModel
+@{
+    ViewBag.Title = "Вопросник МКФ";
+
+    var Answer1Values = (ViewBag.Answer1Values as IEnumerable<IdentitySample.Models.Answer1Value>).ToList();
+    var Answer2Values1 = (ViewBag.Answer2Values1 as IEnumerable<IdentitySample.Models.Answer2Value1>).ToList();
+    var Answer2Values2 = (ViewBag.Answer2Values2 as IEnumerable<IdentitySample.Models.Answer2Value2>).ToList();
+    var Answer3Values1 = (ViewBag.Answer3Values1 as IEnumerable<IdentitySample.Models.Answer3Value1>).ToList();
+    var Answer3Values2 = (ViewBag.Answer3Values2 as IEnumerable<IdentitySample.Models.Answer3Value2>).ToList();
+    var Answer4Values = (ViewBag.Answer4Values as IEnumerable<IdentitySample.Models.Answer4Value>).ToList();
+
+}
+<h2>Вопросник  МКФ  по определению  функционирования,<br />
+ограничений  жизнедеятельности и здоровья</h2>
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+    <div class="patientInfo">
+        @Html.HiddenFor(model => model.Question.PatientId)
+        <h4>Инфомация о пациенте</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Question.Patient.LastName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Question.Patient.LastName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Question.Patient.FirstName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Question.Patient.FirstName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Question.Patient.MiddleName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Question.Patient.MiddleName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Question.Patient.Contacts)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Question.Patient.Contacts)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.Question.Patient.BirthDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Question.Patient.BirthDate)
+            </dd>
+
+        </dl>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th colspan="2">
+                    ФУНКЦИИ ОРГАНИЗМА
+                </th>
+                @foreach(var answerValue in ViewBag.Answer1Values as IEnumerable<IdentitySample.Models.Answer1Value>)
+                {
+                    <th>
+                        @answerValue.Description
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody style="border:3px solid">
+            @foreach (var answer in Model.Answers1)
+            {
+                <tr style="border-top:3px solid">
+                    <td class="bold">
+                        @answer.Code.Name
+                    </td>
+                    <td class="bold">
+                        @answer.Code.FullName
+                    </td>
+                    @foreach (var answerValue in Answer1Values)
+                    {
+                        <td align="center" class="h4">
+                            @Html.Label(answer.Code.Name + answerValue.Id, answerValue.Name, new { @class = "label label-primary answerRadioValue" })
+                            @Html.RadioButton(answer.Code.Name, answerValue.Id, answerValue.Id == answer.ValueId, new { id = answer.Code.Name + answerValue.Id, @class = "radio answerRadioValue" })
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <td colspan="@(Answer1Values.Count + 2)">
+                        @answer.Code.Description
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="@(Answer1Values.Count + 2)">
+                        @Html.TextArea(answer.Code.Name + "_ProblemDescription", answer.ProblemDescription, new { @class = "problemDescription", placeholder = "Описание проблемы" })
+                        <p>Источники информации:</p>
+                        <label style="font-weight:normal;">@Html.CheckBox(answer.Code.Name + "_SourceIsCaseHistory", answer.SourceIsCaseHistory) История болезни</label><br />
+                        <label style="font-weight:normal;">@Html.CheckBox(answer.Code.Name + "_SourceIsPatientAnswers", answer.SourceIsPatientAnswers) Ответы пациента по вопроснику</label><br />
+                        <label style="font-weight:normal;">@Html.CheckBox(answer.Code.Name + "_SourceIsClinicalExamination", answer.SourceIsClinicalExamination) Клинический осмотр</label><br />
+                        <label style="font-weight:normal;">@Html.CheckBox(answer.Code.Name + "_SourceIsTechnicalSurvey", answer.SourceIsTechnicalSurvey) Техническое обследование</label>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th colspan="3">
+                    СТРУКТУРЫ ОРГАНИЗМА
+                    <p>Анатомические части тела, такие как органы, конечности и их составных частей</p>
+                </th>
+                @foreach (var answerValue in Answer2Values1)
+                {
+                    <th>
+                        @answerValue.Description
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody style="border:3px solid">
+            @foreach (var answer in Model.Answers2)
+            {
+                <tr style="border-top:3px solid">
+                    <td rowspan="2" class="bold">
+                        @answer.Code.Name
+                    </td>
+                    <td rowspan="2" class="bold">
+                        @answer.Code.FullName
+                    </td>
+                    <td>
+                        Характер изменений*
+                    </td>
+                    @foreach (var answerValue in Answer2Values1)
+                    {
+                        <td align="center" class="h4">
+                            @Html.Label(answer.Code.Name + answerValue.Id + "_v1", answerValue.Name, new { @class = "label label-primary answerRadioValue" })
+                            @Html.RadioButton(answer.Code.Name + "_v1", answerValue.Id, answerValue.Id == answer.ValueId1, new { id = answer.Code.Name + answerValue.Id + "_v1", @class = "radio answerRadioValue" })
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <td>
+                        Локализация**
+                    </td>
+                    @foreach (var answerValue in Answer2Values2)
+                    {
+                        <td align="center" class="h4">
+                            @Html.Label(answer.Code.Name + answerValue.Id + "_v2", answerValue.Name, new { @class = "label label-primary answerRadioValue" })
+                            @Html.RadioButton(answer.Code.Name + "_v2", answerValue.Id, answerValue.Id == answer.ValueId2, new { id = answer.Code.Name + answerValue.Id + "_v2", @class = "radio answerRadioValue" })
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <td colspan="@(Answer2Values2.Count + 3)">
+                        @answer.Code.Description
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="@(Answer2Values2.Count + 3)">
+                        @Html.TextArea(answer.Code.Name + "_ProblemDescription", answer.ProblemDescription, new { @class = "problemDescription", placeholder = "Описание проблемы" })
+                        <p>Источники информации:</p>
+                        <label style="font-weight:normal;">@Html.CheckBox(answer.Code.Name + "_SourceIsCaseHistory", answer.SourceIsCaseHistory) История болезни</label><br />
+                        <label style="font-weight:normal;">@Html.CheckBox(answer.Code.Name + "_SourceIsPatientAnswers", answer.SourceIsPatientAnswers) Ответы пациента по вопроснику</label><br />
+                        <label style="font-weight:normal;">@Html.CheckBox(answer.Code.Name + "_SourceIsClinicalExamination", answer.SourceIsClinicalExamination) Клинический осмотр</label><br />
+                        <label style="font-weight:normal;">@Html.CheckBox(answer.Code.Name + "_SourceIsTechnicalSurvey", answer.SourceIsTechnicalSurvey) Техническое обследование</label>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th colspan="3">
+                    АКТИВНОСТЬ И УЧАСТИЕ
+                    Насколько затруднительно ли человек выполняет задачи или действия, индивидуально или вовлечен в жизненную ситуацию
+                    <br />p = <b>реализация</b>
+                    <br />с = <b>потенциальная способность выполнять</b>, или справляться с какой-либо задачей или действием
+                </th>
+                @foreach (var answerValue in Answer3Values1)
+                {
+                    <th>
+                        @answerValue.Description
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody style="border:3px solid">
+            @foreach (var answer in Model.Answers3)
+            {
+                <tr style="border-top:3px solid">
+                    <td rowspan="2" class="bold">
+                        @answer.Code.Name
+                    </td>
+                    <td rowspan="2" class="bold">
+                        @answer.Code.FullName
+                    </td>
+                    <td>
+                        р
+                    </td>
+                    @foreach (var answerValue in Answer3Values1)
+                    {
+                        <td align="center" class="h4">
+                            @Html.Label(answer.Code.Name + answerValue.Id + "_v1", answerValue.Name, new { @class = "label label-primary answerRadioValue" })
+                            @Html.RadioButton(answer.Code.Name + "_v1", answerValue.Id, answerValue.Id == answer.ValueId1, new { id = answer.Code.Name + answerValue.Id + "_v1", @class = "radio answerRadioValue" })
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <td>
+                        с
+                    </td>
+                    @foreach (var answerValue in Answer3Values2)
+                    {
+                        <td align="center" class="h4">
+                            @Html.Label(answer.Code.Name + answerValue.Id + "_v2", answerValue.Name, new { @class = "label label-primary answerRadioValue" })
+                            @Html.RadioButton(answer.Code.Name + "_v2", answerValue.Id, answerValue.Id == answer.ValueId2, new { id = answer.Code.Name + answerValue.Id + "_v2", @class = "radio answerRadioValue" })
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <td colspan="@(Answer3Values2.Count + 3)">
+                        @answer.Code.Description
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="@(Answer3Values2.Count + 3)">
+                        @Html.TextArea(answer.Code.Name + "_ProblemDescription", answer.ProblemDescription, new { @class = "problemDescription", placeholder = "Описание проблемы" })
+                        <p>Источники информации:</p>
+                        <label style="font-weight:normal;">@Html.CheckBox(answer.Code.Name + "_SourceIsCaseHistory", answer.SourceIsCaseHistory) История болезни</label><br />
+                        <label style="font-weight:normal;">@Html.CheckBox(answer.Code.Name + "_SourceIsPatientAnswers", answer.SourceIsPatientAnswers) Ответы пациента по вопроснику</label><br />
+                        <label style="font-weight:normal;">@Html.CheckBox(answer.Code.Name + "_SourceIsClinicalExamination", answer.SourceIsClinicalExamination) Клинический осмотр</label><br />
+                        <label style="font-weight:normal;">@Html.CheckBox(answer.Code.Name + "_SourceIsTechnicalSurvey", answer.SourceIsTechnicalSurvey) Техническое обследование</label>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th colspan="2">
+                    ФАКТОРЫ ОКРУЖАЮЩЕЙ СРЕДЫ
+                </th>
+                @foreach (var answerValue in Answer4Values)
+                {
+                    <th>
+                        @answerValue.Description
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody style="border:3px solid">
+            @foreach (var answer in Model.Answers4)
+            {
+                <tr style="border-top:3px solid">
+                    <td class="bold">
+                        @answer.Code.Name
+                    </td>
+                    <td class="bold">
+                        @answer.Code.FullName
+                    </td>
+                    @foreach (var answerValue in Answer4Values)
+                    {
+                        <td align="center" class="h4">
+                            @Html.Label(answer.Code.Name + answerValue.Id, answerValue.Name, new { @class = "label label-primary answerRadioValue" })
+                            @Html.RadioButton(answer.Code.Name, answerValue.Id, answerValue.Id == answer.ValueId, new { id = answer.Code.Name + answerValue.Id, @class = "radio answerRadioValue" })
+                        </td>
+                    }
+                </tr>
+                <tr>
+                    <td colspan="@(Answer4Values.Count + 2)">
+                        @answer.Code.Description
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="@(Answer4Values.Count + 2)">
+                        @Html.TextArea(answer.Code.Name + "_ProblemDescription", answer.ProblemDescription, new { @class = "problemDescription", placeholder = "Описание проблемы" })
+                        <p>Источники информации:</p>
+                        <label style="font-weight:normal;">@Html.CheckBox(answer.Code.Name + "_SourceIsCaseHistory", answer.SourceIsCaseHistory) История болезни</label><br />
+                        <label style="font-weight:normal;">@Html.CheckBox(answer.Code.Name + "_SourceIsPatientAnswers", answer.SourceIsPatientAnswers) Ответы пациента по вопроснику</label><br />
+                        <label style="font-weight:normal;">@Html.CheckBox(answer.Code.Name + "_SourceIsClinicalExamination", answer.SourceIsClinicalExamination) Клинический осмотр</label><br />
+                        <label style="font-weight:normal;">@Html.CheckBox(answer.Code.Name + "_SourceIsTechnicalSurvey", answer.SourceIsTechnicalSurvey) Техническое обследование</label>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <input type="submit" value="Сохранить" />
+}
+
+@section styles{
+    <style>
+        .answerRadioValue {
+            cursor:pointer;
+        }
+        .bold{
+            font-weight:bold;
+        }
+        .problemDescription{
+            height:100px;
+            max-width: 100%;
+            width:500px;
+            border-radius:5px;
+            float:right;
+        }
+    </style>
+}
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            
+        });
+    </script>
+}

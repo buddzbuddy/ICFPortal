@@ -1,6 +1,11 @@
 ﻿@{
     ViewBag.Title = "Главная страница";
 }
+
+<div class="jumbotron">
+    <h1>Портал МКФ/ICF-portal</h1>
+    @*<p class="lead">ICF-portal is a framework created by World Bank Project Implenetation Group.</p>*@
+</div>
 @if (Request.IsAuthenticated)
 {
     Html.RenderAction("Index", "Datas", new { as_partial = true });

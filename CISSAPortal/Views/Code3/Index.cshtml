@@ -1,0 +1,53 @@
+﻿@model IEnumerable<IdentitySample.Models.Code3>
+
+@{
+    ViewBag.Title = "Коды: АКТИВНОСТЬ И УЧАСТИЕ";
+}
+
+<h2>Коды: АКТИВНОСТЬ И УЧАСТИЕ</h2>
+
+<p>
+    @Html.ActionLink("Добавить новый", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>Услуги</th>
+    </tr>
+
+    @foreach (var item in Model.OrderBy(x => int.Parse(x.Name.Substring(1))))
+    {
+        <tr>
+            <td>
+                @Html.ActionLink("изменить", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("открыть", "Details", new { id = item.Id }) |
+                @Html.ActionLink("удалить", "Delete", new { id = item.Id })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FullName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @*@Html.ActionLink("Добавить услугу", "AddService", "CodeServices", new { code = item.Name }, new { @class = "btn btn-primary btn-xs" })*@
+                @{
+                    Html.RenderAction("Services", "CodeServices", new { code = item.Name });
+                }
+            </td>
+        </tr>
+                    }
+
+</table>

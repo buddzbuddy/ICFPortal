@@ -3,12 +3,12 @@
     @using (Html.BeginCollectionItem("Items"))
     {
         <td style="display:flex">
-            @Html.DropDownList("ConsumerId", ViewBag.ConsumerId as SelectList, htmlAttributes: new { @class = "chosen-select col-md-10", data_placeholder = "Выбрать..." })
+            @Html.DropDownList("ConsumerId", null, htmlAttributes: new { @class = "consumer chosen-select col-md-10", data_placeholder = "Выбрать..." })
             @Html.ValidationMessageFor(model => model.ConsumerId)
             &nbsp;<a title="Добавить элемент" class="btn btn-primary btn-sm addConsumerBtn" href="#modal-form" data-toggle="modal"><span class="glyphicon">+</span></a>
         </td>
         <td>
-            @Html.DropDownList("AreaId", ViewBag.AreaId as SelectList, htmlAttributes: new { @class = "chosen-select", data_placeholder = "Выбрать..." })
+            @Html.DropDownList("AreaId", null, htmlAttributes: new { @class = "area chosen-select", data_placeholder = "Выбрать..." })
         </td>
         <td>
             @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
@@ -16,6 +16,9 @@
         <td style="display:flex">
             @Html.DropDownList("ProductId", ViewBag.ProductId as SelectList, htmlAttributes: new { @class = "chosen-select col-md-10", data_placeholder = "Выбрать..." })
             &nbsp;<a title="Добавить элемент" class="btn btn-primary btn-sm addProductBtn" href="#modal-form" data-toggle="modal"><span class="glyphicon">+</span></a>
+        </td>
+        <td>
+            @Html.EditorFor(model => model.ProductFullName, new { htmlAttributes = new { @class = "form-control" } })
         </td>
         <td>
             @Html.DropDownList("UnitTypeId", ViewBag.UnitTypeId as SelectList, htmlAttributes: new { @class = "chosen-select", data_placeholder = "Выбрать..." })
@@ -27,7 +30,7 @@
             @Html.EditorFor(model => model.Sum, new { htmlAttributes = new { @class = "form-control" } })
         </td>
         <td>
-            <a href="#" class="deleteRow btn btn-sm btn-danger">удалить</a>
+            <a href="#" class="copyRow btn btn-sm btn-info">скопировать</a> | <a href="#" class="deleteRow btn btn-sm btn-danger">удалить</a>
         </td>
     }
 </tr>

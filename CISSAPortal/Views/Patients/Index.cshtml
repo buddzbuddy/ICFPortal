@@ -1,0 +1,163 @@
+﻿@model IEnumerable<IdentitySample.Models.Patient>
+
+@{
+    ViewBag.Title = "Информация о пациентах";
+}
+
+<h2>Информация о пациентах</h2>
+
+<p>
+    @Html.ActionLink("Ввод нового пациента", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table table-bordered table-hover table-striped">
+    <tr>
+        <th></th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contacts)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CSM)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BirthPlace)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.WeightOnBirth)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DiagnosisAge)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ShortAnamnez)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EpilepcyType1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EpilepcyType2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EpilepcyType3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EpilepcyType4)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EpilepcyType5)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Diagnosis)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Atacsium.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Discinesis.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Epilepcy.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IcpPeriod.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IcpReason.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Spastic.Name)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.ActionLink("Открыть", "Details", new { id = item.Id }, new { @class = "btn btn-info" })
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MiddleName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contacts)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CSM)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BirthDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BirthPlace)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.WeightOnBirth)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DiagnosisAge)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ShortAnamnez)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EpilepcyType1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EpilepcyType2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EpilepcyType3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EpilepcyType4)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EpilepcyType5)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Diagnosis)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Atacsium.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Discinesis.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Epilepcy.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IcpPeriod.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IcpReason.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Spastic.Name)
+        </td>
+    </tr>
+}
+
+</table>

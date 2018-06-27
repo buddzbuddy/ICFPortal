@@ -1,0 +1,206 @@
+﻿@model IdentitySample.Models.Patient
+
+@{
+    ViewBag.Title = "Информация о пациенте";
+}
+
+<div style="position:fixed; left:40%;top:25%; border:1px solid grey;padding:5px;width:300px;text-align:center;">
+    Анкета для оценки активности и способности участия ребенка<br/>
+    @Html.ActionLink("Создать", "Create", "ParentCases", new { patientId = Model.Id }, new { @class = "btn btn-primary" })
+</div>
+<h2>Информация о пациенте</h2>
+<div>
+    <h4>Ребенок</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MiddleName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MiddleName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contacts)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contacts)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CSM)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CSM)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BirthPlace)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BirthPlace)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WeightOnBirth)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WeightOnBirth)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DiagnosisAge)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DiagnosisAge)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ShortAnamnez)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ShortAnamnez)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EpilepcyType1)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EpilepcyType1)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EpilepcyType2)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EpilepcyType2)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EpilepcyType3)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EpilepcyType3)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EpilepcyType4)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EpilepcyType4)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EpilepcyType5)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EpilepcyType5)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Diagnosis)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Diagnosis)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Atacsium.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Atacsium.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Discinesis.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Discinesis.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Epilepcy.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Epilepcy.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IcpPeriod.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IcpPeriod.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IcpReason.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IcpReason.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Spastic.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Spastic.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    <a href="~/Doc/2_Информация о пациенте_14-18.docx" class="btn btn-primary">Распечатать</a>
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Назад к списку", "Index")
+</p>

@@ -1,0 +1,136 @@
+﻿@model CISSAPortal.Models.CreateIPRViewModel
+
+@{
+    ViewBag.Title = "Создание ИНДИВИДУАЛЬНОЙ ПРОГРАММЫ РЕАБИЛИТАЦИИ РЕБЕНКА С ОВЗ";
+}
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4 style="text-align: center;font-family: cambria;font-weight: bold;">ИНДИВИДУАЛЬНАЯ ПРОГРАММА РЕАБИЛИТАЦИИ РЕБЕНКА С ОВЗ</h4>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.IPR.ParentCaseId)
+        <table class="table table-bordered" style="font-family:'Times New Roman', Times, serif;font-weight:bold;">
+            <tr>
+                <td colspan="4" class="h4" style="background-color: #7ce2dc;text-align:center">КОНТАКТНАЯ ИНФОРМАЦИЯ</td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    ФИО ребенка: @(string.Format("{0} {1} {2}", Model.IPR.ParentCase.Patient.LastName, Model.IPR.ParentCase.Patient.FirstName, Model.IPR.ParentCase.Patient.MiddleName))
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Дата рождения:
+                </td>
+                <td>
+                    @(string.Format("{0:d}", Model.IPR.ParentCase.Patient.BirthDate))
+                </td>
+                <td>
+                    ИПР на срок:
+                </td>
+                <td>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IPR.StartDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.IPR.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.IPR.StartDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.IPR.EndDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.IPR.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.IPR.EndDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Контакты:
+                </td>
+                <td>
+                    @(string.Format("{0}", Model.IPR.ParentCase.Patient.Contacts))
+                </td>
+                <td>МСЭК:</td>
+                <td>@(string.Format("{0}", Model.IPR.ParentCase.FilledPlaceName))</td>
+            </tr>
+            <tr>
+                <td>Адрес:</td>
+                <td>@(string.Format("{0}", Model.IPR.ParentCase.Patient.Address))</td>
+                <td>@Html.LabelFor(model => model.IPR.MedicalActNo, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                <td>
+                    @Html.EditorFor(model => model.IPR.MedicalActNo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.IPR.MedicalActNo, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td>Диагноз по МКБ-10:</td>
+                <td>Церебральный паралич (G80)</td>
+                <td>@Html.LabelFor(model => model.IPR.NextDateExamination, htmlAttributes: new { @class = "control-label col-md-2" })</td>
+                <td>
+                    @Html.EditorFor(model => model.IPR.NextDateExamination, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.IPR.NextDateExamination, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">Родители/законный представитель: @(string.Format("{0}", Model.IPR.ParentCase.FullName))</td>
+            </tr>
+        </table>
+
+        <table class="table table-bordered" style="font-family:'Times New Roman', Times, serif;font-weight:bold;">
+            <tr>
+                <td class="h4" style="background-color: #7ce2dc;text-align:center">ЦЕЛИ ПРОГРАММЫ РЕАБИЛИТАЦИИ</td>
+            </tr>
+            <tr>
+                <td>Главная цель: <i>интегрирование в общество</i></td>
+            </tr>
+            <tr>
+                <td>
+                    Цель программы реабилитации: @Html.DropDownList("TargetSelected", ViewBag.TargetSelected as MultiSelectList, htmlAttributes: new { multiple = "multiple", @class = "chosen-select col-md-10", data_placeholder = "выбрать одно или несколько..." })
+                    @Html.ValidationMessageFor(model => model.TargetSelected, "", new { @class = "text-danger" })
+                </td>
+            </tr>
+        </table>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Продолжить &#187;" class="btn btn-info" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Назад к списку", "Index")
+</div>
+@section styles{
+    @Styles.Render("~/chosen_v1.8.2/css")
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/chosen_v1.8.2/js")
+
+    <script>
+        $(function () {
+            $('.chosen-select').chosen({ no_results_text: "Не найдено:", allow_single_deselect: true, max_selected_options: 3 });
+            $('.chosen-choices').addClass('form-control');
+
+            var targetSelected = '@(Model.TargetSelected != null ? string.Join(",", Model.TargetSelected) : "")';
+            if (targetSelected != '') {
+                var targetSelected_array = targetSelected.split(',');
+
+                for (var i = 0; i < targetSelected_array.length; i++) {
+                    targetSelected_array[i] = targetSelected_array[i].replace(/^\s*/, "").replace(/\s*$/, "");
+                }
+
+                $("#TargetSelected").val(targetSelected_array).trigger("chosen:updated");
+            }
+        });
+    </script>
+}

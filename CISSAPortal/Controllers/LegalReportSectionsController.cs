@@ -154,9 +154,10 @@ namespace CISSAPortal.Controllers
                 var reportObj = db.LegalReportSections.Find(reportId);
                 if (reportObj != null)
                 {
-                    if(code == 1)
+                    SendToCissa(reportObj);
+                    if (code == 1)
                     {
-                        SendToCissa(reportObj);
+                        
                     }
                     reportObj.StateId = stateObj.Id;
                     db.Entry(reportObj).State = EntityState.Modified;

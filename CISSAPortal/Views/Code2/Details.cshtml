@@ -1,0 +1,46 @@
+﻿@model IdentitySample.Models.Code2
+
+@{
+    ViewBag.Title = "Просмотр";
+}
+
+<h2>Просмотр</h2>
+
+<div>
+    <h4>Код</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FullName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+    </dl>
+    @Html.ActionLink("Добавить услугу", "AddService", "CodeServices", new { code = Model.Name }, new { @class = "btn btn-primary btn-xs" })
+    @{
+        Html.RenderAction("Services", "CodeServices", new { code = Model.Name });
+    }
+</div>
+<p>
+    @Html.ActionLink("Редактировать", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Назад к списку", "Index")
+</p>

@@ -310,6 +310,10 @@ namespace CISSAPortal.Controllers
                         ModelState.AddModelError("", "Товар / Продукт / Изделие не указано");
                     if (item.UnitTypeId == 0)
                         ModelState.AddModelError("", "Ед. измерения не указана");
+                    if(item.Amount <= 0)
+                        ModelState.AddModelError("", "Кол-во не задано");
+                    if (item.Sum <= 0)
+                        ModelState.AddModelError("", "Сумма не задана");
                 }
             }
             if (ModelState.IsValid)
@@ -364,21 +368,21 @@ namespace CISSAPortal.Controllers
 
             return View(plan);
         }
-        public ActionResult BlankEditorRow()
+        public ActionResult BlankEditorRow(int? consumerId, int? areaId)
         {
             var model = new HumDistributionPlanItem();
 
             var consumers = db.Consumers.ToList();
             consumers.Insert(0, new Consumer());
-            ViewBag.ConsumerId = new SelectList(consumers, "Id", "Name");
+            ViewBag.ConsumerId = new SelectList(consumers, "Id", "Name", consumerId);
+
+            var areas = db.Areas.ToList();
+            areas.Insert(0, new Area());
+            ViewBag.AreaId = new SelectList(areas, "Id", "Name", areaId);
 
             var products = db.Products.ToList();
             products.Insert(0, new Product());
             ViewBag.ProductId = new SelectList(products, "Id", "Name");
-
-            var areas = db.Areas.ToList();
-            areas.Insert(0, new Area());
-            ViewBag.AreaId = new SelectList(areas, "Id", "Name");
 
             var unitTypes = db.UnitTypes.ToList();
             unitTypes.Insert(0, new UnitType());
